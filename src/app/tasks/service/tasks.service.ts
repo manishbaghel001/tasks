@@ -22,7 +22,7 @@ export class TasksService {
     };
 
     // Make the POST request to update the JSON file
-    return this.http.post(this.apiUrl, requestData, { headers });
+    return this.http.put(this.apiUrl, requestData, { headers });
   }
   getJson() {
     return this.http.get("https://manishbaghel001.github.io/tasks/docs/assets/data.json")
