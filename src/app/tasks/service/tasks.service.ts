@@ -8,7 +8,7 @@ export class TasksService {
 
   constructor(
     private http: HttpClient) { }
-  private apiUrl = 'https://api.github.com/repos/username/repo/contents/data.json';
+  private apiUrl = 'https://manishbaghel001.github.io/tasks/src/assets/data.json';
 
   updateJsonFile(updatedData: any) {
     const headers = new HttpHeaders({
@@ -28,6 +28,6 @@ export class TasksService {
     return this.http.get("assets/data.json")
   }
   postJson() {
-    return this.http.post("assets/updatedFile.json", {})
+    return this.http.get("assets/updatedFile.json")
   }
 }
