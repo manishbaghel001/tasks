@@ -1,0 +1,6 @@
+{
+    "/api": {
+        "target": "https://manishbaghel001.github.io/tasks",
+        "secure": false
+    }
+}
