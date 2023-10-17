@@ -1,16 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs')
+const cors = require('cors');
+
 todos = require('./data.json');
 
 const app = express();
 app.use(bodyParser.json());
 
-app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    next();
-});
+app.use(cors());
 
 app.get('/api/todo', (req, res) => {
     return res.json(todos)
@@ -21,7 +19,7 @@ app.post('/api/todo', (req, res) => {
     console.log(body);
     todos.push({ ...body, id: todos.length + 1 })
     fs.writeFile('./data.json', JSON.stringify(todos), (err, data) => {
-        return res.json({ status: "pending", id: todos.length })
+        return res.json({ status: "pending", data: todos })
     })
 })
 

@@ -11,28 +11,29 @@ export class TasksComponent {
   constructor(
     private tasksService: TasksService
   ) { }
-  updateFile: any;
+  todos: any;
   ngOnInit() {
-    this.tasksService.getJson().subscribe((response) => {
-      console.log(response, "manish");
-
-      this.updateFile = response
+    this.tasksService.getJson().subscribe((res) => {
+      console.log(res, "manish");
+      this.todos = res
     })
   }
 
-  updateJsonFile() {
-    this.updateFile['data'][0]['data'] = "Manish"
-    this.tasksService.postJson(this.updateFile).subscribe((res) => {
-      console.log(res, "klklkl");
-      this.tasksService.getJson().subscribe((response) => {
-        console.log(response, "manish1234");
-
-        // this.updateFile = response
+  onCheckboxChange(item: any): void {
+    item.selected = !item.selected;
+    if (item.selected) {
+      this.tasksService.deleteJson(item['id']).subscribe((res) => {
+        console.log(res, "klklkl");
       })
+    }
+  }
 
+  callApi(): void {
+    let data = { "name": "Manish" + this.todos.length }
+    this.tasksService.postJson(data).subscribe((res) => {
+      console.log(res, "klklkl");
+      this.todos = res
     })
   }
-  handleButtonClick() {
-    this.updateJsonFile()
-  }
+
 }
