@@ -1,0 +1,20 @@
+<h1>Todos</h1>
+<div class="card">
+    <div class="card-header">
+        Main Tasks
+    </div>
+    <div class="card-content">
+        <div *ngFor="let todo of todos" class="check">
+            <label>
+                <div class="custom-checkbox">
+                    <input type="checkbox">
+                    <div class="checkmark"></div>
+                </div>
+                <span class="custom-label">{{todo.name}}</span>
+            </label>
+        </div>
+    </div>
+    <div class="card-footer">
+        Card Footer
+    </div>
+</div>
