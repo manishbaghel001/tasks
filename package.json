@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "build": "ng build --output-path docs --base-href 'https://manishbaghel001/tasks'",
+    "build": "ng build --output-path docs --base-href 'https://manishbaghel001.github.io/tasks/docs'",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "start": "ng serve"
