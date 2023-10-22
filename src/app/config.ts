@@ -1,3 +1,3 @@
 export const AppConfig = {
-    apiUrl: 'http://localhost:3000',
+    apiUrl: 'https://tasksapi-production-96eb.up.railway.app',
 };
