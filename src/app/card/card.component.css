@@ -1,0 +1,119 @@
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin: 10px;
+    width: calc(100%);
+    height: calc(100%);
+    background-color: #fff;
+}
+
+.card-header {
+    color: grey;
+    padding: 10px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    font-size: large;
+}
+
+.card-content {
+    padding: 10px;
+}
+
+.card-footer {
+    padding: 10px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+.toggle-button {
+    border: none;
+    background-color: transparent;
+    font-size: large;
+    margin-left: 10px;
+}
+
+.completed-button {
+    font-size: large;
+    color: grey;
+    margin-right: 140px;
+}
+
+.dynamic-card {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.round-checkbox {
+    font-size: medium;
+    color: grey;
+}
+
+.list-container {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.check {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mat-radio-button {
+    flex: 1;
+}
+
+.delete-button {
+    margin-left: 10px;
+    border: none;
+    background-color: transparent;
+    font-size: large;
+}
+
+.mat-icon {
+    font-size: 24px;
+}
+
+.list {
+    padding-left: 0px;
+}
+
+.main-board {
+    color: #aaaaaa;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: left;
+    flex-direction: row;
+}
+
+.cards-container mat-card {
+    width: 300px;
+    margin-right: 50px;
+    margin-bottom: 50px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.textarea {
+    width: 200px;
+    height: 50px;
+}

@@ -1,0 +1,39 @@
+<h2 class="main-board">Main Board</h2>
+<div class="cards-container">
+    <div *ngFor="let todoKey of todosObj">
+        <mat-card>
+            <div class="card">
+                <div class="card-header">
+                    {{todos[todoKey].taskLabel}}
+                    <div>
+                        <button (click)="addTask(todoKey)">Add</button>
+                    </div>
+                    <div *ngIf="addTaskText==todoKey" class="checkbox-container">
+                        <!-- <input type="checkbox" id="checkbox" class="checkbox"> -->
+                        <input type="text" [(ngModel)]="addedTask" (keyup.enter)="onEnter(todoKey)">
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div *ngFor="let task of todos[todoKey].incompleted" class="check">
+                        <mat-radio-button (click)="onCheckboxClick(todoKey,task.id)"
+                            class="round-checkbox">{{task.name}}</mat-radio-button>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="list-container">
+                        <span class="completed-button">Completed({{todos[todoKey].completed.length}})</span>
+                        <button class="toggle-button" type="button"
+                            (click)="toggleList(todoKey)"><mat-icon>^</mat-icon></button>
+                    </div>
+                    <ul *ngIf="isListOpen.includes(todoKey)" class="list">
+                        <li *ngFor="let task of todos[todoKey].completed" class="check">
+                            <mat-radio-button class="round-checkbox">{{task.name}}</mat-radio-button>
+                            <button class="delete-button" type="button"
+                                (click)="deleteCompleteList(todoKey,task.id)"><mat-icon>delete</mat-icon></button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>
