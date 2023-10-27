@@ -7,4 +7,21 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
+  constructor(
+  ) { }
+
+  ngOnInit() {
+  }
+
+  darkMode() {
+    let mode = document.querySelector('.mat-toolbar');
+    mode?.classList.add('dark-mode');
+    mode?.classList.remove('light-mode');
+  }
+
+  lightMode() {
+    let mode = document.querySelector('.mat-toolbar');
+    mode?.classList.add('light-mode');
+    mode?.classList.remove('dark-mode');
+  }
 }

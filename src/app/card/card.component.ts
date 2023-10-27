@@ -15,10 +15,9 @@ export class CardComponent {
 
   addedTask: string = '';
   isListOpen: Array<string> = [];
+  isAddTask: Array<string> = [];
   todosObj: any;
   todos: any;
-  toggleIcon: string = '^';
-  addTaskText: string = '';
 
   ngOnInit() {
     this.getLatestData();
@@ -33,9 +32,12 @@ export class CardComponent {
   }
 
   toggleList(todoKey: string) {
-    console.log(todoKey, "klklklkl");
-    this.toggleIcon = 'v';
-    this.isListOpen.push(todoKey);
+    if (this.isListOpen.includes(todoKey)) {
+      let index = this.isListOpen.findIndex((ele) => ele === todoKey)
+      this.isListOpen.splice(index, 1);
+    } else {
+      this.isListOpen.push(todoKey);
+    }
   }
 
   deleteCompleteList(todoKey: string, id: any) {
@@ -46,7 +48,12 @@ export class CardComponent {
   }
 
   addTask(todoKey: string) {
-    this.addTaskText = todoKey;
+    if (this.isAddTask.includes(todoKey)) {
+      let index = this.isAddTask.findIndex((ele) => ele === todoKey)
+      this.isAddTask.splice(index, 1);
+    } else {
+      this.isAddTask.push(todoKey);
+    }
   }
 
   onEnter(todoKey: string) {

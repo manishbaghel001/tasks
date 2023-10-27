@@ -29,9 +29,12 @@
 
 .toggle-button {
     border: none;
+    color: grey;
     background-color: transparent;
-    font-size: large;
+    font-size: small;
     margin-left: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .completed-button {
@@ -75,6 +78,8 @@
     border: none;
     background-color: transparent;
     font-size: large;
+    display: flex;
+    align-items: center;
 }
 
 .mat-icon {
@@ -107,6 +112,19 @@
     align-items: center;
 }
 
+.add_Task {
+    width: 90%;
+    box-sizing: border-box;
+    padding: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    margin-top: 5px;
+    margin-left: 10px;
+    appearance: none;
+    font: large;
+    outline: none;
+}
+
 .checkbox {
     width: 20px;
     height: 20px;
@@ -116,4 +134,37 @@
 .textarea {
     width: 200px;
     height: 50px;
+}
+
+.add-action {
+    margin-top: 20px;
+}
+
+.add-button {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    color: grey;
+}
+
+.add-icon {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    color: grey;
+}
+
+mat-icon {
+    margin-right: 8px;
+    color: grey;
+}
+
+.active-button {
+    color: rgb(63, 63, 209);
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
 }

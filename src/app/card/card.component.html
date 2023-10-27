@@ -5,12 +5,14 @@
             <div class="card">
                 <div class="card-header">
                     {{todos[todoKey].taskLabel}}
-                    <div>
-                        <button (click)="addTask(todoKey)">Add</button>
+                    <div class="add-action">
+                        <button [ngClass]="isAddTask.includes(todoKey) ? 'active-button' : 'add-button'"
+                            (click)="addTask(todoKey)"><mat-icon
+                                [ngClass]="isAddTask.includes(todoKey) ? 'active-button' : 'add-icon'">add</mat-icon>Add
+                            Task</button>
                     </div>
-                    <div *ngIf="addTaskText==todoKey" class="checkbox-container">
-                        <!-- <input type="checkbox" id="checkbox" class="checkbox"> -->
-                        <input type="text" [(ngModel)]="addedTask" (keyup.enter)="onEnter(todoKey)">
+                    <div *ngIf="isAddTask.includes(todoKey)">
+                        <input type="text" class="add_Task" [(ngModel)]="addedTask" (keyup.enter)="onEnter(todoKey)">
                     </div>
                 </div>
                 <div class="card-content">
@@ -22,8 +24,8 @@
                 <div class="card-footer">
                     <div class="list-container">
                         <span class="completed-button">Completed({{todos[todoKey].completed.length}})</span>
-                        <button class="toggle-button" type="button"
-                            (click)="toggleList(todoKey)"><mat-icon>^</mat-icon></button>
+                        <button class="toggle-button" type="button" (click)="toggleList(todoKey)"
+                            [textContent]="isListOpen.includes(todoKey) ? 'Λ' : 'V'"></button>
                     </div>
                     <ul *ngIf="isListOpen.includes(todoKey)" class="list">
                         <li *ngFor="let task of todos[todoKey].completed" class="check">
