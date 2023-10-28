@@ -4,7 +4,7 @@
         <div *ngIf="addTodoText">
             <input type="text" class="add_Task" [(ngModel)]="addedTodo" (keyup.enter)="onEnterTodo()">
         </div>
-        <button class="add-todo" (click)="addTodo()"><mat-icon>add</mat-icon></button>
+        <button class="add-todo" (click)="addTodo()">+</button>
     </div>
 </div>
 <div class="cards-container">
@@ -31,7 +31,10 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <div class="list-container">
+                    <div *ngIf="todoKey.completed.length===0">
+                        <span class="completed-button">Completed</span>
+                    </div>
+                    <div *ngIf="todoKey.completed.length!=0" class="list-container">
                         <span class="completed-button">Completed({{todoKey.completed.length}})</span>
                         <button class="toggle-button" type="button" (click)="toggleList(todoKey['taskId'])"
                             [textContent]="isListOpen.includes(todoKey['taskId']) ? 'Λ' : 'V'"></button>

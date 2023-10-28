@@ -171,11 +171,13 @@ mat-icon {
 
 .add-todo {
     border-radius: 50%;
-    border-color: white;
-    padding: 0px;
-    margin: 0px;
     text-align: center;
-    background-color: rgb(129, 129, 214);
+    box-shadow: none;
+    padding: 6px 12px 6px 12px;
+    background-color: rgb(60, 60, 133);
+    color: white;
+    margin-right: 10px;
+    font-size: larger;
 }
 
 .add-todo-action {
