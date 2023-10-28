@@ -5,13 +5,4 @@
 .mat-toolbar {
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
     color: rgb(23, 138, 138);
-    background-color: aliceblue;
-}
-
-.dark-mode {
-    background-color: grey;
-}
-
-.light-mode {
-    background-color: aliceblue;
 }

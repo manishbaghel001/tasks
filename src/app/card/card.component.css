@@ -168,3 +168,25 @@ mat-icon {
     display: flex;
     align-items: center;
 }
+
+.add-todo {
+    border-radius: 50%;
+    border-color: white;
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    background-color: rgb(129, 129, 214);
+}
+
+.add-todo-action {
+    display: flex;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.add-todo-text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

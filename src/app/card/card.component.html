@@ -1,37 +1,46 @@
-<h2 class="main-board">Main Board</h2>
+<div class="add-todo-action">
+    <h2 class="main-board">Main Board</h2>
+    <div class="add-todo-text">
+        <div *ngIf="addTodoText">
+            <input type="text" class="add_Task" [(ngModel)]="addedTodo" (keyup.enter)="onEnterTodo()">
+        </div>
+        <button class="add-todo" (click)="addTodo()"><mat-icon>add</mat-icon></button>
+    </div>
+</div>
 <div class="cards-container">
-    <div *ngFor="let todoKey of todosObj">
+    <div *ngFor="let todoKey of todos">
         <mat-card>
             <div class="card">
                 <div class="card-header">
-                    {{todos[todoKey].taskLabel}}
+                    {{todoKey.taskLabel}}
                     <div class="add-action">
-                        <button [ngClass]="isAddTask.includes(todoKey) ? 'active-button' : 'add-button'"
-                            (click)="addTask(todoKey)"><mat-icon
-                                [ngClass]="isAddTask.includes(todoKey) ? 'active-button' : 'add-icon'">add</mat-icon>Add
+                        <button [ngClass]="isAddTask.includes(todoKey['taskId']) ? 'active-button' : 'add-button'"
+                            (click)="addTask(todoKey['taskId'])"><mat-icon
+                                [ngClass]="isAddTask.includes(todoKey['taskId']) ? 'active-button' : 'add-icon'">add</mat-icon>Add
                             Task</button>
                     </div>
-                    <div *ngIf="isAddTask.includes(todoKey)">
-                        <input type="text" class="add_Task" [(ngModel)]="addedTask" (keyup.enter)="onEnter(todoKey)">
+                    <div *ngIf="isAddTask.includes(todoKey['taskId'])">
+                        <input type="text" class="add_Task" [(ngModel)]="addedTask"
+                            (keyup.enter)="onEnter(todoKey['taskId'])">
                     </div>
                 </div>
                 <div class="card-content">
-                    <div *ngFor="let task of todos[todoKey].incompleted" class="check">
-                        <mat-radio-button (click)="onCheckboxClick(todoKey,task.id)"
+                    <div *ngFor="let task of todoKey.incompleted" class="check">
+                        <mat-radio-button (click)="onCheckboxClick(todoKey['taskId'],task.id)"
                             class="round-checkbox">{{task.name}}</mat-radio-button>
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="list-container">
-                        <span class="completed-button">Completed({{todos[todoKey].completed.length}})</span>
-                        <button class="toggle-button" type="button" (click)="toggleList(todoKey)"
-                            [textContent]="isListOpen.includes(todoKey) ? 'Λ' : 'V'"></button>
+                        <span class="completed-button">Completed({{todoKey.completed.length}})</span>
+                        <button class="toggle-button" type="button" (click)="toggleList(todoKey['taskId'])"
+                            [textContent]="isListOpen.includes(todoKey['taskId']) ? 'Λ' : 'V'"></button>
                     </div>
-                    <ul *ngIf="isListOpen.includes(todoKey)" class="list">
-                        <li *ngFor="let task of todos[todoKey].completed" class="check">
+                    <ul *ngIf="isListOpen.includes(todoKey['taskId'])" class="list">
+                        <li *ngFor="let task of todoKey.completed" class="check">
                             <mat-radio-button class="round-checkbox">{{task.name}}</mat-radio-button>
                             <button class="delete-button" type="button"
-                                (click)="deleteCompleteList(todoKey,task.id)"><mat-icon>delete</mat-icon></button>
+                                (click)="deleteCompleteList(todoKey['taskId'],task.id)"><mat-icon>delete</mat-icon></button>
                         </li>
                     </ul>
                 </div>
