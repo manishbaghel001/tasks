@@ -46,7 +46,6 @@ export class CardComponent {
   }
 
   deleteCompleteList(todoKey: string, id: any) {
-    console.log(todoKey, id, "klklklkl");
     this.cardService.deleteCompletedTask(todoKey, id).subscribe((res) => {
       this.getLatestData();
     })
@@ -83,8 +82,6 @@ export class CardComponent {
   }
 
   onCheckboxClick(taskId: any, id: any) {
-    console.log(taskId, id, "klklkl");
-
     this.cardService.completedTask(taskId, id).subscribe((res) => {
       this.getLatestData();
     })

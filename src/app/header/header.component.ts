@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { CardService } from '../card/service/card.service';
-import { MatSliderModule } from '@angular/material/slider';
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -10,8 +8,7 @@ import { MatSliderModule } from '@angular/material/slider';
 export class HeaderComponent {
 
   constructor(
-    private cardService: CardService,
-    private matSliderModule: MatSliderModule
+    private cardService: CardService
   ) { }
   mode: string = ''
   todos: any

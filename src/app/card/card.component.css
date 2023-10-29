@@ -101,6 +101,16 @@
     flex-direction: row;
 }
 
+/* Styles for devices with a maximum width of 576px (phones) */
+@media (max-width: 576px) {
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: left;
+        flex-direction: row;
+    }
+}
+
 .cards-container mat-card {
     width: 300px;
     margin-right: 50px;

@@ -9,8 +9,8 @@ export class CardService {
 
   constructor(
     private http: HttpClient) { }
-  api = AppConfig.devUrl;
-  // api = AppConfig.apiUrl;
+  // api = AppConfig.devUrl;
+  api = AppConfig.apiUrl;
 
   apiTodo = '/api/todos/';
   apiCreate = '/api/create/';

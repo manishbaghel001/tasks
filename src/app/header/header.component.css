@@ -2,7 +2,12 @@
     flex: 2 1 auto;
 }
 
-.mat-toolbar {
+.mat-toolbar-dark {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.mat-toolbar-light {
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
     color: rgb(23, 138, 138);
 }
