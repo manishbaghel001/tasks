@@ -4,7 +4,7 @@
         <div *ngIf="addTodoText">
             <input type="text" class="add_Task" [(ngModel)]="addedTodo" (keyup.enter)="onEnterTodo()">
         </div>
-        <button class="add-todo" (click)="addTodo()">+</button>
+        <button class="add-todo" (click)="addTodo()"><mat-icon class="add-todo-icon">add</mat-icon></button>
     </div>
 </div>
 <div class="cards-container">
@@ -12,7 +12,27 @@
         <mat-card>
             <div class="card">
                 <div class="card-header">
-                    {{todoKey.taskLabel}}
+                    <div class="ellipse">
+                        <div *ngIf="!isEditLabel.includes(todoKey['taskId'])">
+                            {{todoKey.taskLabel}}
+                        </div>
+                        <div *ngIf="isEditLabel.includes(todoKey['taskId'])">
+                            <input type="text" class="edit_Task" [(ngModel)]="todoLabelName"
+                                (keyup.enter)="onEnterTableLabel(todoKey['taskId'])">
+                        </div>
+                        <div class="ellipse-card">
+                            <div class="menu-container">
+                                <button class="ellipse-button" (click)="ellipseMenu(todoKey['taskId'])"><mat-icon
+                                        class="vertical-ellipse-button">more_vert</mat-icon></button>
+                                <div class="menu-items" *ngIf="isMenuOpen==todoKey['taskId']">
+                                    <button
+                                        (click)="menuItemClicked('delete', todoKey['taskId'])"><mat-icon>delete</mat-icon>Delete</button>
+                                    <button
+                                        (click)="menuItemClicked('edit',todoKey['taskId'])"><mat-icon>edit</mat-icon>Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="add-action">
                         <button [ngClass]="isAddTask.includes(todoKey['taskId']) ? 'active-button' : 'add-button'"
                             (click)="addTask(todoKey['taskId'])"><mat-icon

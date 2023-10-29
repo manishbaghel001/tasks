@@ -169,15 +169,31 @@ mat-icon {
     align-items: center;
 }
 
-.add-todo {
+.ellipse-button {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    text-align: center;
-    box-shadow: none;
-    padding: 6px 12px 6px 12px;
-    background-color: rgb(60, 60, 133);
-    color: white;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.add-todo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
     margin-right: 10px;
-    font-size: larger;
+}
+
+.add-todo-icon {
+    color: white;
+    margin-top: 2px;
+    margin-left: 2px;
 }
 
 .add-todo-action {
@@ -191,4 +207,54 @@ mat-icon {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.ellipse {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+.ellipse-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.menu-items {
+    position: absolute;
+    bottom: -75px;
+    left: 35px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    padding: 8px;
+}
+
+.menu-items button {
+    border: none;
+    padding: 5px 10px;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.vertical-ellipse-button {
+    margin-top: 6px;
+    margin-left: 2.5px;
+    color: grey;
+    font-size: 20px;
 }

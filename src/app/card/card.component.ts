@@ -19,6 +19,9 @@ export class CardComponent {
   todos: any;
   todosTemp: any;
   addTodoText: boolean = false
+  isMenuOpen: string = '';
+  isEditLabel: Array<string> = [];
+  todoLabelName: string = ''
 
   ngOnInit() {
     this.getLatestData();
@@ -89,5 +92,33 @@ export class CardComponent {
 
   addTodo() {
     this.addTodoText = !this.addTodoText
+  }
+
+  ellipseMenu(taskId: string) {
+    if (this.isMenuOpen == '')
+      this.isMenuOpen = taskId;
+    else
+      this.isMenuOpen = ''
+  }
+
+  menuItemClicked(item: string, todoId: string) {
+    if (item == 'delete') {
+      this.cardService.deleteTodo(todoId).subscribe((res) => {
+        this.getLatestData();
+      })
+
+    } else if (item == 'edit') {
+      this.isEditLabel.push(todoId);
+      let index = this.todos.findIndex((todo) => todo['taskId'] === todoId)
+      this.todoLabelName = this.todos[index]['taskLabel']
+    }
+  }
+
+  onEnterTableLabel(todoId: string) {
+    this.cardService.patchTodo(todoId, { taskName: this.todoLabelName }).subscribe((res) => {
+      this.getLatestData();
+      let index = this.isEditLabel.findIndex((ele) => ele === todoId)
+      this.isEditLabel.splice(index, 1);
+    })
   }
 }

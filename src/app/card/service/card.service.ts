@@ -9,8 +9,8 @@ export class CardService {
 
   constructor(
     private http: HttpClient) { }
-  // api = AppConfig.devUrl;
-  api = AppConfig.apiUrl;
+  api = AppConfig.devUrl;
+  // api = AppConfig.apiUrl;
 
   apiTodo = '/api/todos/';
   apiCreate = '/api/create/';
@@ -51,6 +51,14 @@ export class CardService {
 
   createTodo(body: object, taskId: string) {
     return this.http.post(this.api + this.apiCreate + taskId, body)
+  }
+
+  deleteTodo(taskId: string) {
+    return this.http.delete(this.api + this.apiCreate + taskId)
+  }
+
+  patchTodo(taskId: string, body: any) {
+    return this.http.patch(this.api + this.apiCreate + taskId, body)
   }
 
 }
