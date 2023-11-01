@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CardService } from '../card/service/card.service';
+import { HeaderService } from './service/header.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -8,15 +9,19 @@ import { CardService } from '../card/service/card.service';
 export class HeaderComponent {
 
   constructor(
-    private cardService: CardService
+    private cardService: CardService,
+    private headerService: HeaderService,
   ) { }
   mode: string = ''
-  todos: any
+  todos: any;
+  menuOpen: boolean = false
 
   ngOnInit() {
     this.cardService.getJson().subscribe((res) => {
-      this.todos = res
-      this.mode = this.todos['mode'];
+      this.todos = res['tasks']
+    })
+    this.headerService.getJson().subscribe((res: string) => {
+      this.mode = res;
       if (this.mode == 'dark') {
         document.body.classList.add('dark-mode');
         document.body.classList.remove('light-mode');
@@ -30,7 +35,7 @@ export class HeaderComponent {
   darkMode() {
     document.body.classList.add('dark-mode');
     document.body.classList.remove('light-mode');
-    this.cardService.updateMode('dark').subscribe((res) => {
+    this.headerService.updateMode('dark').subscribe((res) => {
       this.mode = 'dark';
     })
   }
@@ -38,8 +43,16 @@ export class HeaderComponent {
   lightMode() {
     document.body.classList.add('light-mode');
     document.body.classList.remove('dark-mode');
-    this.cardService.updateMode('light').subscribe((res) => {
+    this.headerService.updateMode('light').subscribe((res) => {
       this.mode = 'light';
     })
+  }
+
+  menuItemClicked(todoId) {
+
+  }
+
+  menuBtn() {
+    this.menuOpen = !this.menuOpen
   }
 }

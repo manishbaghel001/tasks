@@ -14,7 +14,7 @@ export class CardComponent {
   addedTask: string = '';
   addedTodo: string = ''
   isListOpen: Array<string> = [];
-  isAddTask: Array<string> = [];
+  isAddTask: string = '';
   todosObj: any;
   todos: any;
   todosTemp: any;
@@ -52,11 +52,11 @@ export class CardComponent {
   }
 
   addTask(todoKey: string) {
-    if (this.isAddTask.includes(todoKey)) {
-      let index = this.isAddTask.findIndex((ele) => ele === todoKey)
-      this.isAddTask.splice(index, 1);
+    if (this.isAddTask == todoKey) {
+      this.isAddTask = ''
     } else {
-      this.isAddTask.push(todoKey);
+      this.isAddTask = todoKey;
+      this.addedTask = ''
     }
   }
 
@@ -89,13 +89,14 @@ export class CardComponent {
 
   addTodo() {
     this.addTodoText = !this.addTodoText
+    this.addedTodo = "";
   }
 
   ellipseMenu(taskId: string) {
-    if (this.isMenuOpen == '')
-      this.isMenuOpen = taskId;
+    if (this.isMenuOpen == taskId)
+      this.isMenuOpen = "";
     else
-      this.isMenuOpen = ''
+      this.isMenuOpen = taskId
   }
 
   menuItemClicked(item: string, todoId: string) {
@@ -117,5 +118,11 @@ export class CardComponent {
       let index = this.isEditLabel.findIndex((ele) => ele === todoId)
       this.isEditLabel.splice(index, 1);
     })
+  }
+
+  closePopUp() {
+    // Find the closest element that matches the selector.
+
+    document.getElementById('pop-up').style.display = 'none';
   }
 }

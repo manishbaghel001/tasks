@@ -9,13 +9,11 @@ export class CardService {
 
   constructor(
     private http: HttpClient) { }
-  // api = AppConfig.devUrl;
-  api = AppConfig.apiUrl;
 
+  api = AppConfig.apiUrl;
   apiTodo = '/api/todos/';
   apiCreate = '/api/create/';
   apiCompleted = '/api/complete/';
-  apiMode = '/api/mode/'
 
   getJson() {
     return this.http.get(this.api + this.apiTodo)
@@ -43,10 +41,6 @@ export class CardService {
 
   completedTask(taskId: string, id: number) {
     return this.http.get(this.api + this.apiCompleted + taskId + '/' + id)
-  }
-
-  updateMode(mode: String) {
-    return this.http.patch(this.api + this.apiMode + mode, {})
   }
 
   createTodo(body: object, taskId: string) {
