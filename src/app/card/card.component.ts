@@ -29,7 +29,6 @@ export class CardComponent {
 
   getLatestData() {
     this.cardService.getJson().subscribe((res) => {
-      console.log(res, "manish");
       this.todosTemp = res;
       this.todos = this.todosTemp['tasks'];
       this.todosObj = Object.keys(res);
