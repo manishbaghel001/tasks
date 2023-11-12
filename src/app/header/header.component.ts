@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CardService } from '../card/service/card.service';
 import { HeaderService } from './service/header.service';
+import { Subscription, catchError, forkJoin, of } from 'rxjs';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,27 +9,43 @@ import { HeaderService } from './service/header.service';
 export class HeaderComponent {
 
   constructor(
-    private cardService: CardService,
     private headerService: HeaderService,
   ) { }
-  mode: string = ''
-  todos: any;
-  menuOpen: boolean = false
+  forkSub: Subscription;
+  mode: string;
+  tasks: any;
+  menuOpen: boolean = false;
+  errorMsg = "API failing"
 
   ngOnInit() {
-    this.cardService.getJson().subscribe((res) => {
-      this.todos = res['tasks']
-    })
-    this.headerService.getJson().subscribe((res: string) => {
-      this.mode = res;
-      if (this.mode == 'dark') {
-        document.body.classList.add('dark-mode');
-        document.body.classList.remove('light-mode');
-      } else {
-        document.body.classList.add('light-mode');
-        document.body.classList.remove('dark-mode');
+    this.forkSub = forkJoin({
+      mode: this.headerService.getMode().pipe(
+        catchError((err) => of(
+          alert('API Failing')
+        ))),
+      tasks: this.headerService.getTasks().pipe(
+        catchError((err) => of(
+          alert('API Failing')
+        )))
+    }).subscribe({
+      next: ({ mode, tasks }) => {
+        this.tasks = tasks
+        this.mode = mode['mode'];
+        if (this.mode == 'dark') {
+          document.body.classList.add('dark-mode');
+          document.body.classList.remove('light-mode');
+        } else {
+          document.body.classList.add('light-mode');
+          document.body.classList.remove('dark-mode');
+        }
       }
     })
+  }
+
+  ngafterviewinit() {
+    if (this.forkSub) {
+      this.forkSub.unsubscribe;
+    }
   }
 
   darkMode() {

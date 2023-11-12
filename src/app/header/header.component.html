@@ -4,8 +4,8 @@
     </button>
     <div class="menu-container">
         <div class="menu-items" *ngIf="menuOpen">
-            <div *ngFor="let todo of todos">
-                <button (click)="menuItemClicked(todo['taskId'])">{{todo['taskLabel']}}</button>
+            <div *ngFor="let task of tasks">
+                <button (click)="menuItemClicked(task['_id'])">{{task['taskLabel']}}</button>
             </div>
         </div>
     </div>

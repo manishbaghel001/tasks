@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CardService } from './service/card.service';
+import { Subscription, forkJoin } from 'rxjs';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -11,84 +12,80 @@ export class CardComponent {
     private cardService: CardService
   ) { }
 
+  forkSub: Subscription;
   addedTask: string = '';
   addedTodo: string = ''
-  isListOpen: Array<string> = [];
-  isAddTask: string = '';
-  todosObj: any;
+  isCompletedListOpen: Array<string> = [];
+  isAddTodo: string = '';
   todos: any;
-  todosTemp: any;
-  addTodoText: boolean = false
+  addTasksInput: boolean = false
   isMenuOpen: string = '';
-  isEditLabel: Array<string> = [];
-  todoLabelName: string = ''
+  editTaskLabel: string;
+  taskLabelName: string;
+  tasks: any;
+  completedTodosCountObj: object;
 
   ngOnInit() {
-    this.getLatestData();
+    this.getLatestTasks()
+    this.getLatestTodos()
   }
 
-  getLatestData() {
-    this.cardService.getJson().subscribe((res) => {
-      this.todosTemp = res;
-      this.todos = this.todosTemp['tasks'];
-      this.todosObj = Object.keys(res);
-    })
-  }
-
-  toggleList(todoKey: string) {
-    if (this.isListOpen.includes(todoKey)) {
-      let index = this.isListOpen.findIndex((ele) => ele === todoKey)
-      this.isListOpen.splice(index, 1);
-    } else {
-      this.isListOpen.push(todoKey);
+  ngafterviewinit() {
+    if (this.forkSub) {
+      this.forkSub.unsubscribe;
     }
   }
 
-  deleteCompleteList(todoKey: string, id: any) {
-    this.cardService.deleteCompletedTask(todoKey, id).subscribe((res) => {
-      this.getLatestData();
+  getLatestTodos() {
+    this.cardService.getTodos().subscribe((res) => {
+      this.todos = res;
+      this.completedTodosCountObj = this.completedTodosCount(this.todos)
     })
   }
 
-  addTask(todoKey: string) {
-    if (this.isAddTask == todoKey) {
-      this.isAddTask = ''
-    } else {
-      this.isAddTask = todoKey;
-      this.addedTask = ''
+  completedTodosCount(todos) {
+    const completedTasks = {};
+    for (const obj of todos) {
+      if (obj.completed === true && obj.deleted === false) {
+        const taskId = obj.taskId;
+        if (!completedTasks[taskId]) {
+          completedTasks[taskId] = 0;
+        }
+        completedTasks[taskId]++;
+      }
     }
+    return completedTasks;
   }
 
-  onEnter(todoKey: string) {
+  getLatestTasks() {
+    this.cardService.getTasks().subscribe((res) => {
+      this.tasks = res;
+      console.log(this.tasks, "klklklkl");
+
+    })
+  }
+
+  //Add Icon Actions
+  addTasksIcon() {
+    this.addTasksInput = !this.addTasksInput
+    this.addedTask = "";
+  }
+
+  onEnterTask() {
     let body = {
-      name: this.addedTask
+      taskLabel: this.addedTask
     }
-    this.cardService.postJson(todoKey, body).subscribe((res) => {
-      this.getLatestData();
+    this.cardService.createTasks(body).subscribe((res) => {
+      this.getLatestTasks();
       this.addedTask = ''
     })
   }
 
-  onEnterTodo() {
-    let body = {
-      taskName: this.addedTodo
-    }
-    const stringWithoutSpaces = this.addedTodo.replace(/ /g, "");
-    this.cardService.createTodo(body, stringWithoutSpaces).subscribe((res) => {
-      this.getLatestData();
-      this.addedTodo = ''
+  onEnterCardLabel(taskId: string) {
+    this.cardService.patchTasks(taskId, { taskLabel: this.taskLabelName }).subscribe((res) => {
+      this.getLatestTasks();
+      this.editTaskLabel = ''
     })
-  }
-
-  onCheckboxClick(taskId: any, id: any) {
-    this.cardService.completedTask(taskId, id).subscribe((res) => {
-      this.getLatestData();
-    })
-  }
-
-  addTodo() {
-    this.addTodoText = !this.addTodoText
-    this.addedTodo = "";
   }
 
   ellipseMenu(taskId: string) {
@@ -98,25 +95,63 @@ export class CardComponent {
       this.isMenuOpen = taskId
   }
 
-  menuItemClicked(item: string, todoId: string) {
+  menuItemClicked(item: string, taskId: string) {
     if (item == 'delete') {
-      this.cardService.deleteTodo(todoId).subscribe((res) => {
-        this.getLatestData();
+      this.cardService.deleteTasks(taskId).subscribe((res) => {
+        this.cardService.deleteTodosBatch(taskId).subscribe((res) => {
+          this.isMenuOpen = "";
+          this.getLatestTasks();
+        })
       })
-
     } else if (item == 'edit') {
-      this.isEditLabel.push(todoId);
-      let index = this.todos.findIndex((todo) => todo['taskId'] === todoId)
-      this.todoLabelName = this.todos[index]['taskLabel']
+      this.editTaskLabel = taskId;
+      let searcedTasks = this.tasks.find((task) => task['_id'] === taskId)
+      this.taskLabelName = searcedTasks['taskLabel'];
+      this.isMenuOpen = "";
     }
   }
 
-  onEnterTableLabel(todoId: string) {
-    this.cardService.patchTodo(todoId, { taskName: this.todoLabelName }).subscribe((res) => {
-      this.getLatestData();
-      let index = this.isEditLabel.findIndex((ele) => ele === todoId)
-      this.isEditLabel.splice(index, 1);
+  //Add Tasks button
+  addTodo(taskId: string) {
+    if (this.isAddTodo == taskId) {
+      this.isAddTodo = ''
+    } else {
+      this.isAddTodo = taskId;
+      this.addedTodo = ''
+    }
+  }
+
+  onEnterTodo(todoId: string) {
+    let body = {
+      todoName: this.addedTodo
+    }
+    this.cardService.createTodo(todoId, body).subscribe((res) => {
+      this.getLatestTodos();
+      this.addedTodo = ''
     })
+  }
+
+  //Todo checkbox
+  onCheckboxClick(todoId: any) {
+    this.cardService.completeTodo(todoId).subscribe((res) => {
+      this.getLatestTodos();
+    })
+  }
+
+  //Completed Tasks
+  deleteCompleteList(todoId: string) {
+    this.cardService.deleteTodo(todoId).subscribe((res) => {
+      this.getLatestTodos();
+    })
+  }
+
+  toggleForCompletedList(taskId: string) {
+    if (this.isCompletedListOpen.includes(taskId)) {
+      let index = this.isCompletedListOpen.findIndex((ele) => ele === taskId)
+      this.isCompletedListOpen.splice(index, 1);
+    } else {
+      this.isCompletedListOpen.push(taskId);
+    }
   }
 
   closePopUp() {
