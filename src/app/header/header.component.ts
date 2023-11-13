@@ -30,7 +30,7 @@ export class HeaderComponent {
     }).subscribe({
       next: ({ mode, tasks }) => {
         this.tasks = tasks
-        this.mode = mode['mode'];
+        this.mode = mode[0]['mode'];
         if (this.mode == 'dark') {
           document.body.classList.add('dark-mode');
           document.body.classList.remove('light-mode');

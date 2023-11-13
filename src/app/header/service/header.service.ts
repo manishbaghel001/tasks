@@ -10,7 +10,7 @@ export class HeaderService {
   constructor(
     private http: HttpClient) { }
 
-  apiMode = AppConfig.apiUrl + '/api/mode/654ba643603ca47cd68ea489'
+  apiMode = AppConfig.apiUrl + '/api/mode'
   apiTasks = AppConfig.apiUrl + '/api/tasks'
 
   getMode() {
