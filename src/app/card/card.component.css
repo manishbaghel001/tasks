@@ -97,8 +97,12 @@
     padding-left: 0px;
 }
 
-.main-board {
-    color: #aaaaaa;
+.main-board-dark {
+    color: #ffffff;
+}
+
+.main-board-light {
+    color: #bdbdbd;
 }
 
 .cards-container {
@@ -197,14 +201,8 @@ mat-icon {
 }
 
 .add-todo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #3498db;
-    color: #fff;
+    background-color: transparent;
     border: none;
-    cursor: pointer;
-    margin-right: 10px;
 }
 
 .add-todo-icon {
@@ -274,4 +272,9 @@ mat-icon {
     margin-left: 2.5px;
     color: grey;
     font-size: 20px;
+}
+
+.bxs-plus-circle {
+    color: #3498db;
+    font-size: 45px;
 }

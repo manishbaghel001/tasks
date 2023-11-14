@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CardService } from './service/card.service';
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { CacheService } from '../cache/cache.service';
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -9,7 +11,8 @@ import { Subscription, forkJoin } from 'rxjs';
 export class CardComponent {
 
   constructor(
-    private cardService: CardService
+    private cardService: CardService,
+    private cacheService: CacheService
   ) { }
 
   forkSub: Subscription;

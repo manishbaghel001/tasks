@@ -2,12 +2,12 @@
 </div>
 
 <div class="add-todo-action">
-    <h2 class="main-board">Main Board</h2>
+    <h2 id="main-board">Main Board</h2>
     <div class="add-todo-text">
         <div *ngIf="addTasksInput">
             <input type="text" class="add_Task" [(ngModel)]="addedTask" (keyup.enter)="onEnterTask()">
         </div>
-        <button class="add-todo" (click)="addTasksIcon()"><mat-icon class="add-todo-icon">add</mat-icon></button>
+        <button class="add-todo" (click)="addTasksIcon()"><i class='bx bxs-plus-circle'></i></button>
     </div>
 </div>
 <div class="cards-container">

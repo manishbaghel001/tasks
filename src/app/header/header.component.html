@@ -5,7 +5,7 @@
     <div class="menu-container">
         <div class="menu-items" *ngIf="menuOpen">
             <div *ngFor="let task of tasks">
-                <button (click)="menuItemClicked(task['_id'])">{{task['taskLabel']}}</button>
+                <button *ngIf="!task['deleted']" (click)="menuItemClicked(task['_id'])">{{task['taskLabel']}}</button>
             </div>
         </div>
     </div>
