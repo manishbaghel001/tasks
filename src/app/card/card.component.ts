@@ -156,10 +156,4 @@ export class CardComponent {
       this.isCompletedListOpen.push(taskId);
     }
   }
-
-  closePopUp() {
-    // Find the closest element that matches the selector.
-
-    document.getElementById('pop-up').style.display = 'none';
-  }
 }
