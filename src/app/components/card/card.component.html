@@ -1,0 +1,81 @@
+<div class="add-todo-action">
+    <h2 id="main-board">Main Board</h2>
+    <div class="add-todo-text">
+        <div *ngIf="addTasksInput">
+            <input type="text" class="add_Task" [(ngModel)]="addedTask" (keyup.enter)="onEnterTask()">
+        </div>
+        <button class="add-todo" (click)="addTasksIcon()"><i class='bx bxs-plus-circle'></i></button>
+    </div>
+</div>
+<div class="cards-container">
+    <div *ngFor="let task of tasks">
+        <div *ngIf="!task['deleted']">
+            <mat-card>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="ellipse">
+                            <div *ngIf="editTaskLabel!=task['_id']">
+                                {{task.taskLabel}}
+                            </div>
+                            <div *ngIf="editTaskLabel===task['_id']">
+                                <input type="text" class="edit_Task" [(ngModel)]="taskLabelName"
+                                    (keyup.enter)="onEnterCardLabel(task['_id'])">
+                            </div>
+                            <div class="ellipse-card">
+                                <div class="menu-container">
+                                    <button class="ellipse-button" (click)="ellipseMenu(task['_id'])"><mat-icon
+                                            class="vertical-ellipse-button">more_vert</mat-icon></button>
+                                    <div class="menu-items" *ngIf="isMenuOpen===task['_id']">
+                                        <button
+                                            (click)="menuItemClicked('delete', task['_id'])"><mat-icon>delete</mat-icon>Delete</button>
+                                        <button
+                                            (click)="menuItemClicked('edit',task['_id'])"><mat-icon>edit</mat-icon>Edit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="add-action">
+                            <button id="add-button-click"
+                                [ngClass]="isAddTodo===task['_id'] ? 'active-button' : 'add-button'"
+                                (click)="addTodo(task['_id'])"><mat-icon
+                                    [ngClass]="isAddTodo===task['taskId'] ? 'active-button' : 'add-icon'">add</mat-icon>Add
+                                Task</button>
+                        </div>
+                        <div *ngIf="isAddTodo===task['_id']">
+                            <input type="text" class="add_Task" [(ngModel)]="addedTodo"
+                                (keyup.enter)="onEnterTodo(task['_id'])">
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div *ngFor="let todo of todos" class="check">
+                            <div *ngIf="!todo['deleted'] && !todo['completed'] && todo['taskId']===task['_id']">
+                                <mat-radio-button (click)="onCheckboxClick(todo['_id'])"
+                                    class="round-checkbox">{{todo.todoName}}</mat-radio-button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div *ngIf="completedTodosCountObj && !completedTodosCountObj.hasOwnProperty(task['_id'])">
+                            <span class="completed-button">Completed</span>
+                        </div>
+                        <div *ngIf="completedTodosCountObj && completedTodosCountObj[task['_id']] && completedTodosCountObj[task['_id']]!=0"
+                            class="list-container">
+                            <span class="completed-button">Completed({{completedTodosCountObj[task['_id']]}})</span>
+                            <button class="toggle-button" type="button" (click)="toggleForCompletedList(task['_id'])"
+                                [textContent]="isCompletedListOpen.includes(task['_id']) ? 'Λ' : 'V'"></button>
+                        </div>
+                        <ul *ngIf="isCompletedListOpen.includes(task['_id'])" class="list">
+                            <li *ngFor="let todo of todos" class="check">
+                                <span *ngIf="!todo['deleted'] && todo['completed'] && todo['taskId']===task['_id']"
+                                    class="completed-list">{{todo.todoName}}</span>
+                                <button *ngIf="!todo['deleted'] && todo['completed'] && todo['taskId']===task['_id']"
+                                    class="delete-button" type="button"
+                                    (click)="deleteCompleteList(todo['_id'])"><mat-icon>delete</mat-icon></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

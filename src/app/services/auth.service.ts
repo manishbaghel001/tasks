@@ -1,0 +1,143 @@
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { GoogleAuthProvider, GithubAuthProvider, User } from 'firebase/auth';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+@Injectable({
+    providedIn: 'root',
+})
+
+export class AuthService {
+
+    private userSubject = new BehaviorSubject<User | null>(null);
+    user = this.userSubject.asObservable();
+
+    constructor(private afAuth: AngularFireAuth, private router: Router) {
+        this.afAuth.authState.subscribe(user => {
+            this.userSubject.next(user);
+        });
+    }
+
+    getUser(): Observable<any> {
+        return this.user;
+    }
+
+    isLoggedIn(): boolean {
+        return !!localStorage.getItem('token');
+    }
+
+    setDisplayName(firstName: string, lastName: string) {
+        const displayName = `${firstName} ${lastName}`;
+        return this.afAuth.currentUser.then((user) => {
+            return user?.updateProfile({ displayName });
+        });
+    }
+
+    signIn(email: string, password: string) {
+        this.afAuth.signInWithEmailAndPassword(email, password).then((res) => {
+            if (res.user?.emailVerified) {
+                localStorage.setItem('token', res.user?.uid)
+                this.router.navigate(['/tasks'])
+            }
+            else {
+                this.sendEmailForVerification(res.user);
+                this.router.navigate(['/verify-email'])
+            }
+        }, err => {
+            alert(err.message);
+            this.router.navigate(['/login'])
+        });
+    }
+
+    register(form: object) {
+        this.afAuth.createUserWithEmailAndPassword(form['email'], form['password']).then((res) => {
+            this.router.navigate(['/verify-email']);
+            this.setDisplayName(form['firstName'], form['lastName'])
+            this.sendEmailForVerification(res.user);
+        }, err => {
+            alert(err.message);
+            this.router.navigate(['/register'])
+        });
+    }
+
+    signOut() {
+        this.afAuth.signOut().then(() => {
+            localStorage.removeItem('token')
+            this.router.navigate(['/login'])
+        }, err => {
+            alert(err.message);
+        });
+    }
+
+    forgotPassword(email: string) {
+        this.afAuth.sendPasswordResetEmail(email).then(() => {
+            this.router.navigate(['/verify-email'])
+        }, err => {
+            alert(err.message);
+        });
+    }
+
+    deleteCurrentUser() {
+        this.afAuth.currentUser.then((user) => {
+            if (user) {
+                user.delete();
+                localStorage.removeItem('token')
+                this.router.navigate(['/login'])
+            }
+        }, err => {
+            alert(err.message);
+        });
+    }
+
+    sendEmailForVerification(user: any) {
+        this.afAuth.currentUser.then((user) => {
+            if (user) {
+                user.sendEmailVerification();
+                this.router.navigate(['/verify-email'])
+            }
+        }, err => {
+            alert(err.message);
+        });
+    }
+
+    // Sing with google
+    singInWithGoogle() {
+        return this.afAuth.signInWithPopup(new GoogleAuthProvider()).then((res) => {
+            const user = res.user;
+            if (user) {
+                const [firstName, lastName] = user.displayName?.split(' ') || ['', ''];
+                user.updateProfile({
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                }).then(() => {
+                    localStorage.setItem('token', res.user?.uid)
+                    this.router.navigate(['/tasks'])
+                });
+            }
+        }, err => {
+            alert(err.message);
+            this.router.navigate(['/login'])
+        })
+    }
+
+    // Sing with github
+    singInWithGithub() {
+        return this.afAuth.signInWithPopup(new GithubAuthProvider()).then((res) => {
+            const user = res.user;
+            if (user) {
+                const [firstName, lastName] = user.displayName?.split(' ') || ['', ''];
+                user.updateProfile({
+                    displayName: user.displayName,
+                    photoURL: user.photoURL,
+                }).then(() => {
+                    localStorage.setItem('token', res.user?.uid)
+                    this.router.navigate(['/tasks'])
+                });
+            }
+        }, err => {
+            alert(err.message);
+            this.router.navigate(['/login'])
+        })
+    }
+}

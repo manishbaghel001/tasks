@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="login-box">
+        <div class="img-form">
+            <form #loginForm="ngForm">
+                <div>
+                    <input type="email" id="email" name="email" required placeholder="login" [(ngModel)]="email">
+                </div>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required placeholder="Password"
+                        [(ngModel)]="password">
+                    <i *ngIf="passwordToggle" class='bx bx-show' (click)="togglePasswordVisibility()"></i>
+                    <i *ngIf="!passwordToggle" class='bx bx-hide' (click)="togglePasswordVisibility()"></i>
+                </div>
+
+                <div class="forgot-pass">
+                    <a href="forgot-password" class="styled-link" (click)="forgotPass()">Forgot Password</a>
+                    <a href="register" class="styled-link" (click)="register()">Register</a>
+                </div>
+                <button class="login-btn" type="submit" (click)="login()">Login</button>
+                <div class="row">
+                    <a class="styled-link" (click)="signInWithGoogle()">
+                        <img class="google-img" src="assets/google-light.png">
+                    </a>
+                </div>
+                <div class="row">
+                    <a class="styled-link" (click)="signInWithGithub()">
+                        <div class="column github-box">
+                            <img class="github-img" src="assets/github-dark.png">
+                            Sign in with Github
+                        </div>
+                    </a>
+                </div>
+            </form>
+            <img class="login-img" src="assets/login-img.jpg" alt="Logo">
+        </div>
+    </div>
+</div>
