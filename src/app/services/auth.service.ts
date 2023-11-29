@@ -34,10 +34,17 @@ export class AuthService {
         });
     }
 
-    signIn(email: string, password: string) {
+    signIn(email: string, password: string, rememberMe: any) {
         this.afAuth.signInWithEmailAndPassword(email, password).then((res) => {
             if (res.user?.emailVerified) {
-                localStorage.setItem('token', res.user?.uid)
+                if (rememberMe != '') {
+                    localStorage.setItem('rememberMe', 'true')
+                    localStorage.setItem('token', res.user?.uid)
+                }
+                else {
+                    localStorage.setItem('rememberMe', 'false')
+                    localStorage.removeItem('token')
+                }
                 this.router.navigate(['/tasks'])
             }
             else {
@@ -46,7 +53,7 @@ export class AuthService {
             }
         }, err => {
             alert(err.message);
-            this.router.navigate(['/login'])
+            this.router.navigate(['/form'])
         });
     }
 
@@ -57,14 +64,13 @@ export class AuthService {
             this.sendEmailForVerification(res.user);
         }, err => {
             alert(err.message);
-            this.router.navigate(['/register'])
         });
     }
 
     signOut() {
         this.afAuth.signOut().then(() => {
             localStorage.removeItem('token')
-            this.router.navigate(['/login'])
+            this.router.navigate(['/form'])
         }, err => {
             alert(err.message);
         });
@@ -83,7 +89,7 @@ export class AuthService {
             if (user) {
                 user.delete();
                 localStorage.removeItem('token')
-                this.router.navigate(['/login'])
+                this.router.navigate(['/form'])
             }
         }, err => {
             alert(err.message);
@@ -117,7 +123,7 @@ export class AuthService {
             }
         }, err => {
             alert(err.message);
-            this.router.navigate(['/login'])
+            this.router.navigate(['/form'])
         })
     }
 
@@ -137,7 +143,7 @@ export class AuthService {
             }
         }, err => {
             alert(err.message);
-            this.router.navigate(['/login'])
+            this.router.navigate(['/form'])
         })
     }
 }

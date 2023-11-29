@@ -20,10 +20,11 @@ export class AuthGuard {
     ): Observable<boolean> | Promise<boolean> | boolean {
 
         const user = this.authService.user
-        if (this.authService.isLoggedIn()) {
+        if (this.authService.isLoggedIn() || localStorage.getItem('rememberMe') == 'false') {
+            localStorage.removeItem('rememberMe')
             return true;
         } else {
-            this.router.navigate(['/login']);
+            this.router.navigate(['/form']);
             return false;
         }
     }

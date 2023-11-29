@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="login-box">
+        <div class="form-container">
+            <div class="log-reg-form">
+                <a class="styled-link" (click)="showLogin = true; showRegister = false;">login</a>
+                <a class="styled-link" (click)="showLogin = false; showRegister = true;">Register</a>
+            </div>
+            <div *ngIf="showLogin">
+                <app-login></app-login>
+            </div>
+
+            <div *ngIf="showRegister">
+                <app-register></app-register>
+            </div>
+        </div>
+        <div class="img-container">
+            <img class="login-img" src="assets/login-img.jpg" alt="Logo">
+        </div>
+    </div>
+</div>

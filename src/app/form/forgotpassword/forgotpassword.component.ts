@@ -8,15 +8,15 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./forgotpassword.component.css']
 })
 export class ForgotpasswordComponent {
-  constructor(private fireAuth: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
   email: string = '';
 
   loginPage() {
-    this.router.navigate(['/login'])
+    this.router.navigate(['/form'])
   }
 
   forgotPasswordMail() {
-    this.fireAuth.forgotPassword(this.email)
+    this.authService.forgotPassword(this.email)
   }
 
 }

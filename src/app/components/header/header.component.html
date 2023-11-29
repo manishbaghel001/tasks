@@ -65,7 +65,9 @@
                c-6.337-2.108-11.473-6.557-14.463-12.528C11.899,15.541,11.11,10.16,12.002,4.936z" />
             </svg>
         </label>
-        <img class="profile-img" (click)="toggleProfileOptions()" [src]="photoURL" alt="Profile Icon">
+        <img *ngIf="photoURL!=null" class="profile-img" (click)="toggleProfileOptions()" [src]="photoURL"
+            alt="Profile Icon">
+        <i *ngIf="photoURL==null" class="bx bxs-face" (click)="toggleProfileOptions()" alt="Profile Icon"></i>
         <div class="profile-options" *ngIf="showProfileOptions">
             <ul>
                 <li><a href="#" (click)="logout()">Logout</a></li>

@@ -13,6 +13,6 @@ export class VerifyemailComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   alreadyHaveAccount() {
-    this.router.navigate(['/login'])
+    this.router.navigate(['/form'])
   }
 }

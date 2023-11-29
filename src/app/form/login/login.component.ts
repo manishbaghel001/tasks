@@ -8,32 +8,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  constructor(private fireAuth: AuthService, private router: Router) { }
-  email: string = '';
-  password: string = '';
+  constructor(private authService: AuthService, private router: Router) { }
   passwordToggle: boolean = false
 
   ngOnInit() {
 
   }
 
-  login() {
-    if (this.email == '' || this.password == '') {
+  login(item: any) {
+    if (item['email'] == '' || item['password'] == '') {
       alert('Please enter your email and password')
     }
     else {
-      this.fireAuth.signIn(this.email, this.password);
-      this.email = '';
-      this.password = ''
+      this.authService.signIn(item['email'], item['password'], item['rememberMe']);
     }
   }
 
   forgotPass() {
     this.router.navigate(['/forgot-password'])
-  }
-
-  register() {
-    this.router.navigate(['/register'])
   }
 
   togglePasswordVisibility() {
@@ -48,11 +40,11 @@ export class LoginComponent implements OnInit {
   }
 
   signInWithGoogle() {
-    this.fireAuth.singInWithGoogle()
+    this.authService.singInWithGoogle()
   }
 
   signInWithGithub() {
-    this.fireAuth.singInWithGithub()
+    this.authService.singInWithGithub()
   }
 
 }

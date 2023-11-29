@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private headerService: HeaderService,
     private cacheService: CacheService,
-    private afAuth: AuthService,
+    private authService: AuthService,
   ) { }
 
   forkSub: Subscription;
@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
   password: string;
   userData: object;
   photoURL: string;
+  // profile_face: boolean = true
 
   ngOnInit() {
     this.forkSub = forkJoin({
@@ -41,9 +42,14 @@ export class HeaderComponent implements OnInit {
         )))
     }).subscribe({
       next: ({ mode, tasks }) => {
-        this.afAuth.getUser().subscribe((user) => {
+        this.authService.getUser().subscribe((user) => {
           this.userData = user;
           this.photoURL = user['multiFactor']['user']['photoURL']
+
+          console.log(this.userData, "klklkl");
+          console.log(this.photoURL, "klklkl");
+
+
         })
 
         this.tasks = tasks
@@ -102,11 +108,11 @@ export class HeaderComponent implements OnInit {
   }
 
   deleteAccount() {
-    this.afAuth.deleteCurrentUser()
+    this.authService.deleteCurrentUser()
   }
 
   logout() {
-    this.afAuth.signOut()
+    this.authService.signOut()
   }
 
   menuItemClicked(todoId) {

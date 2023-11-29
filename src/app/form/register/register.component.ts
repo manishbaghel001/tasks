@@ -8,22 +8,20 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() { }
 
   register(item: any) {
-    console.log(item, "kjlklklkl");
-
     if (item['email'] == '' || item['password'] == '') {
       alert('Please enter ypur email and password')
     }
     else {
-      this.auth.register(item);
+      this.authService.register(item);
     }
   }
 
   alreadyHaveAccount() {
-    this.router.navigate(['/login'])
+    this.router.navigate(['/form'])
   }
 }

@@ -20,12 +20,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFireAuthModule } from '@angular/fire/compat/auth'
 import { environment } from 'environment';
-import { RegisterComponent } from './components/login/register/register.component';
-import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './form/register/register.component';
+import { LoginComponent } from './form/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CardComponent } from './components/card/card.component';
-import { ForgotpasswordComponent } from './components/login/forgotpassword/forgotpassword.component';
-import { VerifyemailComponent } from './components/login/verifyemail/verifyemail.component';
+import { ForgotpasswordComponent } from './form/forgotpassword/forgotpassword.component';
+import { VerifyemailComponent } from './form/verifyemail/verifyemail.component';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { VerifyemailComponent } from './components/login/verifyemail/verifyemail
     RegisterComponent,
     LoginComponent,
     ForgotpasswordComponent,
-    VerifyemailComponent
+    VerifyemailComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,

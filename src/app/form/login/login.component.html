@@ -1,0 +1,39 @@
+<form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
+    <div class="mb-3">
+        <label for="exampleInputEmail" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail" placeholder="Email" name="email"
+            aria-describedby="emailHelp" ngModel>
+    </div>
+    <div class="mb-3 input-container">
+        <label for="exampleInputPassword" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password" id="password"
+            name="password" ngModel>
+        <div class="icon-container">
+            <i *ngIf="passwordToggle" class='bx bx-show' (click)="togglePasswordVisibility()"></i>
+            <i *ngIf="!passwordToggle" class='bx bx-hide' (click)="togglePasswordVisibility()"></i>
+        </div>
+    </div>
+    <div class="links">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe" ngModel>
+            <label class="form-check-label" for="rememberMe">Remember Me</label>
+        </div>
+        <a href="forgot-password" class="styled-link" (click)="forgotPass()">Forgot Password</a>
+    </div>
+    <div class="mb-3 btns">
+        <button type="submit" class="btn btn-primary">login</button>
+    </div>
+    <div class="mb-3 diff-login">
+        <a class="styled-link" (click)="signInWithGoogle()">
+            <img class="google-img" src="assets/google-light.png">
+        </a>
+    </div>
+    <div class="mb-3 diff-login">
+        <a class="styled-link" (click)="signInWithGithub()">
+            <div class="column github-box">
+                <img class="github-img" src="assets/github-dark.png">
+                Sign in with Github
+            </div>
+        </a>
+    </div>
+</form>
