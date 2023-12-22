@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GoogleAuthProvider, GithubAuthProvider, User } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/compat/firestore'; // Import AngularFireFirestore
 
 @Injectable({
     providedIn: 'root',
@@ -12,8 +13,9 @@ export class AuthService {
 
     private userSubject = new BehaviorSubject<User | null>(null);
     user = this.userSubject.asObservable();
+    email: any
 
-    constructor(private afAuth: AngularFireAuth, private router: Router) {
+    constructor(private afAuth: AngularFireAuth, private router: Router, private firestore: AngularFirestore) {
         this.afAuth.authState.subscribe(user => {
             this.userSubject.next(user);
         });
@@ -48,29 +50,53 @@ export class AuthService {
                 this.router.navigate(['/tasks'])
             }
             else {
-                this.sendEmailForVerification(res.user);
-                this.router.navigate(['/verify-email'])
+                if (res.user) {
+                    res.user.sendEmailVerification();
+                    this.router.navigate(['/verify-email'])
+                }
             }
         }, err => {
             alert(err.message);
-            this.router.navigate(['/form'])
+            this.router.navigate(['/login'])
         });
     }
 
     register(form: object) {
         this.afAuth.createUserWithEmailAndPassword(form['email'], form['password']).then((res) => {
-            this.router.navigate(['/verify-email']);
-            this.setDisplayName(form['firstName'], form['lastName'])
-            this.sendEmailForVerification(res.user);
+
+            res.user?.updateProfile({
+                displayName: form['userName']
+            })
+            this.storeAdditionalUserData(res.user?.uid, {
+                fullName: form['fullName'],
+                username: form['userName'],
+            });
+
+            if (res.user) {
+                res.user.sendEmailVerification();
+                this.router.navigate(['/verify-email'])
+            }
         }, err => {
             alert(err.message);
         });
     }
 
+    private storeAdditionalUserData(uid: string | undefined, data: any): void {
+        if (uid) {
+            this.firestore.collection('users').doc(uid).set(data, { merge: true })
+                .then(() => {
+                    console.log('Additional user data stored successfully');
+                })
+                .catch(error => {
+                    console.error('Error storing additional user data:', error);
+                });
+        }
+    }
+
     signOut() {
         this.afAuth.signOut().then(() => {
             localStorage.removeItem('token')
-            this.router.navigate(['/form'])
+            this.router.navigate(['/login'])
         }, err => {
             alert(err.message);
         });
@@ -78,6 +104,7 @@ export class AuthService {
 
     forgotPassword(email: string) {
         this.afAuth.sendPasswordResetEmail(email).then(() => {
+            this.email = email;
             this.router.navigate(['/verify-email'])
         }, err => {
             alert(err.message);
@@ -89,18 +116,7 @@ export class AuthService {
             if (user) {
                 user.delete();
                 localStorage.removeItem('token')
-                this.router.navigate(['/form'])
-            }
-        }, err => {
-            alert(err.message);
-        });
-    }
-
-    sendEmailForVerification(user: any) {
-        this.afAuth.currentUser.then((user) => {
-            if (user) {
-                user.sendEmailVerification();
-                this.router.navigate(['/verify-email'])
+                this.router.navigate(['/login'])
             }
         }, err => {
             alert(err.message);
@@ -123,7 +139,7 @@ export class AuthService {
             }
         }, err => {
             alert(err.message);
-            this.router.navigate(['/form'])
+            this.router.navigate(['/login'])
         })
     }
 
@@ -143,7 +159,7 @@ export class AuthService {
             }
         }, err => {
             alert(err.message);
-            this.router.navigate(['/form'])
+            this.router.navigate(['/login'])
         })
     }
 }

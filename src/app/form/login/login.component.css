@@ -1,95 +1,264 @@
-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    margin-right: 60px;
-}
-
-label {
-    color: #333;
-}
-
-.styled-link {
-    display: inline-block;
+:host,
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    flex-shrink: 0;
     text-decoration: none;
-    color: #333;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
-.styled-link:hover {
-    color: #606061;
-}
-
-.links {
+:host,
+:not(span, a, ul, ol, li, p) {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
 }
 
-.diff-login {
-    margin-left: 50px;
-    margin-top: 30px;
+ul,
+ol {
+    text-indent: 0;
+    padding-inline-start: 1.5em;
 }
 
-.bx {
-    position: absolute;
-    top: 50%;
-    right: 5px;
-    transform: translateY(-50%);
-    cursor: pointer;
+p:empty::before {
+    content: '';
+    display: inline-block;
 }
 
-.github-img {
-    width: 4vh;
-    height: 4vh;
+img {
+    object-fit: contain;
 }
 
-.github-box {
-    border: 1px solid black;
-    border-radius: 200px;
-    background-color: white;
-    font-weight: 700;
-    padding: 7px 12px;
-    font-size: small;
-    font-family: inherit;
+svg {
+    overflow: visible;
 }
 
-.btns {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-}
-
-.input-container {
+:host {
     position: relative;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #ebefff;
+    overflow: hidden;
 }
 
-.icon-container {
+.rectangle1 {
     position: absolute;
-    top: 70%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
+    left: 842px;
+    top: 0;
+    width: 525px;
+    height: 720px;
+    background-color: #afb3ff;
 }
 
-.icon-container i {
-    font-size: 1.3rem;
+.socialMediaIcons {
+    position: absolute;
+    left: 256px;
+    top: 530px;
+    width: 40px;
+    height: 35px;
+    overflow: visible;
 }
 
-.form-check {
-    display: flex;
-    font-size: 14px;
-    align-items: center;
+.icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.form-check-label {
-    margin-left: -50px;
+.rectangle2 {
+    position: absolute;
+    left: 122px;
+    top: 250px;
+    width: 367px;
+    height: 34px;
+    padding-left: 1%;
+    outline: solid 1px #656ed3;
+    outline-offset: -1px;
+    border-radius: 50px;
+    background-color: #afb3ff00;
 }
 
-.form-check-input {
-    margin-top: 10px;
-    width: 5px;
+.passwordIcon {
+    position: absolute;
+    left: 335px;
+    top: 9px;
+}
+
+.rectangle3 {
+    position: absolute;
+    left: 122px;
+    top: 326px;
+    width: 367px;
+    height: 34px;
+    padding-left: 1%;
+    outline: solid 1px #656ed3;
+    outline-offset: -1px;
+    border-radius: 50px;
+    background-color: #afb3ff00;
+}
+
+.username {
+    color: #000;
+    font-size: 16px;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+        'Liberation Sans', sans-serif;
+    position: absolute;
+    left: 122px;
+    top: 220px;
+    width: min-content;
+    height: min-content;
+    white-space: nowrap;
+    flex-direction: column;
+}
+
+.dontHaveAndAccountRegister1 {
+    position: absolute;
+    left: 134px;
+    top: 379px;
+    width: max-content;
+    height: min-content;
+    white-space: nowrap;
+    flex-direction: column;
+}
+
+.rememberMe {
+    margin-left: 6%;
+}
+
+.dontHaveAndAccountRegister {
+    position: absolute;
+    left: 188px;
+    top: 480px;
+    width: min-content;
+    height: min-content;
+    white-space: nowrap;
+    flex-direction: column;
+}
+
+.labelWrapper {
+    font-size: 16px;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+        'Liberation Sans', sans-serif;
+    flex-shrink: 1;
+}
+
+.label {
+    color: #000;
+    font-size: 16px;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+        'Liberation Sans', sans-serif;
+}
+
+.label2 {
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+        'Liberation Sans', sans-serif;
+}
+
+.forgotPassword {
+    color: #000;
+    font-size: 16px;
+    font-weight: 500;
+    margin-left: 30%;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+        'Liberation Sans', sans-serif;
+}
+
+.welcomeBack {
+    color: #1a1a1a;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+        'Liberation Sans', sans-serif;
+    position: absolute;
+    left: 240px;
+    top: 177px;
+    width: min-content;
+    height: min-content;
+    white-space: nowrap;
+    flex-direction: column;
+}
+
+.rectangle4 {
+    position: absolute;
+    left: 124px;
+    top: 420px;
+    width: 365px;
+    height: 34px;
+    border-radius: 50px;
+    background-color: #656ed3;
+}
+
+.login {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+        'Liberation Sans', sans-serif;
+    position: absolute;
+    left: 285px;
+    top: 424px;
+    width: min-content;
+    height: min-content;
+    white-space: nowrap;
+    flex-direction: column;
+}
+
+.password {
+    color: #000;
+    font-size: 16px;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+        'Liberation Sans', sans-serif;
+    position: absolute;
+    left: 124px;
+    top: 296px;
+    width: min-content;
+    height: min-content;
+    white-space: nowrap;
+    flex-direction: column;
+}
+
+.rectangle5 {
+    transform-origin: top left;
+    position: absolute;
+    left: -287px;
+    top: 912.3164px;
+    width: 596.734px;
+    height: 141.396px;
+    border-radius: 105.5304px;
+    background-color: #838cf1;
+    transform: matrix(0.7535, -0.6574, 0.6574, 0.7535, 0, 0);
+}
+
+.rectangle6 {
+    transform-origin: top left;
+    position: absolute;
+    left: -252px;
+    top: 895.0518px;
+    width: 553.7418px;
+    height: 131.209px;
+    border-radius: 105.5304px;
+    background-color: #afb3ff;
+    transform: matrix(0.7535, -0.6574, 0.6574, 0.7535, 0, 0);
+}
+
+.pc-login {
+    position: absolute;
+    left: 565px;
+    top: -37px;
+    width: 600px;
+    height: 590px;
+    flex-direction: column;
+    align-items: flex-start;
+    right: 0;
+    background-image: url('/assets/pc-login.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }

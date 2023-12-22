@@ -26,35 +26,42 @@ export class HeaderComponent implements OnInit {
   showProfileOptions: boolean = false;
   email: string;
   password: string;
-  userData: object;
+  userData: any;
   photoURL: string;
-  // profile_face: boolean = true
+  uid: string;
 
   ngOnInit() {
+    this.authService.getUser().subscribe((user) => {
+      if (user) {
+        this.photoURL = user['photoURL'];
+        if (user['uid'] && user['uid'] != '' && user['uid'] != null) {
+          this.uid = user['uid'];
+          this.getAllData(user['uid']);
+        }
+      }
+    })
+  }
+
+  getAllData(uid) {
+    this.headerService.getUIDData(uid).subscribe((data) => {
+      if (data && data.length > 0) {
+        this.userData = data[0];
+        this.loadData();
+      }
+      else {
+        this.getAllData(uid)
+      }
+    })
+  }
+
+  loadData() {
     this.forkSub = forkJoin({
-      mode: this.headerService.getMode().pipe(
-        catchError((err) => of(
-          alert('API Failing')
-        ))),
-      tasks: this.headerService.getTasks().pipe(
+      mode: this.headerService.getMode(this.uid).pipe(
         catchError((err) => of(
           alert('API Failing')
         )))
     }).subscribe({
-      next: ({ mode, tasks }) => {
-        this.authService.getUser().subscribe((user) => {
-          this.userData = user;
-          this.photoURL = user['multiFactor']['user']['photoURL']
-
-          console.log(this.userData, "klklkl");
-          console.log(this.photoURL, "klklkl");
-
-
-        })
-
-        this.tasks = tasks
-        const cacheKey = 'modeKey';
-        this.cacheService.setData(cacheKey, mode);
+      next: ({ mode }) => {
         this.mode = mode == 'dark' ? true : false;
 
         if (this.mode) {
@@ -88,7 +95,7 @@ export class HeaderComponent implements OnInit {
 
       this.mode = true;
       this.cacheService.setData('modeKey', this.mode);
-      this.headerService.updateMode('dark').subscribe((res) => {
+      this.headerService.updateMode('dark', this.uid).subscribe((res) => {
       })
     } else {
       document.body.classList.add('light-mode');
@@ -98,7 +105,7 @@ export class HeaderComponent implements OnInit {
 
       this.mode = false;
       this.cacheService.setData('modeKey', this.mode);
-      this.headerService.updateMode('light').subscribe((res) => {
+      this.headerService.updateMode('light', this.uid).subscribe((res) => {
       })
     }
   }

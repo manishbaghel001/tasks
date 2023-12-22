@@ -11,57 +11,29 @@ export class CardService {
     private http: HttpClient) { }
 
   apiTodo = AppConfig.apiUrl + '/api/todos/';
-  apiTodoComplete = AppConfig.apiUrl + '/api/todos/complete/';
   apiTasks = AppConfig.apiUrl + '/api/tasks/';
-  apiTodoBatch = AppConfig.apiUrl + '/api/todos/batch/';
 
   // Todo APIs
-  getTodos() {
-    return this.http.get(this.apiTodo)
+
+  createTodo(uid: string, updatedData: object) {
+    return this.http.post(this.apiTodo + uid, updatedData)
   }
 
-  getJsonById(taskId: String, id: number) {
-    return this.http.get(this.apiTodo + taskId + '/' + id)
-  }
-
-  createTodo(tasksId: string, updatedData: object) {
-    return this.http.post(this.apiTodo + '/batch/' + tasksId, updatedData)
-  }
-
-  patchJson(taskId: String, id: number, updatedData: any) {
-    return this.http.patch(this.apiTodo + taskId + '/' + id, updatedData)
-  }
-
-  deleteTodo(taskId: String) {
-    return this.http.delete(this.apiTodo + taskId)
-  }
-
-  completeTodo(taskId: String) {
-    return this.http.get(this.apiTodoComplete + taskId)
+  patchTodo(uid: String, body) {
+    return this.http.patch(this.apiTodo + uid, body)
   }
 
   // Tasks APIs
-  getTasks() {
-    return this.http.get(this.apiTasks)
+  getTasks(uid) {
+    return this.http.get(this.apiTasks + uid)
   }
 
-  createTasks(body: object) {
-    return this.http.post(this.apiTasks, body)
+  createTasks(body: object, uid) {
+    return this.http.post(this.apiTasks + uid, body)
   }
 
-  getTasksById(id: string) {
-    return this.http.get(this.apiTasks + id)
+  patchTasks(uid: string, body: any) {
+    return this.http.patch(this.apiTasks + uid, body)
   }
 
-  patchTasks(id: string, body: any) {
-    return this.http.patch(this.apiTasks + id, body)
-  }
-
-  deleteTasks(id: string) {
-    return this.http.delete(this.apiTasks + id)
-  }
-
-  deleteTodosBatch(id: string) {
-    return this.http.patch(this.apiTodoBatch + id, {})
-  }
 }

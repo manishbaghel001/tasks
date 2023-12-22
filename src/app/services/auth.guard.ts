@@ -24,7 +24,7 @@ export class AuthGuard {
             localStorage.removeItem('rememberMe')
             return true;
         } else {
-            this.router.navigate(['/form']);
+            this.router.navigate(['/login']);
             return false;
         }
     }

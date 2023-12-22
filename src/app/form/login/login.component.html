@@ -1,39 +1,51 @@
+<div class="rectangle1"></div>
+<div class="pc-login"></div>
+<div class="welcomeBack">Welcome Back!</div>
+
 <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
-    <div class="mb-3">
-        <label for="exampleInputEmail" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail" placeholder="Email" name="email"
-            aria-describedby="emailHelp" ngModel>
-    </div>
-    <div class="mb-3 input-container">
-        <label for="exampleInputPassword" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password" id="password"
-            name="password" ngModel>
-        <div class="icon-container">
+
+    <label for="exampleInputEmail" class="username">Username:</label>
+    <input type="email" class="rectangle2" id="exampleInputEmail" placeholder="Email" name="email"
+        aria-describedby="emailHelp" ngModel required>
+    <label for="exampleInputPassword" class="password">Password:</label>
+    <div class="rectangle3">
+        <input type="password" id="exampleInputPassword" placeholder="Password" id="password" name="password" ngModel
+            required>
+        <div class="passwordIcon">
             <i *ngIf="passwordToggle" class='bx bx-show' (click)="togglePasswordVisibility()"></i>
             <i *ngIf="!passwordToggle" class='bx bx-hide' (click)="togglePasswordVisibility()"></i>
         </div>
     </div>
-    <div class="links">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe" ngModel>
-            <label class="form-check-label" for="rememberMe">Remember Me</label>
-        </div>
-        <a href="forgot-password" class="styled-link" (click)="forgotPass()">Forgot Password</a>
-    </div>
-    <div class="mb-3 btns">
-        <button type="submit" class="btn btn-primary">login</button>
-    </div>
-    <div class="mb-3 diff-login">
-        <a class="styled-link" (click)="signInWithGoogle()">
-            <img class="google-img" src="assets/google-light.png">
-        </a>
-    </div>
-    <div class="mb-3 diff-login">
-        <a class="styled-link" (click)="signInWithGithub()">
-            <div class="column github-box">
-                <img class="github-img" src="assets/github-dark.png">
-                Sign in with Github
+
+    <div class="dontHaveAndAccountRegister1">
+        <div class="labelWrapper">
+            <div>
+                <input type="checkbox" id="rememberMe" name="rememberMe" ngModel>
+                <span class="rememberMe" for="rememberMe">Remember Me</span>
             </div>
+            <a href="forgot-password" class="forgotPassword">Forgot Password</a>
+        </div>
+    </div>
+
+    <div class="dontHaveAndAccountRegister">
+        <p class="labelWrapper">
+            <span class="label">Dont have and account?</span>
+            <a href="register" class="label2">Register</a>
+        </p>
+    </div>
+    <div class="rectangle4"></div>
+    <button type="submit" class="login">Login</button>
+
+    <div class="socialMediaIcons">
+        <a (click)="signInWithGoogle()">
+            <img src="assets/google.svg" alt="" class="icon">
+        </a>
+        <a (click)="signInWithGithub()">
+            <img src="assets/github.svg" alt="" class="icon">
         </a>
     </div>
+
 </form>
+
+<div class="rectangle5"></div>
+<div class="rectangle6"></div>

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
+  @ViewChild('loginForm') loginForm!: NgForm;
   passwordToggle: boolean = false
 
   ngOnInit() {
@@ -16,7 +18,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(item: any) {
-    if (item['email'] == '' || item['password'] == '') {
+    if (!this.loginForm.valid) {
       alert('Please enter your email and password')
     }
     else {

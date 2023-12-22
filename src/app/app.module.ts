@@ -19,14 +19,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFireAuthModule } from '@angular/fire/compat/auth'
-import { environment } from 'environment';
+import { environment } from 'src/environments/environment';
 import { RegisterComponent } from './form/register/register.component';
 import { LoginComponent } from './form/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CardComponent } from './components/card/card.component';
 import { ForgotpasswordComponent } from './form/forgotpassword/forgotpassword.component';
 import { VerifyemailComponent } from './form/verifyemail/verifyemail.component';
-import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
@@ -36,8 +35,7 @@ import { FormComponent } from './form/form.component';
     RegisterComponent,
     LoginComponent,
     ForgotpasswordComponent,
-    VerifyemailComponent,
-    FormComponent
+    VerifyemailComponent
   ],
   imports: [
     BrowserModule,

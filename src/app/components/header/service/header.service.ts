@@ -15,29 +15,41 @@ export class HeaderService {
     private cacheService: CacheService
   ) { }
 
-  apiMode = AppConfig.apiUrl + '/api/mode'
-  apiTasks = AppConfig.apiUrl + '/api/tasks'
+  apiMode = AppConfig.apiUrl + '/api/mode/'
+  apiTasks = AppConfig.apiUrl + '/api/tasks/'
 
-  getMode(): Observable<any> {
+  getMode(uid): Observable<any> {
     const cacheKey = 'modeKey';
 
     const cachedData = this.cacheService.getData(cacheKey);
     if (cachedData) {
       return of(cachedData)
     } else {
-
-      const data = this.http.get(this.apiMode).pipe(
-        map(res => res[0]['mode'])
-      );
-      return data;
+      return this.http.get(this.apiMode + uid).pipe(
+        map((res) => {
+          this.cacheService.setData(cacheKey, res);
+          return res;
+        }));
     }
   }
 
-  updateMode(mode: String): Observable<any> {
-    return this.http.patch(this.apiMode, { mode: mode })
+  getUIDData(uid): Observable<any> {
+    const cacheKey = 'UIDDataKey';
+
+    const cachedData = this.cacheService.getData(cacheKey);
+    if (cachedData) {
+      return of(cachedData)
+    } else {
+      return this.http.get(this.apiTasks + uid).pipe(
+        map((res) => {
+          this.cacheService.setData(cacheKey, res);
+          return res;
+        }))
+    }
   }
 
-  getTasks(): Observable<any> {
-    return this.http.get(this.apiTasks)
+  updateMode(mode: String, uid): Observable<any> {
+    return this.http.patch(this.apiMode + uid, { mode: mode })
   }
+
 }

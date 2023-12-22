@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CardService } from './service/card.service';
 import { Subscription } from 'rxjs';
-
+import { AuthService } from 'src/app/services/auth.service';
+import { TasksModel } from './models/tasks';
+import { TodosModel } from './models/todos';
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
 export class CardComponent implements OnInit {
-
+  @Input() userData: any;
   constructor(
-    private cardService: CardService
+    private cardService: CardService,
+    private authService: AuthService
   ) { }
 
   forkSub: Subscription;
@@ -25,10 +28,19 @@ export class CardComponent implements OnInit {
   taskLabelName: string;
   tasks: any;
   completedTodosCountObj: object;
+  uid: any;
+  tasksModel: TasksModel;
+  todosModel: TodosModel;
 
   ngOnInit() {
-    this.getLatestTasks()
-    this.getLatestTodos()
+    this.authService.getUser().subscribe((user) => {
+      if (user) {
+        if (user['uid'] && user['uid'] != '' && user['uid'] != null) {
+          this.uid = user['uid'];
+          this.getLatestTasks(user['uid'])
+        }
+      }
+    })
   }
 
   ngafterviewinit() {
@@ -37,30 +49,25 @@ export class CardComponent implements OnInit {
     }
   }
 
-  getLatestTodos() {
-    this.cardService.getTodos().subscribe((res) => {
-      this.todos = res;
-      this.completedTodosCountObj = this.completedTodosCount(this.todos)
-    })
-  }
-
   completedTodosCount(todos) {
     const completedTasks = {};
     for (const obj of todos) {
       if (obj.completed === true && obj.deleted === false) {
-        const taskId = obj.taskId;
-        if (!completedTasks[taskId]) {
-          completedTasks[taskId] = 0;
+        const id = obj.id;
+        if (!completedTasks[id]) {
+          completedTasks[id] = 0;
         }
-        completedTasks[taskId]++;
+        completedTasks[id]++;
       }
     }
     return completedTasks;
   }
 
-  getLatestTasks() {
-    this.cardService.getTasks().subscribe((res) => {
-      this.tasks = res;
+  getLatestTasks(uid) {
+    this.cardService.getTasks(uid).subscribe((res) => {
+      this.tasks = res[0]['tasks'];
+      this.todos = res[0]['todos']
+      this.completedTodosCountObj = this.completedTodosCount(this.todos)
     })
   }
 
@@ -71,20 +78,29 @@ export class CardComponent implements OnInit {
   }
 
   onEnterTask() {
-    let body = {
-      taskLabel: this.addedTask
+    if (this.addedTask != '') {
+      this.tasksModel = new TasksModel()
+      this.tasksModel.setModel(undefined, this.addedTask)
+      this.cardService.createTasks(this.tasksModel, this.uid).subscribe((res) => {
+        this.getLatestTasks(this.uid);
+        this.addedTask = ''
+      })
+    } else {
+      alert("Please enter name of task")
     }
-    this.cardService.createTasks(body).subscribe((res) => {
-      this.getLatestTasks();
-      this.addedTask = ''
-    })
   }
 
   onEnterCardLabel(taskId: string) {
-    this.cardService.patchTasks(taskId, { taskLabel: this.taskLabelName }).subscribe((res) => {
-      this.getLatestTasks();
-      this.editTaskLabel = ''
-    })
+    if (this.editTaskLabel != '') {
+      this.tasksModel = new TasksModel();
+      this.tasksModel.setModel(taskId, this.taskLabelName);
+      this.cardService.patchTasks(this.uid, this.tasksModel).subscribe((res) => {
+        this.getLatestTasks(this.uid);
+        this.editTaskLabel = ''
+      })
+    } else {
+      alert("Please enter name of task")
+    }
   }
 
   ellipseMenu(taskId: string) {
@@ -94,18 +110,18 @@ export class CardComponent implements OnInit {
       this.isMenuOpen = taskId
   }
 
-  menuItemClicked(item: string, taskId: string) {
+  menuItemClicked(item: string, task: any) {
     if (item == 'delete') {
-      this.cardService.deleteTasks(taskId).subscribe((res) => {
-        this.cardService.deleteTodosBatch(taskId).subscribe((res) => {
-          this.isMenuOpen = "";
-          this.getLatestTasks();
-        })
+      this.tasksModel = new TasksModel();
+      this.tasksModel.setModel(task['id'], task['name'], true)
+      this.cardService.patchTasks(this.uid, this.tasksModel).subscribe((res) => {
+        this.isMenuOpen = "";
+        this.getLatestTasks(this.uid);
       })
     } else if (item == 'edit') {
-      this.editTaskLabel = taskId;
-      let searcedTasks = this.tasks.find((task) => task['_id'] === taskId)
-      this.taskLabelName = searcedTasks['taskLabel'];
+      this.editTaskLabel = task['id'];
+      let searcedTasks = this.tasks.find((task) => task['id'] === task['id'])
+      this.taskLabelName = searcedTasks['name'];
       this.isMenuOpen = "";
     }
   }
@@ -121,26 +137,33 @@ export class CardComponent implements OnInit {
   }
 
   onEnterTodo(todoId: string) {
-    let body = {
-      todoName: this.addedTodo
+    if (this.addedTodo != '') {
+      this.todosModel = new TodosModel()
+      this.todosModel.setModel(todoId, this.addedTodo)
+      this.cardService.createTodo(this.uid, this.todosModel).subscribe((res) => {
+        this.getLatestTasks(this.uid);
+        this.addedTodo = ''
+      })
+    } else {
+      alert("Please enter name of todo")
     }
-    this.cardService.createTodo(todoId, body).subscribe((res) => {
-      this.getLatestTodos();
-      this.addedTodo = ''
-    })
   }
 
   //Todo checkbox
-  onCheckboxClick(todoId: any) {
-    this.cardService.completeTodo(todoId).subscribe((res) => {
-      this.getLatestTodos();
+  onCheckboxClick(todo: any) {
+    this.todosModel = new TodosModel()
+    this.todosModel.setModel(todo['id'], todo['name'], true)
+    this.cardService.patchTodo(this.uid, this.todosModel).subscribe((res) => {
+      this.getLatestTasks(this.uid);
     })
   }
 
   //Completed Tasks
-  deleteCompleteList(todoId: string) {
-    this.cardService.deleteTodo(todoId).subscribe((res) => {
-      this.getLatestTodos();
+  deleteCompleteList(todo: string) {
+    this.todosModel = new TodosModel()
+    this.todosModel.setModel(todo['id'], todo['name'], undefined, true)
+    this.cardService.patchTodo(this.uid, this.todosModel).subscribe((res) => {
+      this.getLatestTasks(this.uid);
     })
   }
 

@@ -1,4 +1,4 @@
-<form #registerationForm="ngForm" (ngSubmit)="register(registerationForm.value)">
+<!-- <form #registerationForm="ngForm" (ngSubmit)="register(registerationForm.value)">
     <div class="mb-3">
         <label for="exampleInputFirstName" class="form-label">First Name</label>
         <input type="text" class="form-control" id="exampleInputFirstName" placeholder="First Name" name="firstName"
@@ -22,4 +22,56 @@
     <div class="mb-3 btns">
         <button type="submit" class="btn btn-primary">Register</button>
     </div>
+</form> -->
+
+<div class="pleaseFillOutFormToRegister">Please Fill out form to Register!</div>
+
+<form #registerationForm="ngForm" (ngSubmit)="register()">
+
+    <label for="fullName" class="fullName">Full name:</label>
+    <input type="text" class="rectangle9" id="fullName" placeholder="Full Name" name="fullName"
+        aria-describedby="fullName" ngModel required>
+
+    <label for="userName" class="userName">Username:</label>
+    <input type="text" class="rectangle2" id="userName" placeholder="User Name" name="userName"
+        aria-describedby="userName" ngModel required>
+
+    <label for="email" class="email">Email:</label>
+    <input type="email" class="rectangle10" id="email" placeholder="Email" name="email" aria-describedby="email" ngModel
+        required>
+
+    <label for="password" class="password">Password:</label>
+    <div class="rectangle3">
+        <input type="password" id="password" placeholder="Password" id="password" name="password" ngModel required>
+        <div class="passwordIcon">
+            <i *ngIf="passwordToggle" class='bx bx-show' (click)="togglePasswordVisibility()"></i>
+            <i *ngIf="!passwordToggle" class='bx bx-hide' (click)="togglePasswordVisibility()"></i>
+        </div>
+    </div>
+
+    <label for="confirmPassword" class="confirmPassword">Confirm Password:</label>
+    <div class="rectangle8">
+        <input type="password" id="confirmPassword" placeholder="Password" id="confirmPassword" name="confirmPassword"
+            ngModel required>
+        <div class="passwordIcon">
+            <i *ngIf="confirmPasswordToggle" class='bx bx-show' (click)="toggleConfirmPasswordVisibility()"></i>
+            <i *ngIf="!confirmPasswordToggle" class='bx bx-hide' (click)="toggleConfirmPasswordVisibility()"></i>
+        </div>
+    </div>
+
+    <div class="rectangle4"></div>
+    <button type="submit" class="register">Register</button>
+
 </form>
+
+<div class="yesIHaveAnAccountLogin">
+    <p class="labelWrapper">
+        <span class="label">Yes i have an account?</span>
+        <a href="login" class="label2">Login</a>
+        <span class="label3"></span>
+    </p>
+</div>
+
+<div class="rectangle6"></div>
+<div class="rectangle7"></div>
+<div class="pc-reg"></div>

@@ -106,12 +106,13 @@
 }
 
 .cards-container {
-    height: 100vh;
+    height: calc(100%);
     display: flex;
     flex-wrap: nowrap;
     justify-content: left;
     flex-direction: row;
     overflow-x: auto;
+    overflow-y: hidden;
 }
 
 /* Styles for devices with a maximum width of 576px (phones) */
