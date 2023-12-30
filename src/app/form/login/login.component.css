@@ -101,6 +101,11 @@ svg {
     background-color: #afb3ff00;
 }
 
+.rectangle3 input {
+    outline: none;
+    width: 90%;
+}
+
 .username {
     color: #000;
     font-size: 16px;

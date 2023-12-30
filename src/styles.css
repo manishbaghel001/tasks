@@ -1,17 +1,10 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
 body {
-    font-family: 'Arial', sans-serif;
-    width: 100vw;
-    height: 100vh;
-    background: #fff;
-    z-index: -1;
-    position: absolute;
-    transition: 0.3s;
-}
-
-.dark-mode {
-    background-color: #242424;
-}
-
-.light-mode {
-    background-color: #fff;
+    margin: 0;
+    color: #495057;
+    font-size: 14px;
 }

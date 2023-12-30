@@ -1,17 +1,26 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { AppConfig } from 'src/app/config';
+import { Observable } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
-export class CardService {
+export class TasksService {
 
   constructor(
-    private http: HttpClient) { }
+    private http: HttpClient
+  ) { }
 
-  apiTodo = AppConfig.apiUrl + '/api/todos/';
+  apiMode = AppConfig.apiUrl + '/api/mode/';
   apiTasks = AppConfig.apiUrl + '/api/tasks/';
+  apiTodo = AppConfig.apiUrl + '/api/todos/';
+
+  //Mode APIs
+
+  updateMode(mode: String, uid): Observable<any> {
+    return this.http.patch(this.apiMode + uid, { mode: mode })
+  }
 
   // Todo APIs
 
@@ -24,6 +33,7 @@ export class CardService {
   }
 
   // Tasks APIs
+
   getTasks(uid) {
     return this.http.get(this.apiTasks + uid)
   }
@@ -37,3 +47,4 @@ export class CardService {
   }
 
 }
+

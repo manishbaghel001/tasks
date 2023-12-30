@@ -202,6 +202,16 @@ svg {
     flex-direction: column;
 }
 
+.rectangle3 input {
+    outline: none;
+    width: 90%;
+}
+
+.rectangle8 input {
+    outline: none;
+    width: 90%;
+}
+
 .password {
     color: #000;
     font-size: 16px;

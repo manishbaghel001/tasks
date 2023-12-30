@@ -1,0 +1,522 @@
+:host ::ng-deep .header .p-menubar {
+    padding: 0.5rem;
+    background: #fff;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    height: 45px;
+}
+
+:host ::ng-deep .header-dark .p-menubar {
+    padding: 0.5rem;
+    background: #6c6c6c;
+    color: #fff;
+    border: 1px solid #2e2e2e;
+    border-radius: 6px;
+    height: 45px;
+}
+
+.searchIconBox {
+    margin-left: 285px;
+}
+
+.taskBoradIcon-dark {
+    height: 20px;
+}
+
+.taskBoradIcon {
+    height: 20px;
+}
+
+.searchIcon {
+    font-size: 14px;
+    margin-top: -6px;
+}
+
+.modeIcon {
+    margin-right: 20px;
+    padding: 6px;
+    border-radius: 8px;
+}
+
+.modeIcon:hover {
+    background-color: grey;
+    opacity: 0.5;
+    transition: 0.3s;
+}
+
+.search {
+    width: 450px;
+    height: 35px;
+    background-color: #dee2e6;
+    background: rgb(241, 243, 244);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    max-width: 500px;
+}
+
+.label_toggle {
+    margin-right: 25px;
+    margin-top: 10px;
+    width: 50px;
+    height: 20px;
+    position: relative;
+    display: block;
+    background: #ebebeb;
+    border-radius: 200px;
+    box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4), inset 0px -5px 15px rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+}
+
+.label_toggle:after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    background: linear-gradient(180deg, #ffcc89, #d39f51);
+    border-radius: 180px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.input_toggle {
+    width: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+.input_toggle:checked+.label_toggle {
+    background: #242424;
+}
+
+.input_toggle:checked+.label_toggle:after {
+    left: 50px;
+    transform: translateX(-100%);
+    background: linear-gradient(180deg, #777, #3a3a3a);
+}
+
+.label_toggle,
+.label_toggle:after {
+    transition: 0.3s
+}
+
+.label_toggle:active:after {
+    width: 50px;
+}
+
+.label_toggle svg {
+    position: absolute;
+    width: 13px;
+    top: 3px;
+    z-index: 100;
+}
+
+.label_toggle svg.sun {
+    left: 3px;
+    fill: #fff;
+    transition: 0.3s;
+}
+
+.label_toggle svg.moon {
+    left: 33px;
+    fill: #7e7e7e;
+    transition: 0.3s;
+}
+
+.input_toggle:checked+.label_toggle svg.sun {
+    fill: #7e7e7e;
+}
+
+.input_toggle:checked+.label_toggle svg.moon {
+    fill: #fff;
+}
+
+/* Profile Icon */
+
+.profile-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-options {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.profile-options ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-options li {
+    padding: 10px;
+}
+
+.profile-options a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+}
+
+.profile-options a:hover {
+    background-color: #f0f0f0;
+}
+
+.bxs-face {
+    font-size: xx-large;
+}
+
+
+/* Card */
+
+.custom-input-container {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 270px;
+}
+
+.custom-input-container input {
+    margin-right: 5px;
+}
+
+.ellipse {
+    color: #495057
+}
+
+.ellipse-dark {
+    color: #fff
+}
+
+.card {
+    padding: 10px;
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    height: auto;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 270px;
+    max-width: 800px;
+    max-height: calc(100vh - 114px);
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(169, 174, 183, 0.5) 0px 1px 2px 0px;
+    border-radius: 8px;
+    margin: 10px;
+    overflow: auto;
+    border: solid 1px #fff;
+    cursor: default !important;
+}
+
+.add-new-todo-card {
+    border-radius: 8px;
+    margin: 10px;
+    display: flex;
+    flex-shrink: 0;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    min-height: 52px;
+    height: 45px;
+    width: 270px;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    color: rgb(115, 121, 125);
+    backdrop-filter: blur(5px);
+}
+
+.add-new-todo-card-dark {
+    border-radius: 8px;
+    margin: 10px;
+    display: flex;
+    flex-shrink: 0;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    min-height: 52px;
+    height: 45px;
+    width: 270px;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 15px;
+    background: #fff;
+    color: rgb(115, 121, 125);
+    backdrop-filter: blur(5px);
+}
+
+.list-label {
+    font-size: 14px;
+    margin-top: 16px;
+    padding: 19px 50px;
+}
+
+.main-panel {
+    display: flex;
+}
+
+.main-header-dark {
+    background-color: #242424;
+}
+
+.main-header {
+    background-color: rgb(246, 248, 249);
+}
+
+.main-card {
+    background-color: rgb(246, 248, 249);
+    height: calc(100vh - 45px);
+}
+
+.main-card-dark {
+    background-color: #242424;
+    height: calc(100vh - 45px);
+}
+
+:host ::ng-deep .checkbox-icon .p-checkbox .p-checkbox-box {
+    border: 2px solid #ced4da;
+    background: #ffffff;
+    width: 18px;
+    height: 18px;
+    color: #727272;
+    margin-top: 3px;
+    border-radius: 10px;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.toggle-button {
+    border: none;
+    color: #727272;
+    background-color: transparent;
+    font-size: small;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.completed-button {
+    font-size: 16;
+    margin-top: 2px;
+    color: #727272;
+    margin-right: 140px;
+}
+
+.list-container {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 7px;
+}
+
+.check {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+    margin-left: 5px;
+}
+
+.check-icon {
+    display: flex;
+    align-items: center;
+}
+
+.checkIncompleted {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.delete-button {
+    margin-left: 10px;
+    border: none;
+    background-color: transparent;
+    font-size: large;
+    display: flex;
+    align-items: center;
+}
+
+.cards-container {
+    height: calc(100%);
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: left;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-left: 5px;
+}
+
+/* Styles for devices with a maximum width of 576px (phones) */
+@media (max-width: 576px) {
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: left;
+        flex-direction: row;
+    }
+}
+
+.add_Task {
+    height: 50px;
+    width: 270px;
+    font-size: 14px;
+}
+
+.add_Todo {
+    margin-bottom: 13px;
+    width: 240px;
+    height: 30px;
+}
+
+.main-board {
+    font-size: 18px;
+    color: #727272
+}
+
+.main-board-dark {
+    font-size: 18px;
+    color: #fff
+}
+
+.todoCompleted {
+    overflow: auto;
+}
+
+.todoIncompleted {
+    overflow: auto;
+    margin-bottom: 7px;
+}
+
+.add-button {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    color: #727272;
+}
+
+.add-icon {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    color: rgb(63, 63, 209);
+}
+
+.active-button {
+    color: rgb(63, 63, 209);
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.ellipse-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.add-todo {
+    background-color: transparent;
+    border: none;
+}
+
+.add-todo-icon {
+    color: white;
+    margin-top: 2px;
+    margin-left: 2px;
+}
+
+.add-todo-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 15px;
+    padding-top: 5px;
+}
+
+.add-todo-text {
+    margin-right: 10px;
+}
+
+.plusIcon {
+    font-size: 15px;
+    color: #3498db;
+    margin-right: 8px;
+    margin-top: -7px;
+}
+
+.ellipse {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.check label,
+.checkIncompleted label {
+    color: #727272;
+}
+
+.taskLabel {
+    font-size: large;
+    color: #727272;
+}
+
+.p-card-content {
+    padding: 0;
+    margin: 0;
+}
+
+.menu-items {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #727272;
+}
+
+.menu-items i {
+    margin-right: 4px;
+    color: #727272;
+}
+
+.vertical-ellipse-button {
+    margin-top: 6px;
+    margin-left: 2.5px;
+    color: #727272;
+    font-size: 20px;
+}
+
+.bxs-plus-circle {
+    color: #727272;
+    font-size: 30px;
+}

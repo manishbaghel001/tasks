@@ -1,40 +1,53 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { CardService } from './service/card.service';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
-import { TasksModel } from './models/tasks';
+import { TasksService } from './service/tasks.service';
 import { TodosModel } from './models/todos';
+import { TasksModel } from './models/tasks';
+
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.css']
+  selector: 'app-tasks',
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.css']
 })
-export class CardComponent implements OnInit {
-  @Input() userData: any;
+
+export class TasksComponent implements OnInit {
+
   constructor(
-    private cardService: CardService,
+    private tasksService: TasksService,
     private authService: AuthService
   ) { }
 
   forkSub: Subscription;
+  menuOpen: boolean = false;
+  errorMsg = "API failing"
+  showProfileOptions: boolean = false;
+  email: string;
+  password: string;
+  userData: any;
+  photoURL: string;
+  searchValue: string;
+
   addedTask: string = '';
   addedTodo: string = ''
   isCompletedListOpen: Array<string> = [];
   isAddTodo: string = '';
-  todos: any;
+  todos: any = [];
   addTasksInput: boolean = false
   isMenuOpen: string = '';
   editTaskLabel: string;
   taskLabelName: string;
-  tasks: any;
+  tasks: any = [];
   completedTodosCountObj: object;
   uid: any;
   tasksModel: TasksModel;
   todosModel: TodosModel;
+  mode: boolean = false;
 
   ngOnInit() {
     this.authService.getUser().subscribe((user) => {
       if (user) {
+        this.photoURL = user['photoURL'];
         if (user['uid'] && user['uid'] != '' && user['uid'] != null) {
           this.uid = user['uid'];
           this.getLatestTasks(user['uid'])
@@ -43,10 +56,45 @@ export class CardComponent implements OnInit {
     })
   }
 
+  onEnterSearch() {
+    console.log(this.searchValue, "klklklkl");
+
+  }
+
   ngafterviewinit() {
     if (this.forkSub) {
       this.forkSub.unsubscribe;
     }
+  }
+
+  darkMode() {
+    if (!this.mode) {
+      this.mode = true;
+      this.tasksService.updateMode('dark', this.uid).subscribe((res) => {
+      })
+    } else {
+      this.mode = false;
+      this.tasksService.updateMode('light', this.uid).subscribe((res) => {
+      })
+    }
+  }
+
+  toggleProfileOptions() {
+    this.showProfileOptions = !this.showProfileOptions;
+  }
+
+  deleteAccount() {
+    this.authService.deleteCurrentUser()
+  }
+
+  logout() {
+    this.authService.signOut()
+  }
+
+  // Card
+
+  editBoard() {
+
   }
 
   completedTodosCount(todos) {
@@ -64,16 +112,24 @@ export class CardComponent implements OnInit {
   }
 
   getLatestTasks(uid) {
-    this.cardService.getTasks(uid).subscribe((res) => {
-      this.tasks = res[0]['tasks'];
-      this.todos = res[0]['todos']
-      this.completedTodosCountObj = this.completedTodosCount(this.todos)
+    this.tasksService.getTasks(uid).subscribe((res) => {
+      if (res[0]['todos']) {
+        this.tasks = res[0]['tasks'];
+        this.todos = res[0]['todos'];
+        this.completedTodosCountObj = this.completedTodosCount(this.todos);
+        this.mode = res[0]['mode'] == 'dark' ? true : false;
+      }
     })
   }
 
   //Add Icon Actions
   addTasksIcon() {
-    this.addTasksInput = !this.addTasksInput
+    this.addTasksInput = true
+    this.addedTask = "";
+  }
+
+  plusIconBtn() {
+    this.addTasksInput = false
     this.addedTask = "";
   }
 
@@ -81,9 +137,10 @@ export class CardComponent implements OnInit {
     if (this.addedTask != '') {
       this.tasksModel = new TasksModel()
       this.tasksModel.setModel(undefined, this.addedTask)
-      this.cardService.createTasks(this.tasksModel, this.uid).subscribe((res) => {
+      this.tasksService.createTasks(this.tasksModel, this.uid).subscribe((res) => {
         this.getLatestTasks(this.uid);
         this.addedTask = ''
+        this.addTasksInput = false
       })
     } else {
       alert("Please enter name of task")
@@ -94,7 +151,7 @@ export class CardComponent implements OnInit {
     if (this.editTaskLabel != '') {
       this.tasksModel = new TasksModel();
       this.tasksModel.setModel(taskId, this.taskLabelName);
-      this.cardService.patchTasks(this.uid, this.tasksModel).subscribe((res) => {
+      this.tasksService.patchTasks(this.uid, this.tasksModel).subscribe((res) => {
         this.getLatestTasks(this.uid);
         this.editTaskLabel = ''
       })
@@ -114,7 +171,7 @@ export class CardComponent implements OnInit {
     if (item == 'delete') {
       this.tasksModel = new TasksModel();
       this.tasksModel.setModel(task['id'], task['name'], true)
-      this.cardService.patchTasks(this.uid, this.tasksModel).subscribe((res) => {
+      this.tasksService.patchTasks(this.uid, this.tasksModel).subscribe((res) => {
         this.isMenuOpen = "";
         this.getLatestTasks(this.uid);
       })
@@ -140,7 +197,7 @@ export class CardComponent implements OnInit {
     if (this.addedTodo != '') {
       this.todosModel = new TodosModel()
       this.todosModel.setModel(todoId, this.addedTodo)
-      this.cardService.createTodo(this.uid, this.todosModel).subscribe((res) => {
+      this.tasksService.createTodo(this.uid, this.todosModel).subscribe((res) => {
         this.getLatestTasks(this.uid);
         this.addedTodo = ''
       })
@@ -152,8 +209,8 @@ export class CardComponent implements OnInit {
   //Todo checkbox
   onCheckboxClick(todo: any) {
     this.todosModel = new TodosModel()
-    this.todosModel.setModel(todo['id'], todo['name'], true)
-    this.cardService.patchTodo(this.uid, this.todosModel).subscribe((res) => {
+    this.todosModel.setModel(todo['id'], todo['name'], true, todo['deleted'], todo['todoId'])
+    this.tasksService.patchTodo(this.uid, this.todosModel).subscribe((res) => {
       this.getLatestTasks(this.uid);
     })
   }
@@ -161,8 +218,8 @@ export class CardComponent implements OnInit {
   //Completed Tasks
   deleteCompleteList(todo: string) {
     this.todosModel = new TodosModel()
-    this.todosModel.setModel(todo['id'], todo['name'], undefined, true)
-    this.cardService.patchTodo(this.uid, this.todosModel).subscribe((res) => {
+    this.todosModel.setModel(todo['id'], todo['name'], todo['completed'], true, todo['todoId'])
+    this.tasksService.patchTodo(this.uid, this.todosModel).subscribe((res) => {
       this.getLatestTasks(this.uid);
     })
   }
