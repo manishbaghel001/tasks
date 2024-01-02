@@ -4,7 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { TasksService } from './service/tasks.service';
 import { TodosModel } from './models/todos';
 import { TasksModel } from './models/tasks';
-
+import { cloneDeep } from 'lodash';
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
@@ -33,16 +33,23 @@ export class TasksComponent implements OnInit {
   isCompletedListOpen: Array<string> = [];
   isAddTodo: string = '';
   todos: any = [];
+  todosFix: any = [];
+  tasksFix: any = []
   addTasksInput: boolean = false
   isMenuOpen: string = '';
   editTaskLabel: string;
   taskLabelName: string;
+  mainBoardName: string;
   tasks: any = [];
   completedTodosCountObj: object;
   uid: any;
   tasksModel: TasksModel;
   todosModel: TodosModel;
   mode: boolean = false;
+  checkHover: boolean = false;
+  hoverOnAddTask: boolean = false;
+  editMainBoard: boolean = false;
+  mainBoard: string = '';
 
   ngOnInit() {
     this.authService.getUser().subscribe((user) => {
@@ -56,9 +63,18 @@ export class TasksComponent implements OnInit {
     })
   }
 
-  onEnterSearch() {
-    console.log(this.searchValue, "klklklkl");
+  hoverOnAddTaskMtd(task) {
+    task['sty'] = true
+  }
 
+  hoverOnAddTaskMtd1(task) {
+    task['sty'] = false
+  }
+
+  onEnterSearch() {
+    this.todos = this.todosFix.filter(todo => todo.name.toLowerCase().includes(this.searchValue.toLowerCase()));
+    const filteredIds = this.todos.map(todo => todo.id);
+    this.tasks = this.tasksFix.filter(task => filteredIds.includes(task.id));
   }
 
   ngafterviewinit() {
@@ -70,11 +86,11 @@ export class TasksComponent implements OnInit {
   darkMode() {
     if (!this.mode) {
       this.mode = true;
-      this.tasksService.updateMode('dark', this.uid).subscribe((res) => {
+      this.tasksService.updateMode({ mode: 'dark' }, this.uid).subscribe((res) => {
       })
     } else {
       this.mode = false;
-      this.tasksService.updateMode('light', this.uid).subscribe((res) => {
+      this.tasksService.updateMode({ mode: 'light' }, this.uid).subscribe((res) => {
       })
     }
   }
@@ -83,9 +99,15 @@ export class TasksComponent implements OnInit {
     this.showProfileOptions = !this.showProfileOptions;
   }
 
-  deleteAccount() {
-    this.authService.deleteCurrentUser()
+  switchAccount() {
+    this.authService.singInWithGoogle()
+    // this.authService.deleteCurrentUser()
+
   }
+
+  // deleteAccount() {
+  //   this.authService.deleteCurrentUser()
+  // }
 
   logout() {
     this.authService.signOut()
@@ -94,7 +116,15 @@ export class TasksComponent implements OnInit {
   // Card
 
   editBoard() {
+    this.editMainBoard = true;
+    this.mainBoardName = this.mainBoard
+  }
 
+  onEnterMainBoard() {
+    this.tasksService.updateMode({ mainBoard: this.mainBoardName }, this.uid).subscribe((res) => {
+      this.editMainBoard = false;
+      this.getLatestTasks(this.uid);
+    })
   }
 
   completedTodosCount(todos) {
@@ -116,8 +146,11 @@ export class TasksComponent implements OnInit {
       if (res[0]['todos']) {
         this.tasks = res[0]['tasks'];
         this.todos = res[0]['todos'];
+        this.todosFix = cloneDeep(this.todos);
+        this.tasksFix = cloneDeep(this.tasks);
         this.completedTodosCountObj = this.completedTodosCount(this.todos);
         this.mode = res[0]['mode'] == 'dark' ? true : false;
+        this.mainBoard = res[0]['mainBoard']
       }
     })
   }

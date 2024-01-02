@@ -6,7 +6,7 @@
             <span class="p-input-icon-left searchIconBox">
                 <i class="pi pi-search searchIcon"></i>
                 <input class="search" type="text" pInputText placeholder="Search" [(ngModel)]="searchValue"
-                    (keyup.enter)="onEnterSearch()" />
+                    (input)="onEnterSearch()" />
             </span>
         </ng-template>
 
@@ -16,10 +16,12 @@
                 <i *ngIf="mode" class="pi pi-moon modeIcon" (click)="darkMode()"></i>
 
                 <p-overlayPanel #op2>
-                    <button class="menu-items" (click)="logout()">
-                        Logout</button>
-                    <button class="menu-items" (click)="deleteAccount()">
-                        Delete account</button>
+                    <span class="menu-items" (click)="logout()">
+                        <i class="pi pi-sign-out mr-3"></i>
+                        Sign Out</span>
+                    <span class="menu-items" (click)="switchAccount()">
+                        <i class="pi pi-user mr-3"></i>
+                        Switch Account</span>
                 </p-overlayPanel>
 
                 <i *ngIf="photoURL==null" (click)="op2.toggle($event)" class="pi pi-user"></i>
@@ -33,11 +35,16 @@
 <div [ngClass]="mode ? 'main-card-dark': 'main-card'">
 
     <div class="add-todo-action">
-        <span [ngClass]="mode ? 'main-board-dark' : 'main-board'">Main Board</span>
+        <span *ngIf="!editMainBoard" [ngClass]="mode ? 'main-board-dark' : 'main-board'">{{mainBoard}}</span>
+        <div *ngIf="editMainBoard">
+            <input type="text" pInputText class="edit_Task" [(ngModel)]="mainBoardName"
+                (keyup.enter)="onEnterMainBoard()">
+        </div>
         <div class="add-todo-text">
             <p-overlayPanel #op1>
-                <button class="menu-items" (click)="editBoard()">
-                    Edit Board</button>
+                <span class="menu-items" (click)="editBoard()">
+                    <i class="pi pi-pencil"></i>
+                    Edit Board</span>
             </p-overlayPanel>
             <i (click)="op1.toggle($event)" class="pi pi-ellipsis-v" [ngClass]="mode ? 'ellipse-dark':'ellipse'"></i>
         </div>
@@ -57,30 +64,29 @@
                             </label>
 
                             <div *ngIf="editTaskLabel===task['id']">
-                                <input type="text" class="edit_Task" [(ngModel)]="taskLabelName"
+                                <input type="text" pInputText class="edit_Task" [(ngModel)]="taskLabelName"
                                     (keyup.enter)="onEnterCardLabel(task['id'])">
                             </div>
 
                             <div class="ellipse-card">
                                 <p-overlayPanel #op>
-                                    <button class="menu-items" (click)="menuItemClicked('delete', task)">
+                                    <span class="menu-items" (click)="menuItemClicked('delete', task)">
                                         <i class="pi pi-trash"></i>
-                                        Delete</button>
-                                    <button class="menu-items" (click)="menuItemClicked('edit',task)">
+                                        Delete</span>
+                                    <span class="menu-items" (click)="menuItemClicked('edit',task)">
                                         <i class="pi pi-file-edit"></i>
-                                        Edit</button>
+                                        Edit</span>
                                 </p-overlayPanel>
 
                                 <i (click)="op.toggle($event)" class="pi pi-ellipsis-v" style="color: #495057"></i>
                             </div>
                         </div>
 
-                        <button class="mb-2" id="add-button-click"
-                            [ngClass]="isAddTodo===task['id'] ? 'active-button' : 'add-button'"
-                            (click)="addTodo(task['id'])">
-                            <i class="pi pi-plus mr-2"
-                                [ngClass]="isAddTodo===task['id'] ? 'active-button' : 'add-icon'"></i>
-                            Add Task</button>
+                        <div (mouseover)="hoverOnAddTaskMtd(task)" (mouseout)="hoverOnAddTaskMtd1(task)"
+                            class="mb-2 add-button" (click)="addTodo(task['id'])">
+                            <i [ngClass]="task['sty'] ? 'add-icon-hover':'add-icon'" class="pi pi-plus"></i>
+                            Add Task
+                        </div>
 
                         <div class="todoIncompleted">
                             <input *ngIf="isAddTodo===task['id']" type="text" class="add_Todo" [(ngModel)]="addedTodo"
@@ -89,8 +95,11 @@
 
                                 <div class="checkIncompleted"
                                     *ngIf="!todo['deleted'] && !todo['completed'] && todo['id']===task['id']">
-                                    <p-checkbox class="checkbox-icon" (click)="onCheckboxClick(todo)"
-                                        [inputId]="todo.key"></p-checkbox>
+                                    <p-checkbox *ngIf="!checkHover" (mouseover)="checkHover=false"
+                                        (mouseout)="checkHover=true" class="checkbox-icon"
+                                        (click)="onCheckboxClick(todo)" [inputId]="todo.key"></p-checkbox>
+                                    <i *ngIf="checkHover" class="pi pi-check checkHoverIcon"
+                                        (mouseover)="checkHover=true" (mouseout)="checkHover=false"></i>
                                     <label [for]="todo.key" class="ml-2 mb-0">{{ todo.name }}</label>
                                 </div>
 
@@ -114,7 +123,7 @@
                                 <div class="check"
                                     *ngIf="!todo['deleted'] && todo['completed'] && todo['id']===task['id']">
                                     <div class="check-icon">
-                                        <i class="pi pi-check" style="font-size: 0.8rem; color: blue;"></i>
+                                        <i class="pi pi-check" style="font-size: 0.8rem; color: rgb(66, 133, 244);"></i>
                                         <label class="ml-2 mb-0">{{ todo.name }}</label>
                                     </div>
 
@@ -145,5 +154,6 @@
                 </span>
             </div>
         </div>
+
     </div>
 </div>

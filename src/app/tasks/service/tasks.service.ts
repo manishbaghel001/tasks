@@ -18,8 +18,8 @@ export class TasksService {
 
   //Mode APIs
 
-  updateMode(mode: String, uid): Observable<any> {
-    return this.http.patch(this.apiMode + uid, { mode: mode })
+  updateMode(body, uid): Observable<any> {
+    return this.http.patch(this.apiMode + uid, body)
   }
 
   // Todo APIs

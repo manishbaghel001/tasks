@@ -1,0 +1,47 @@
+{
+    "uid": "UkUdZoKaM9WYayLrl4kvUQuBNgu1",
+    "mode": "light",
+    "mainBoard": "Main Board",
+    "tasks": [
+        {
+            "name": "JavaScript",
+            "id": "6858732b-01d3-417e-9387-06aed5a18ab0",
+            "deleted": false
+        },
+        {
+            "name": "Samsung",
+            "id": "6858732b-01d3-445e-9387-06aed5a18ab0",
+            "deleted": false
+        }
+    ],
+    "todos": [
+        {
+            "name": "Java",
+            "id": "6858732b-01d3-417e-9387-06aed5a18ab0",
+            "todoId": "a1b53ae4-fd26-42c0-ad92-629cbb3e4e62",
+            "completed": false,
+            "deleted": false
+        },
+        {
+            "name": "Heard",
+            "id": "6858732b-01d3-417e-9387-06aed5a18ab0",
+            "todoId": "c0aa54b2-abf2-4cf9-9e5a-0b99880aad4b",
+            "completed": false,
+            "deleted": false
+        },
+        {
+            "name": "Possible",
+            "id": "6858732b-01d3-417e-9387-06aed5a18ab0",
+            "todoId": "38cc521c-58d4-40eb-bfe6-ef8a9bc91a53",
+            "completed": true,
+            "deleted": false
+        },
+        {
+            "name": "Time",
+            "id": "6858732b-01d3-445e-9387-06aed5a18ab0",
+            "todoId": "38cc521c-58d4-4uib-bfe6-ef8a9bc91a53",
+            "completed": true,
+            "deleted": false
+        }
+    ]
+}

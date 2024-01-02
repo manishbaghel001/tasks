@@ -271,10 +271,6 @@
     padding: 19px 50px;
 }
 
-.main-panel {
-    display: flex;
-}
-
 .main-header-dark {
     background-color: #242424;
 }
@@ -329,14 +325,27 @@
     margin-bottom: 7px;
 }
 
+.checkHoverIcon {
+    font-size: 13px;
+    color: rgb(66, 133, 244);
+}
+
 .check {
     display: flex;
     list-style: none;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 0;
+    padding: 8px;
     margin-left: 5px;
+    transition: box-shadow 0.3s, transform 0.3s;
 }
+
+.check:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+}
+
+
 
 .check-icon {
     display: flex;
@@ -347,6 +356,12 @@
     display: flex;
     align-items: center;
     padding: 5px 0;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.checkIncompleted:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
 }
 
 .delete-button {
@@ -356,6 +371,10 @@
     font-size: large;
     display: flex;
     align-items: center;
+}
+
+.main-panel {
+    display: flex;
 }
 
 .cards-container {
@@ -410,35 +429,35 @@
     margin-bottom: 7px;
 }
 
+.add-button:hover {
+    color: rgb(66, 133, 244);
+}
+
 .add-button {
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    color: #727272;
+    color: grey;
 }
 
 .add-icon {
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    color: rgb(63, 63, 209);
+    color: rgb(66, 133, 244);
+    font-size: 12px;
+    padding: 3px;
+    margin-right: 8px;
 }
 
-.active-button {
-    color: rgb(63, 63, 209);
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
+.add-icon-hover {
+    margin-right: 10px;
+    font-size: 10px;
+    padding: 3px;
+    color: #fff;
+    background-color: rgb(66, 133, 244);
+    border-radius: 50px;
 }
 
 .ellipse-button {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #3498db;
+    background-color: rgb(66, 133, 244);
     color: #fff;
     border: none;
     cursor: pointer;
@@ -469,7 +488,7 @@
 
 .plusIcon {
     font-size: 15px;
-    color: #3498db;
+    color: rgb(66, 133, 244);
     margin-right: 8px;
     margin-top: -7px;
 }
@@ -502,10 +521,19 @@
     display: flex;
     align-items: center;
     color: #727272;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.edit_Task {
+    height: 30px;
+    width: 220px;
+    margin-bottom: 8px;
 }
 
 .menu-items i {
-    margin-right: 4px;
+    margin-right: 3px;
+    font-size: 13px;
     color: #727272;
 }
 
