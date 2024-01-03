@@ -1,35 +1,36 @@
 <div [ngClass]="mode ? 'main-header-dark' : 'main-header'">
-    <p-menubar [ngClass]="mode ? 'header-dark': 'header'">
-        <ng-template pTemplate="start">
-            <i class="pi pi-th-large mt-2"></i>
-            <span class="ml-2 mr-8">TasksBoard</span>
+    <div [ngClass]="mode ? 'header-dark': 'header'">
+        <div>
+            <i class="pi pi-th-large"></i>
+            <span class="ml-2 tasksBoard">TasksBoard</span>
+        </div>
+
+        <div>
             <span class="p-input-icon-left searchIconBox">
                 <i class="pi pi-search searchIcon"></i>
                 <input class="search" type="text" pInputText placeholder="Search" [(ngModel)]="searchValue"
                     (input)="onEnterSearch()" />
             </span>
-        </ng-template>
+        </div>
 
-        <ng-template pTemplate="end">
-            <div class="profile">
-                <i *ngIf="!mode" class="pi pi-sun modeIcon" (click)="darkMode()"></i>
-                <i *ngIf="mode" class="pi pi-moon modeIcon" (click)="darkMode()"></i>
+        <div class="profile">
+            <i *ngIf="!mode" class="pi pi-sun modeIcon" (click)="darkMode()"></i>
+            <i *ngIf="mode" class="pi pi-moon modeIcon" (click)="darkMode()"></i>
 
-                <p-overlayPanel #op2>
-                    <span class="menu-items" (click)="logout()">
-                        <i class="pi pi-sign-out mr-3"></i>
-                        Sign Out</span>
-                    <span class="menu-items" (click)="switchAccount()">
-                        <i class="pi pi-user mr-3"></i>
-                        Switch Account</span>
-                </p-overlayPanel>
+            <p-overlayPanel #op2>
+                <span class="menu-items" (click)="logout()">
+                    <i class="pi pi-sign-out mr-3"></i>
+                    Sign Out</span>
+                <span class="menu-items" (click)="switchAccount()">
+                    <i class="pi pi-user mr-3"></i>
+                    Switch Account</span>
+            </p-overlayPanel>
 
-                <i *ngIf="photoURL==null" (click)="op2.toggle($event)" class="pi pi-user"></i>
-                <img *ngIf="photoURL!=null" class="profile-img" (click)="op2.toggle($event)" [src]="photoURL"
-                    alt="Profile Icon">
-            </div>
-        </ng-template>
-    </p-menubar>
+            <i *ngIf="photoURL==null" (click)="op2.toggle($event)" class="pi pi-user"></i>
+            <img *ngIf="photoURL!=null" class="profile-img" (click)="op2.toggle($event)" [src]="photoURL"
+                alt="Profile Icon">
+        </div>
+    </div>
 </div>
 
 <div [ngClass]="mode ? 'main-card-dark': 'main-card'">
@@ -50,96 +51,92 @@
         </div>
     </div>
 
-    <div class="main-panel">
+    <div *ngIf="tasks && tasks.length>0" class="cards-container">
+        <div *ngFor="let task of tasks" class="first">
+            <div *ngIf="!task['deleted']">
 
-        <div *ngIf="tasks && tasks.length>0" class="cards-container">
-            <div *ngFor="let task of tasks">
-                <div *ngIf="!task['deleted']">
+                <div class="card">
 
-                    <div class="card">
+                    <div class="ellipse">
+                        <label class="taskLabel" *ngIf="editTaskLabel!=task['id']">
+                            {{task.name}}
+                        </label>
 
-                        <div class="ellipse">
-                            <label class="taskLabel" *ngIf="editTaskLabel!=task['id']">
-                                {{task.name}}
-                            </label>
-
-                            <div *ngIf="editTaskLabel===task['id']">
-                                <input type="text" pInputText class="edit_Task" [(ngModel)]="taskLabelName"
-                                    (keyup.enter)="onEnterCardLabel(task['id'])">
-                            </div>
-
-                            <div class="ellipse-card">
-                                <p-overlayPanel #op>
-                                    <span class="menu-items" (click)="menuItemClicked('delete', task)">
-                                        <i class="pi pi-trash"></i>
-                                        Delete</span>
-                                    <span class="menu-items" (click)="menuItemClicked('edit',task)">
-                                        <i class="pi pi-file-edit"></i>
-                                        Edit</span>
-                                </p-overlayPanel>
-
-                                <i (click)="op.toggle($event)" class="pi pi-ellipsis-v" style="color: #495057"></i>
-                            </div>
+                        <div *ngIf="editTaskLabel===task['id']">
+                            <input type="text" pInputText class="edit_Task" [(ngModel)]="taskLabelName"
+                                (keyup.enter)="onEnterCardLabel(task['id'])">
                         </div>
 
-                        <div (mouseover)="hoverOnAddTaskMtd(task)" (mouseout)="hoverOnAddTaskMtd1(task)"
-                            class="mb-2 add-button" (click)="addTodo(task['id'])">
-                            <i [ngClass]="task['sty'] ? 'add-icon-hover':'add-icon'" class="pi pi-plus"></i>
-                            Add Task
+                        <div class="ellipse-card">
+                            <p-overlayPanel #op>
+                                <span class="menu-items" (click)="menuItemClicked('delete', task)">
+                                    <i class="pi pi-trash"></i>
+                                    Delete</span>
+                                <span class="menu-items" (click)="menuItemClicked('edit',task)">
+                                    <i class="pi pi-file-edit"></i>
+                                    Edit</span>
+                            </p-overlayPanel>
+
+                            <i (click)="op.toggle($event)" class="pi pi-ellipsis-v" style="color: #495057"></i>
                         </div>
-
-                        <div class="todoIncompleted">
-                            <input *ngIf="isAddTodo===task['id']" type="text" class="add_Todo" [(ngModel)]="addedTodo"
-                                pInputText (keyup.enter)="onEnterTodo(task['id'])">
-                            <div *ngFor="let todo of todos" class="field-checkbox">
-
-                                <div class="checkIncompleted"
-                                    *ngIf="!todo['deleted'] && !todo['completed'] && todo['id']===task['id']">
-                                    <p-checkbox *ngIf="!checkHover" (mouseover)="checkHover=false"
-                                        (mouseout)="checkHover=true" class="checkbox-icon"
-                                        (click)="onCheckboxClick(todo)" [inputId]="todo.key"></p-checkbox>
-                                    <i *ngIf="checkHover" class="pi pi-check checkHoverIcon"
-                                        (mouseover)="checkHover=true" (mouseout)="checkHover=false"></i>
-                                    <label [for]="todo.key" class="ml-2 mb-0">{{ todo.name }}</label>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                        <div *ngIf="completedTodosCountObj && !completedTodosCountObj.hasOwnProperty(task['id'])">
-                            <span class="completed-button">Completed</span>
-                        </div>
-                        <div *ngIf="completedTodosCountObj && completedTodosCountObj[task['id']] && completedTodosCountObj[task['id']]!=0"
-                            class="list-container">
-                            <span class="completed-button">Completed({{completedTodosCountObj[task['id']]}})</span>
-                            <button class="toggle-button" type="button" (click)="toggleForCompletedList(task['id'])"
-                                [textContent]="isCompletedListOpen.includes(task['id']) ? 'Λ' : 'V'"></button>
-                        </div>
-
-                        <div class="todoCompleted" *ngIf="isCompletedListOpen.includes(task['id'])">
-                            <div *ngFor="let todo of todos" class="field-checkbox">
-
-                                <div class="check"
-                                    *ngIf="!todo['deleted'] && todo['completed'] && todo['id']===task['id']">
-                                    <div class="check-icon">
-                                        <i class="pi pi-check" style="font-size: 0.8rem; color: rgb(66, 133, 244);"></i>
-                                        <label class="ml-2 mb-0">{{ todo.name }}</label>
-                                    </div>
-
-                                    <button *ngIf="!todo['deleted'] && todo['completed'] && todo['id']===task['id']"
-                                        class="delete-button" type="button" (click)="deleteCompleteList(todo)">
-                                        <i class="pi pi-trash" style="color: #495057"></i>
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-
                     </div>
-                </div>
 
+                    <div (mouseover)="hoverOnAddTaskMtd(task)" (mouseout)="hoverOnAddTaskMtd1(task)"
+                        class="mb-2 add-button" (click)="addTodo(task['id'])">
+                        <i [ngClass]="task['sty'] ? 'add-icon-hover':'add-icon'" class="pi pi-plus"></i>
+                        Add Task
+                    </div>
+
+                    <div class="todoIncompleted">
+                        <input *ngIf="isAddTodo===task['id']" type="text" class="add_Todo" [(ngModel)]="addedTodo"
+                            pInputText (keyup.enter)="onEnterTodo(task['id'])">
+                        <div *ngFor="let todo of todos" class="field-checkbox">
+
+                            <div class="checkIncompleted"
+                                *ngIf="!todo['deleted'] && !todo['completed'] && todo['id']===task['id']">
+                                <p-checkbox *ngIf="!checkHover" (mouseover)="checkHover=false"
+                                    (mouseout)="checkHover=true" class="checkbox-icon" (click)="onCheckboxClick(todo)"
+                                    [inputId]="todo.key"></p-checkbox>
+                                <i *ngIf="checkHover" class="pi pi-check checkHoverIcon" (mouseover)="checkHover=true"
+                                    (mouseout)="checkHover=false"></i>
+                                <label [for]="todo.key" class="ml-2 mb-0">{{ todo.name }}</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="completedTodosCountObj && !completedTodosCountObj.hasOwnProperty(task['id'])">
+                        <span class="completed-button">Completed</span>
+                    </div>
+                    <div *ngIf="completedTodosCountObj && completedTodosCountObj[task['id']] && completedTodosCountObj[task['id']]!=0"
+                        class="list-container">
+                        <span class="completed-button">Completed({{completedTodosCountObj[task['id']]}})</span>
+                        <button class="toggle-button" type="button" (click)="toggleForCompletedList(task['id'])"
+                            [textContent]="isCompletedListOpen.includes(task['id']) ? 'Λ' : 'V'"></button>
+                    </div>
+
+                    <div class="todoCompleted" *ngIf="isCompletedListOpen.includes(task['id'])">
+                        <div *ngFor="let todo of todos" class="field-checkbox">
+
+                            <div class="check" *ngIf="!todo['deleted'] && todo['completed'] && todo['id']===task['id']">
+                                <div class="check-icon">
+                                    <i class="pi pi-check" style="font-size: 0.8rem; color: rgb(66, 133, 244);"></i>
+                                    <label class="ml-2 mb-0">{{ todo.name }}</label>
+                                </div>
+
+                                <button *ngIf="!todo['deleted'] && todo['completed'] && todo['id']===task['id']"
+                                    class="delete-button" type="button" (click)="deleteCompleteList(todo)">
+                                    <i class="pi pi-trash" style="color: #495057"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
         </div>
 
         <div [ngClass]="mode ? 'add-new-todo-card-dark': 'add-new-todo-card'">
@@ -154,6 +151,6 @@
                 </span>
             </div>
         </div>
-
     </div>
+
 </div>
