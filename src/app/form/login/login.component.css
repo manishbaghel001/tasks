@@ -51,7 +51,7 @@ svg {
     top: 0;
     width: 525px;
     height: 720px;
-    background-color: #afb3ff;
+    background-color: #228be62f;
 }
 
 .socialMediaIcons {
@@ -74,18 +74,18 @@ svg {
     left: 122px;
     top: 250px;
     width: 367px;
-    height: 34px;
+    height: 40px;
     padding-left: 1%;
-    outline: solid 1px #656ed3;
+    outline: solid 1px #3a3a3a;
     outline-offset: -1px;
-    border-radius: 50px;
+    border-radius: 5px;
     background-color: #afb3ff00;
 }
 
 .passwordIcon {
     position: absolute;
     left: 335px;
-    top: 9px;
+    top: 14px;
 }
 
 .rectangle3 {
@@ -93,11 +93,11 @@ svg {
     left: 122px;
     top: 326px;
     width: 367px;
-    height: 34px;
+    height: 40px;
     padding-left: 1%;
-    outline: solid 1px #656ed3;
+    outline: solid 1px #3a3a3a;
     outline-offset: -1px;
-    border-radius: 50px;
+    border-radius: 5px;
     background-color: #afb3ff00;
 }
 
@@ -177,7 +177,7 @@ svg {
 
 .welcomeBack {
     color: #1a1a1a;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
         'Liberation Sans', sans-serif;
@@ -195,9 +195,9 @@ svg {
     left: 124px;
     top: 420px;
     width: 365px;
-    height: 34px;
-    border-radius: 50px;
-    background-color: #656ed3;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #228be6;
 }
 
 .login {
@@ -208,7 +208,7 @@ svg {
         'Liberation Sans', sans-serif;
     position: absolute;
     left: 285px;
-    top: 424px;
+    top: 427px;
     width: min-content;
     height: min-content;
     white-space: nowrap;
@@ -237,7 +237,7 @@ svg {
     width: 596.734px;
     height: 141.396px;
     border-radius: 105.5304px;
-    background-color: #838cf1;
+    background-color: #228be690;
     transform: matrix(0.7535, -0.6574, 0.6574, 0.7535, 0, 0);
 }
 
@@ -249,7 +249,7 @@ svg {
     width: 553.7418px;
     height: 131.209px;
     border-radius: 105.5304px;
-    background-color: #afb3ff;
+    background-color: #2b3a4755;
     transform: matrix(0.7535, -0.6574, 0.6574, 0.7535, 0, 0);
 }
 

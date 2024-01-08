@@ -50,10 +50,10 @@ svg {
     left: 756px;
     top: 240px;
     width: 367px;
-    height: 34px;
-    outline: solid 1px #656ed3;
+    height: 40px;
+    outline: solid 1px #3a3a3a;
     outline-offset: -1px;
-    border-radius: 50px;
+    border-radius: 5px;
     background-color: #afb3ff00;
     padding-left: 1%;
 }
@@ -63,10 +63,10 @@ svg {
     left: 756px;
     top: 164px;
     width: 367px;
-    height: 34px;
-    outline: solid 1px #656ed3;
+    height: 40px;
+    outline: solid 1px #3a3a3a;
     outline-offset: -1px;
-    border-radius: 50px;
+    border-radius: 5px;
     background-color: #afb3ff00;
     padding-left: 1%;
 }
@@ -76,10 +76,10 @@ svg {
     left: 758px;
     top: 396px;
     width: 367px;
-    height: 34px;
-    outline: solid 1px #656ed3;
+    height: 40px;
+    outline: solid 1px #3a3a3a;
     outline-offset: -1px;
-    border-radius: 50px;
+    border-radius: 5px;
     background-color: #afb3ff00;
     padding-left: 1%;
 }
@@ -89,10 +89,10 @@ svg {
     left: 756px;
     top: 320px;
     width: 367px;
-    height: 34px;
-    outline: solid 1px #656ed3;
+    height: 40px;
+    outline: solid 1px #3a3a3a;
     outline-offset: -1px;
-    border-radius: 50px;
+    border-radius: 5px;
     background-color: #afb3ff00;
     padding-left: 1%;
 }
@@ -102,10 +102,10 @@ svg {
     left: 758px;
     top: 472px;
     width: 367px;
-    height: 34px;
-    outline: solid 1px #656ed3;
+    height: 40px;
+    outline: solid 1px #3a3a3a;
     outline-offset: -1px;
-    border-radius: 50px;
+    border-radius: 5px;
     background-color: #afb3ff00;
     padding-left: 1%;
 }
@@ -141,7 +141,7 @@ svg {
 .yesIHaveAnAccountLogin {
     position: absolute;
     left: 838px;
-    top: 590px;
+    top: 586px;
     width: min-content;
     height: min-content;
     white-space: nowrap;
@@ -180,11 +180,11 @@ svg {
 .rectangle4 {
     position: absolute;
     left: 760px;
-    top: 529px;
+    top: 532px;
     width: 365px;
-    height: 34px;
-    border-radius: 50px;
-    background-color: #656ed3;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #228be6;
 }
 
 .register {
@@ -195,7 +195,7 @@ svg {
         'Liberation Sans', sans-serif;
     position: absolute;
     left: 910px;
-    top: 533px;
+    top: 539px;
     width: min-content;
     height: min-content;
     white-space: nowrap;
@@ -262,7 +262,7 @@ svg {
     width: 635px;
     height: 377px;
     border-radius: 105.5304px;
-    background-color: #656ed3;
+    background-color: #228be690;
     transform: matrix(-0.1248, -0.9922, 0.9922, -0.1248, 0, 0);
 }
 
@@ -274,7 +274,7 @@ svg {
     width: 635px;
     height: 377px;
     border-radius: 105.5304px;
-    background-color: #afb3ff;
+    background-color: #228be61f;
     transform: matrix(0, -1, 1, 0, 0, 0);
 }
 
@@ -295,7 +295,7 @@ svg {
 
 .pleaseFillOutFormToRegister {
     color: #1a1a1a;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
         'Liberation Sans', sans-serif;
@@ -323,5 +323,5 @@ svg {
 .passwordIcon {
     position: absolute;
     left: 335px;
-    top: 9px;
+    top: 14px;
 }
