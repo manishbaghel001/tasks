@@ -49,11 +49,13 @@ export class TasksComponent implements OnInit {
   checkHover: boolean = false;
   hoverOnAddTask: boolean = false;
   editMainBoard: boolean = false;
-  mainBoard: string = '';
+  mainBoard: string = 'Main Board';
+  user: any;
 
   ngOnInit() {
     this.authService.getUser().subscribe((user) => {
       if (user) {
+        this.user = user;
         this.photoURL = user['photoURL'];
         if (user['uid'] && user['uid'] != '' && user['uid'] != null) {
           this.uid = user['uid'];

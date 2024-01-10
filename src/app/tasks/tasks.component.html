@@ -1,4 +1,4 @@
-<div [ngClass]="mode ? 'main-header-dark' : 'main-header'">
+<div *ngIf="user" [ngClass]="mode ? 'main-header-dark' : 'main-header'">
     <div [ngClass]="mode ? 'header-dark': 'header'">
         <div>
             <i class="pi pi-th-large"></i>
@@ -27,7 +27,7 @@
             </p-overlayPanel>
 
             <i *ngIf="photoURL==null" (click)="op2.toggle($event)" class="pi pi-user"></i>
-            <img *ngIf="photoURL!=null" class="profile-img" (click)="op2.toggle($event)" [src]="photoURL"
+            <img *ngIf="photoURL!=null && user" class="profile-img" (click)="op2.toggle($event)" [src]="photoURL"
                 alt="Profile Icon">
         </div>
     </div>
@@ -36,7 +36,8 @@
 <div [ngClass]="mode ? 'main-card-dark': 'main-card'">
 
     <div class="add-todo-action">
-        <span *ngIf="!editMainBoard" [ngClass]="mode ? 'main-board-dark' : 'main-board'">{{mainBoard}}</span>
+        <span *ngIf="!editMainBoard && mainBoard!=''"
+            [ngClass]="mode ? 'main-board-dark' : 'main-board'">{{mainBoard}}</span>
         <div *ngIf="editMainBoard">
             <input type="text" pInputText class="edit_Task" [(ngModel)]="mainBoardName"
                 (keyup.enter)="onEnterMainBoard()">
