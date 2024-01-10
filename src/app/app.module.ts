@@ -20,6 +20,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TasksComponent } from './tasks/tasks.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,9 @@ import { TasksComponent } from './tasks/tasks.component';
     InputTextModule,
     OverlayPanelModule
   ],
-  providers: [],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
+  ],
   bootstrap: [AppComponent]
 })
 
