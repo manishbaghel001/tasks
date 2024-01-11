@@ -19,7 +19,6 @@ import { CardModule } from 'primeng/card';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { TasksComponent } from './tasks/tasks.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
@@ -27,8 +26,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     RegisterComponent,
     LoginComponent,
     ForgotpasswordComponent,
-    VerifyemailComponent,
-    TasksComponent
+    VerifyemailComponent
   ],
   imports: [
     BrowserModule,
