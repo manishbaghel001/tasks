@@ -93,13 +93,11 @@
                             pInputText (keyup.enter)="onEnterTodo(task['id'])">
                         <div *ngFor="let todo of todos" class="field-checkbox">
 
-                            <div class="checkIncompleted"
+                            <div class="checkIncompleted" (mouseover)="checkHover=todo.todoId"
+                                (mouseout)="checkHover=false"
                                 *ngIf="!todo['deleted'] && !todo['completed'] && todo['id']===task['id']">
-                                <p-checkbox *ngIf="!checkHover" (mouseover)="checkHover=false"
-                                    (mouseout)="checkHover=true" class="checkbox-icon" (click)="onCheckboxClick(todo)"
-                                    [inputId]="todo.key"></p-checkbox>
-                                <i *ngIf="checkHover" class="pi pi-check checkHoverIcon" (mouseover)="checkHover=true"
-                                    (mouseout)="checkHover=false"></i>
+                                <i [ngClass]="checkHover == todo.todoId ? 'pi pi-check checkHoverIcon': 'pi pi-circle checkboxHoverIcon'"
+                                    (click)="onCheckboxClick(todo)"></i>
                                 <label [for]="todo.key" class="ml-2 mb-0">{{ todo.name }}</label>
                             </div>
 
@@ -120,16 +118,15 @@
                     <div class="todoCompleted" *ngIf="isCompletedListOpen.includes(task['id'])">
                         <div *ngFor="let todo of todos" class="field-checkbox">
 
-                            <div class="check" *ngIf="!todo['deleted'] && todo['completed'] && todo['id']===task['id']">
+                            <div class="check" (mouseover)="checkedHover=todo.todoId" (mouseout)="checkedHover=false"
+                                *ngIf="!todo['deleted'] && todo['completed'] && todo['id']===task['id']">
                                 <div class="check-icon">
-                                    <i class="pi pi-check" style="font-size: 0.8rem; color: rgb(66, 133, 244);"></i>
+                                    <i class="pi pi-check checkedCompleted"></i>
                                     <label class="ml-2 mb-0">{{ todo.name }}</label>
                                 </div>
 
-                                <button *ngIf="!todo['deleted'] && todo['completed'] && todo['id']===task['id']"
-                                    class="delete-button" type="button" (click)="deleteCompleteList(todo)">
-                                    <i class="pi pi-trash" style="color: #495057"></i>
-                                </button>
+                                <i *ngIf="checkedHover == todo.todoId" class="pi pi-trash trashChecked"
+                                    (click)="deleteCompleteList(todo)"></i>
                             </div>
 
                         </div>

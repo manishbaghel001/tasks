@@ -47,6 +47,7 @@ export class TasksComponent implements OnInit {
   todosModel: TodosModel;
   mode: boolean = false;
   checkHover: boolean = false;
+  checkedHover: boolean = false;
   hoverOnAddTask: boolean = false;
   editMainBoard: boolean = false;
   mainBoard: string = 'Main Board';
