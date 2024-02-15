@@ -4,13 +4,13 @@
 
 <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
 
-    <label for="exampleInputEmail" class="username">Username:</label>
+    <label for="exampleInputEmail" class="username">Email:</label>
     <input type="email" class="rectangle2" id="exampleInputEmail" placeholder="Email" name="email"
         aria-describedby="emailHelp" ngModel required>
     <label for="exampleInputPassword" class="password">Password:</label>
     <div class="rectangle3">
-        <input type="password" id="exampleInputPassword" placeholder="Password" id="password" name="password" ngModel
-            required>
+        <input class="passwordInput" type="password" id="exampleInputPassword" placeholder="Password" id="password"
+            name="password" ngModel required>
         <div class="passwordIcon">
             <i *ngIf="passwordToggle" class='bx bx-show' (click)="togglePasswordVisibility()"></i>
             <i *ngIf="!passwordToggle" class='bx bx-hide' (click)="togglePasswordVisibility()"></i>
@@ -23,18 +23,17 @@
                 <input type="checkbox" id="rememberMe" name="rememberMe" ngModel>
                 <span class="rememberMe" for="rememberMe">Remember Me</span>
             </div>
-            <a href="forgot-password" class="forgotPassword">Forgot Password</a>
+            <a href="#forgot-password" class="forgotPassword">Forgot Password</a>
         </div>
     </div>
 
     <div class="dontHaveAndAccountRegister">
         <p class="labelWrapper">
             <span class="label">Dont have and account?</span>
-            <a href="register" class="label2">Register</a>
+            <a href="#register" class="label2">Register</a>
         </p>
     </div>
-    <div class="rectangle4"></div>
-    <button type="submit" class="login">Login</button>
+    <button class="btn" type="submit">Login</button>
 
     <div class="socialMediaIcons">
         <a (click)="signInWithGoogle()">

@@ -23,6 +23,7 @@
     "firebase": "^10.6.0",
     "fs": "^0.0.1-security",
     "grep": "^0.1.0",
+    "ng-bootstrap": "^1.6.3",
     "nodejs": "^0.0.0",
     "primeicons": "^6.0.1",
     "primeng": "~16.9.1",

@@ -5,6 +5,7 @@ import { TasksService } from './service/tasks.service';
 import { TodosModel } from './models/todos';
 import { TasksModel } from './models/tasks';
 import { cloneDeep } from 'lodash';
+
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
@@ -15,7 +16,7 @@ export class TasksComponent implements OnInit {
 
   constructor(
     private tasksService: TasksService,
-    private authService: AuthService
+    private authService: AuthService,
   ) { }
 
   forkSub: Subscription;
@@ -25,7 +26,6 @@ export class TasksComponent implements OnInit {
   email: string;
   password: string;
   userData: any;
-  photoURL: string;
   searchValue: string;
 
   addedTask: string = '';
@@ -52,6 +52,33 @@ export class TasksComponent implements OnInit {
   editMainBoard: boolean = false;
   mainBoard: string = 'Main Board';
   user: any;
+  photoURL: string | null = null;
+  display = 'none';
+
+  openModal() {
+    this.display = 'block'
+  }
+
+  closePopup() {
+    this.display = 'none'
+  }
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    console.log(file, "klklklkl");
+    const reader = new FileReader();
+
+    reader.onload = (event: any) => {
+      const blob = new Blob([event.target.result], { type: file.type });
+      console.log(blob, "klklkl");
+    };
+
+    reader.readAsArrayBuffer(file);
+    // this.authService.uploadImage(this.uid, file)
+  }
+
+  removeBtn() {
+  }
 
   ngOnInit() {
     this.authService.getUser().subscribe((user) => {
@@ -145,15 +172,17 @@ export class TasksComponent implements OnInit {
   }
 
   getLatestTasks(uid) {
-    this.tasksService.getTasks(uid).subscribe((res) => {
-      if (res[0]['todos']) {
-        this.tasks = res[0]['tasks'];
-        this.todos = res[0]['todos'];
-        this.todosFix = cloneDeep(this.todos);
-        this.tasksFix = cloneDeep(this.tasks);
-        this.completedTodosCountObj = this.completedTodosCount(this.todos);
-        this.mode = res[0]['mode'] == 'dark' ? true : false;
-        this.mainBoard = res[0]['mainBoard']
+    this.tasksService.getTasks(uid).subscribe((res: any) => {
+      if (res.length > 0) {
+        if (res[0]['todos']) {
+          this.tasks = res[0]['tasks'];
+          this.todos = res[0]['todos'];
+          this.todosFix = cloneDeep(this.todos);
+          this.tasksFix = cloneDeep(this.tasks);
+          this.completedTodosCountObj = this.completedTodosCount(this.todos);
+          this.mode = res[0]['mode'] == 'dark' ? true : false;
+          this.mainBoard = res[0]['mainBoard']
+        }
       }
     })
   }

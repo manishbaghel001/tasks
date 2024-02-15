@@ -49,8 +49,8 @@ svg {
     position: absolute;
     left: 842px;
     top: 0;
-    width: 525px;
-    height: 720px;
+    width: 100%;
+    height: 100%;
     background-color: #228be62f;
 }
 
@@ -75,7 +75,7 @@ svg {
     top: 250px;
     width: 367px;
     height: 40px;
-    padding-left: 1%;
+    padding-left: 0.8%;
     outline: solid 1px #3a3a3a;
     outline-offset: -1px;
     border-radius: 5px;
@@ -94,7 +94,6 @@ svg {
     top: 326px;
     width: 367px;
     height: 40px;
-    padding-left: 1%;
     outline: solid 1px #3a3a3a;
     outline-offset: -1px;
     border-radius: 5px;
@@ -190,6 +189,38 @@ svg {
     flex-direction: column;
 }
 
+.passwordInput {
+    padding-left: 3.2%;
+}
+
+.btn {
+    background-color: #228be6;
+    color: #fff;
+    margin-top: 10px;
+    padding: 0.5% 0 0 11%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 5%;
+    transition: background-color 0.3s ease;
+
+    position: absolute;
+    left: 124px;
+    top: 420px;
+    width: 365px;
+    height: 40px;
+
+    font-size: 16px;
+    font-weight: 500;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+        'Liberation Sans', sans-serif;
+}
+
+.btn:hover {
+    background-color: #0088ff;
+    color: #fff;
+}
+
 .rectangle4 {
     position: absolute;
     left: 124px;
@@ -198,6 +229,11 @@ svg {
     height: 40px;
     border-radius: 5px;
     background-color: #228be6;
+    transition: background-color 0.3s ease;
+}
+
+.rectangle4:hover {
+    background-color: #0088ff;
 }
 
 .login {

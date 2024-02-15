@@ -1,3 +1,43 @@
+<div class="modal" [ngStyle]="{'display':display}" id="myModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="popUpHeader">
+                    <div></div>
+                    <span class="popup-header-span">Tasks Account</span>
+                    <i class="pi pi-times" (click)="closePopup()"></i>
+                </div>
+                <div class="popup-des">
+                    <span class="popup-prof-pic">Profile picture</span>
+                    <span class="popup-prof-des">A picture helps people to recognise you and lets you know when you’re
+                        signed in to your account
+                    </span>
+                </div>
+                <i *ngIf="photoURL===null || photoURL===''" (click)="file.click()"
+                    class="pi pi-user profile-img-popup-icon"></i>
+                <img class="profile-img-popup" (click)="file.click()" *ngIf="photoURL!==null && photoURL!=='' && user"
+                    [src]="photoURL" alt="Profile Icon">
+                <input type="file" accept="image/*" #file (change)="onFileSelected($event)" id="fileInput"
+                    style="display: none">
+
+                <div class="btnPopup">
+
+                    <div type="button" class="changeBtn" (click)="file.click()">
+                        <i class="pi pi-pencil"></i>
+                        Change
+                    </div>
+                    <div type="button" class="removeBtn" (click)="removeBtn()">
+                        <i class="pi pi-trash"></i>
+                        Remove
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <div *ngIf="user" [ngClass]="mode ? 'main-header-dark' : 'main-header'">
     <div [ngClass]="mode ? 'header-dark': 'header'">
         <div>
@@ -18,17 +58,31 @@
             <i *ngIf="mode" class="pi pi-moon modeIcon" (click)="darkMode()"></i>
 
             <p-overlayPanel #op2>
-                <span class="menu-items" (click)="logout()">
-                    <i class="pi pi-sign-out mr-3"></i>
-                    Sign Out</span>
-                <span class="menu-items" (click)="switchAccount()">
-                    <i class="pi pi-user mr-3"></i>
-                    Switch Account</span>
+                <div class="overlay-content">
+                    <span>{{user['email']}}</span>
+                    <div class="profile-img-container">
+                        <i *ngIf="photoURL===null || photoURL===''" class="pi pi-user profile-img-popover-icon"></i>
+                        <img *ngIf="photoURL!==null && photoURL!=='' && user" class="profile-img-popover"
+                            (click)="op2.toggle($event)" [src]="photoURL" alt="Profile Icon">
+                        <i [ngClass]="photoURL!==null && photoURL!=='' ? 'pi pi-pencil icon-popover' : 'pi pi-pencil icon-popover icon-popover-icon'"
+                            data-toggle="modal" (click)="openModal()" data-target="#myModal"></i>
+                    </div>
+                </div>
+                <div class="actions">
+                    <span class="menu-items" (click)="switchAccount()">
+                        <i class="pi pi-user mr-2"></i>
+                        Switch Account</span>
+                    <span class="menu-items" (click)="logout()">
+                        <i class="pi pi-sign-out mr-2"></i>
+                        Sign Out</span>
+                </div>
+
             </p-overlayPanel>
 
-            <i *ngIf="photoURL==null" (click)="op2.toggle($event)" class="pi pi-user"></i>
-            <img *ngIf="photoURL!=null && user" class="profile-img" (click)="op2.toggle($event)" [src]="photoURL"
-                alt="Profile Icon">
+            <i *ngIf="photoURL===null || photoURL===''" (click)="op2.toggle($event)" class="pi pi-user mr-2"></i>
+            <img *ngIf="photoURL!==null && photoURL!=='' && user" class="profile-img" (click)="op2.toggle($event)"
+                [src]="photoURL" alt="Profile Icon">
+
         </div>
     </div>
 </div>

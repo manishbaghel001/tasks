@@ -3,8 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GoogleAuthProvider, GithubAuthProvider, User } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/compat/firestore'; // Import AngularFireFirestore
-
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 @Injectable({
     providedIn: 'root',
 })
