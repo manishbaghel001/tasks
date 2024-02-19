@@ -2,37 +2,36 @@ import { Injectable } from '@angular/core';
 import {
     Router,
 } from '@angular/router';
-import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
+import { CacheService } from '../cache/cache.service';
 @Injectable({
     providedIn: 'root',
 })
 
 export class AuthGuard {
 
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(private cacheService: CacheService, private router: Router) { }
 
 
     canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-        return this.userData()
+        if (this.userData()) {
+            return this.userData()
+        }
+        else {
+            this.userData();
+            this.router.navigate(['/login']);
+            return false
+        }
     }
 
     userData(): boolean | any {
-        this.authService.getUser().subscribe((user) => {
-            console.log(user, "klklkl");
+        let user = this.cacheService.getData('token')
 
-            if (user && user['emailVerified']) {
-                if (this.authService.isLoggedIn() || localStorage.getItem('rememberMe') == 'false') {
-                    localStorage.removeItem('rememberMe')
-                    return true;
-                } else {
-                    this.router.navigate(['/login']);
-                    return false;
-                }
-            }
-            else {
-                return false
-            }
-        })
+        if (user && user['emailVerified']) {
+            return true;
+        } else {
+            this.router.navigate(['/login']);
+            return false;
+        }
     }
 }

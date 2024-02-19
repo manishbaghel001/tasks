@@ -4,6 +4,7 @@ import { GoogleAuthProvider, GithubAuthProvider, User } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { CacheService } from '../cache/cache.service';
 @Injectable({
     providedIn: 'root',
 })
@@ -14,7 +15,7 @@ export class AuthService {
     user = this.userSubject.asObservable();
     email: any
 
-    constructor(private afAuth: AngularFireAuth, private router: Router, private firestore: AngularFirestore) {
+    constructor(private afAuth: AngularFireAuth, private cacheService: CacheService, private router: Router, private firestore: AngularFirestore) {
         this.afAuth.authState.subscribe(user => {
             this.userSubject.next(user);
         });
@@ -22,10 +23,6 @@ export class AuthService {
 
     getUser(): Observable<any> {
         return this.user;
-    }
-
-    isLoggedIn(): boolean {
-        return !!localStorage.getItem('token');
     }
 
     setDisplayName(firstName: string, lastName: string) {
@@ -39,12 +36,7 @@ export class AuthService {
         this.afAuth.signInWithEmailAndPassword(email, password).then((res) => {
             if (res.user?.emailVerified) {
                 if (rememberMe != '') {
-                    localStorage.setItem('rememberMe', 'true')
-                    localStorage.setItem('token', res.user?.uid)
-                }
-                else {
-                    localStorage.setItem('rememberMe', 'false')
-                    localStorage.removeItem('token')
+                    this.cacheService.setData('token', res.user)
                 }
                 this.router.navigate(['/tasks'])
             }
@@ -94,7 +86,7 @@ export class AuthService {
 
     signOut() {
         this.afAuth.signOut().then(() => {
-            localStorage.removeItem('token')
+            this.cacheService.removeData('token')
             this.router.navigate(['/login'])
         }, err => {
             alert(err.message);
@@ -114,7 +106,7 @@ export class AuthService {
         this.afAuth.currentUser.then((user) => {
             if (user) {
                 user.delete();
-                localStorage.removeItem('token')
+                this.cacheService.removeData('token')
                 this.router.navigate(['/login'])
             }
         }, err => {
@@ -132,7 +124,7 @@ export class AuthService {
                     displayName: user.displayName,
                     photoURL: user.photoURL,
                 }).then(() => {
-                    localStorage.setItem('token', res.user?.uid)
+                    this.cacheService.setData('token', res.user)
                     this.router.navigate(['/tasks'])
                 });
             }
@@ -152,7 +144,7 @@ export class AuthService {
                     displayName: user.displayName,
                     photoURL: user.photoURL,
                 }).then(() => {
-                    localStorage.setItem('token', res.user?.uid)
+                    this.cacheService.setData('token', res.user)
                     this.router.navigate(['/tasks'])
                 });
             }
