@@ -5,6 +5,8 @@ import { TasksService } from './service/tasks.service';
 import { TodosModel } from './models/todos';
 import { TasksModel } from './models/tasks';
 import { cloneDeep } from 'lodash';
+import { CacheService } from 'src/app/cache/cache.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tasks',
@@ -17,6 +19,8 @@ export class TasksComponent implements OnInit {
   constructor(
     private tasksService: TasksService,
     private authService: AuthService,
+    private cacheService: CacheService,
+    private sanitizer: DomSanitizer
   ) { }
 
   forkSub: Subscription;
@@ -52,7 +56,7 @@ export class TasksComponent implements OnInit {
   editMainBoard: boolean = false;
   mainBoard: string = 'Main Board';
   user: any;
-  photoURL: string | null = null;
+  photoURL: any = '';
   display = 'none';
 
   openModal() {
@@ -64,33 +68,63 @@ export class TasksComponent implements OnInit {
   }
 
   onFileSelected(event: any): void {
-    const file = event.target.files[0];
-    console.log(file, "klklklkl");
-    const reader = new FileReader();
-
-    reader.onload = (event: any) => {
-      const blob = new Blob([event.target.result], { type: file.type });
-      console.log(blob, "klklkl");
-    };
-
-    reader.readAsArrayBuffer(file);
-    // this.authService.uploadImage(this.uid, file)
+    const file: File = event.target.files[0];
+    this.tasksService.uploadImage(file, this.uid).subscribe((response) => {
+      this.getImage()
+    });
   }
 
-  removeBtn() {
+  getImage(): void {
+    this.tasksService.getImage(this.uid).subscribe((buffer: ArrayBuffer) => {
+      if (buffer.byteLength > 0) {
+        const blob = new Blob([buffer], { type: 'image/jpeg' });
+        const imageUrl = URL.createObjectURL(blob);
+        this.photoURL = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+      }
+      else {
+        let userCache = this.cacheService.getData('token');
+        if (userCache) {
+          this.photoURL = userCache['photoURL'];
+        }
+        else {
+          this.photoURL = ''
+        }
+      }
+    });
+  }
+
+  removeImage() {
+    const file: File = null;
+    this.tasksService.uploadImage(file, this.uid).subscribe((response) => {
+      let userCache = this.cacheService.getData('token');
+      if (userCache) {
+        this.photoURL = userCache['photoURL'];
+      }
+      else {
+        this.photoURL = ''
+      }
+    })
   }
 
   ngOnInit() {
-    this.authService.getUser().subscribe((user) => {
-      if (user) {
-        this.user = user;
-        this.photoURL = user['photoURL'];
-        if (user['uid'] && user['uid'] != '' && user['uid'] != null) {
-          this.uid = user['uid'];
-          this.getLatestTasks(user['uid'])
-        }
+    let userCache = this.cacheService.getData('token');
+    if (userCache) {
+      this.user = userCache;
+      if (this.user['uid'] && this.user['uid'] != '' && this.user['uid'] != null) {
+        this.uid = this.user['uid'];
+        this.getLatestTasks(this.user['uid'])
       }
-    })
+    } else {
+      this.authService.getUser().subscribe((user) => {
+        if (user) {
+          this.user = user;
+          if (this.user['uid'] && this.user['uid'] != '' && this.user['uid'] != null) {
+            this.uid = this.user['uid'];
+            this.getLatestTasks(this.user['uid'])
+          }
+        }
+      })
+    }
   }
 
   hoverOnAddTaskMtd(task) {
@@ -131,8 +165,6 @@ export class TasksComponent implements OnInit {
 
   switchAccount() {
     this.authService.singInWithGoogle()
-    // this.authService.deleteCurrentUser()
-
   }
 
   // deleteAccount() {
@@ -144,7 +176,6 @@ export class TasksComponent implements OnInit {
   }
 
   // Card
-
   editBoard() {
     this.editMainBoard = true;
     this.mainBoardName = this.mainBoard
@@ -181,7 +212,8 @@ export class TasksComponent implements OnInit {
           this.tasksFix = cloneDeep(this.tasks);
           this.completedTodosCountObj = this.completedTodosCount(this.todos);
           this.mode = res[0]['mode'] == 'dark' ? true : false;
-          this.mainBoard = res[0]['mainBoard']
+          this.mainBoard = res[0]['mainBoard'];
+          this.getImage();
         }
       }
     })

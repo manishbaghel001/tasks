@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
+    "blob": "^0.1.0",
     "bootstrap": "^5.3.2",
     "firebase": "^10.6.0",
     "fs": "^0.0.1-security",
@@ -29,6 +30,7 @@
     "primeng": "~16.9.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "url": "^0.11.3",
     "uuid": "^9.0.1",
     "zone.js": "~0.13.0"
   },

@@ -15,6 +15,7 @@ export class TasksService {
   apiMode = AppConfig.apiUrl + '/api/mode/';
   apiTasks = AppConfig.apiUrl + '/api/tasks/';
   apiTodo = AppConfig.apiUrl + '/api/todos/';
+  apiImage = AppConfig.apiUrl + '/api/image/';
 
   //Mode APIs
 
@@ -44,6 +45,18 @@ export class TasksService {
 
   patchTasks(uid: string, body: any) {
     return this.http.patch(this.apiTasks + uid, body)
+  }
+
+
+  // Image APIs
+  getImage(uid: string): Observable<any> {
+    return this.http.get(this.apiImage + uid, { responseType: 'arraybuffer' });
+  }
+
+  uploadImage(file: File, uid: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', file);
+    return this.http.post(this.apiImage + uid, formData);
   }
 
 }
