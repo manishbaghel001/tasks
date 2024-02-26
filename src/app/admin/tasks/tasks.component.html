@@ -14,8 +14,8 @@
                         signed in to your account
                     </span>
                 </div>
-                <i *ngIf="photoURL===null || photoURL===''" (click)="file.click()"
-                    class="pi pi-user profile-img-popup-icon"></i>
+                <img *ngIf="photoURL===null || photoURL===''" (click)="file.click()" class="profile-img-popup-icon"
+                    src="../../assets/profile.svg" alt="Profile Icon">
                 <img class="profile-img-popup" (click)="file.click()" *ngIf="photoURL!==null && photoURL!==''"
                     [src]="photoURL" alt="Profile Icon">
                 <input type="file" accept="image/*" #file (change)="onFileSelected($event)" id="fileInput"
@@ -61,12 +61,16 @@
                 <div class="overlay-content">
                     <span>{{user['email']}}</span>
                     <div class="profile-img-container">
-                        <i *ngIf="photoURL===null || photoURL===''" class="pi pi-user profile-img-popover-icon"></i>
-                        <img *ngIf="photoURL!==null && photoURL!==''" class="profile-img-popover"
-                            (click)="op2.toggle($event)" [src]="photoURL" alt="Profile Icon">
+                        <img *ngIf="photoURL===null || photoURL===''" class="profile-img-popover-icon"
+                            src="../../assets/profile.svg" alt="Profile Icon">
+                        <img *ngIf="photoURL!==null && photoURL!==''" class="profile-img-popover" [src]="photoURL"
+                            alt="Profile Icon">
                         <i [ngClass]="photoURL!==null && photoURL!=='' ? 'pi pi-pencil icon-popover' : 'pi pi-pencil icon-popover icon-popover-icon'"
                             data-toggle="modal" (click)="openModal()" data-target="#myModal"></i>
                     </div>
+                </div>
+                <div class="displayName mb-3 ml-2">
+                    <span>Hi, {{displayName}}!</span>
                 </div>
                 <div class="actions">
                     <span class="menu-items" (click)="switchAccount()">

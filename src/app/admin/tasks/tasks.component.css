@@ -170,18 +170,25 @@
 }
 
 .profile-img-popover {
-    margin: 5% 0 5% 70%;
+    margin: 10% 0 5% 70%;
     width: 100px;
     height: 100px;
     border-radius: 100px;
 }
 
 .profile-img-popover-icon {
-    margin: 5% 0 5% 70%;
+    margin: 10% 0 5% 70%;
     width: 100px;
     height: 100px;
     border-radius: 100px;
     font-size: 5rem;
+}
+
+.displayName {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .profile-img-popup {
@@ -236,7 +243,7 @@
 }
 
 .icon-popover-icon {
-    bottom: 22px;
+    bottom: 10px;
     right: -60px;
 }
 

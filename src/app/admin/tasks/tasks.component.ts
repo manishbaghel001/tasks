@@ -58,6 +58,7 @@ export class TasksComponent implements OnInit {
   user: any;
   photoURL: any = '';
   display = 'none';
+  displayName: string = '';
 
   openModal() {
     this.display = 'block'
@@ -84,7 +85,7 @@ export class TasksComponent implements OnInit {
       else {
         let userCache = this.cacheService.getData('token');
         if (userCache) {
-          this.photoURL = userCache['photoURL'];
+          this.photoURL = userCache['photoURL'] ? userCache['photoURL'] : '';
         }
         else {
           this.photoURL = ''
@@ -98,7 +99,7 @@ export class TasksComponent implements OnInit {
     this.tasksService.uploadImage(file, this.uid).subscribe((response) => {
       let userCache = this.cacheService.getData('token');
       if (userCache) {
-        this.photoURL = userCache['photoURL'];
+        this.photoURL = userCache['photoURL'] ? userCache['photoURL'] : '';
       }
       else {
         this.photoURL = ''
@@ -213,6 +214,7 @@ export class TasksComponent implements OnInit {
           this.completedTodosCountObj = this.completedTodosCount(this.todos);
           this.mode = res[0]['mode'] == 'dark' ? true : false;
           this.mainBoard = res[0]['mainBoard'];
+          this.displayName = this.user['displayName'].split(' ')[0]
           this.getImage();
         }
       }
