@@ -333,7 +333,7 @@ svg {
     bottom: 7.0833%;
     width: 420px;
     height: 420px;
-    background-image: url('/assets/pc-reg.svg');
+    background-image: url('../../../assets/pc-reg.svg');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
