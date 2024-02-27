@@ -187,6 +187,7 @@
 .displayName {
     font-size: 1.1rem;
     display: flex;
+    color: #727272;
     align-items: center;
     justify-content: center;
 }
