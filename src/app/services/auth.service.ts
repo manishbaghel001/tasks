@@ -35,10 +35,8 @@ export class AuthService {
     signIn(email: string, password: string, rememberMe: any) {
         this.afAuth.signInWithEmailAndPassword(email, password).then((res) => {
             if (res.user?.emailVerified) {
-                if (rememberMe != '') {
-                    this.cacheService.setData('token', res.user)
-                }
-                this.router.navigate(['/tasks'])
+                this.cacheService.setData('token', res.user)
+                this.router.navigate(['/tasks'], { state: { rememberMe: rememberMe } })
             }
             else {
                 if (res.user) {

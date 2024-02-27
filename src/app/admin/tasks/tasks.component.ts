@@ -21,8 +21,10 @@ export class TasksComponent implements OnInit {
     private authService: AuthService,
     private cacheService: CacheService,
     private sanitizer: DomSanitizer
-  ) { }
-
+  ) {
+    this.rememberMe = history.state?.['rememberMe']
+  }
+  rememberMe: any;
   forkSub: Subscription;
   menuOpen: boolean = false;
   errorMsg = "API failing"
@@ -55,10 +57,10 @@ export class TasksComponent implements OnInit {
   hoverOnAddTask: boolean = false;
   editMainBoard: boolean = false;
   mainBoard: string = 'Main Board';
-  user: any;
   photoURL: any = '';
   display = 'none';
   displayName: string = '';
+  userCache: any;
 
   openModal() {
     this.display = 'block'
@@ -83,9 +85,8 @@ export class TasksComponent implements OnInit {
         this.photoURL = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
       }
       else {
-        let userCache = this.cacheService.getData('token');
-        if (userCache) {
-          this.photoURL = userCache['photoURL'] ? userCache['photoURL'] : '';
+        if (this.userCache) {
+          this.photoURL = this.userCache['photoURL'] ? this.userCache['photoURL'] : '';
         }
         else {
           this.photoURL = ''
@@ -97,9 +98,8 @@ export class TasksComponent implements OnInit {
   removeImage() {
     const file: File = null;
     this.tasksService.uploadImage(file, this.uid).subscribe((response) => {
-      let userCache = this.cacheService.getData('token');
-      if (userCache) {
-        this.photoURL = userCache['photoURL'] ? userCache['photoURL'] : '';
+      if (this.userCache) {
+        this.photoURL = this.userCache['photoURL'] ? this.userCache['photoURL'] : '';
       }
       else {
         this.photoURL = ''
@@ -108,23 +108,14 @@ export class TasksComponent implements OnInit {
   }
 
   ngOnInit() {
-    let userCache = this.cacheService.getData('token');
-    if (userCache) {
-      this.user = userCache;
-      if (this.user['uid'] && this.user['uid'] != '' && this.user['uid'] != null) {
-        this.uid = this.user['uid'];
-        this.getLatestTasks(this.user['uid'])
+    this.userCache = this.cacheService.getData('token');
+    if (this.userCache) {
+      if (this.userCache['uid'] && this.userCache['uid'] != '' && this.userCache['uid'] != null) {
+        this.uid = this.userCache['uid'];
+        this.getLatestTasks(this.userCache['uid'])
+        if (this.rememberMe != true)
+          this.cacheService.removeData('token')
       }
-    } else {
-      this.authService.getUser().subscribe((user) => {
-        if (user) {
-          this.user = user;
-          if (this.user['uid'] && this.user['uid'] != '' && this.user['uid'] != null) {
-            this.uid = this.user['uid'];
-            this.getLatestTasks(this.user['uid'])
-          }
-        }
-      })
     }
   }
 
@@ -214,7 +205,7 @@ export class TasksComponent implements OnInit {
           this.completedTodosCountObj = this.completedTodosCount(this.todos);
           this.mode = res[0]['mode'] == 'dark' ? true : false;
           this.mainBoard = res[0]['mainBoard'];
-          this.displayName = this.user['displayName'].split(' ')[0]
+          this.displayName = this.userCache['displayName'].split(' ')[0]
           this.getImage();
         }
       }

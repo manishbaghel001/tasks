@@ -38,7 +38,7 @@
     </div>
 </div>
 
-<div *ngIf="user" [ngClass]="mode ? 'main-header-dark' : 'main-header'">
+<div *ngIf="userCache" [ngClass]="mode ? 'main-header-dark' : 'main-header'">
     <div [ngClass]="mode ? 'header-dark': 'header'">
         <div>
             <i class="pi pi-th-large"></i>
@@ -59,7 +59,7 @@
 
             <p-overlayPanel #op2>
                 <div class="overlay-content">
-                    <span>{{user['email']}}</span>
+                    <span>{{userCache['email']}}</span>
                     <div class="profile-img-container">
                         <img *ngIf="photoURL===null || photoURL===''" class="profile-img-popover-icon"
                             src="../../assets/profile.svg" alt="Profile Icon">
