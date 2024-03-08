@@ -15,7 +15,7 @@
                     </span>
                 </div>
                 <img *ngIf="!photoURL || photoURL===null || photoURL===''" (click)="file.click()"
-                    class="profile-img-popup-icon" src="../../../assets/profile.svg">
+                    class="profile-img-popup-icon" src="assets/profile.svg">
                 <img class="profile-img-popup" (click)="file.click()"
                     *ngIf="photoURL && photoURL!==null && photoURL!==''" [src]="photoURL" alt="Profile Icon">
                 <input type="file" accept="image/*" #file (change)="onFileSelected($event)" id="fileInput"
@@ -62,7 +62,7 @@
                     <span>{{userCache['email']}}</span>
                     <div class="profile-img-container">
                         <img *ngIf="!photoURL || photoURL===null || photoURL===''" class="profile-img-popover-icon"
-                            src="../../../assets/profile.svg">
+                            src="assets/profile.svg">
                         <img *ngIf="photoURL && photoURL!==null && photoURL!==''" class="profile-img-popover"
                             [src]="photoURL" alt="Profile Icon">
                         <i [ngClass]="photoURL && photoURL!==null && photoURL!=='' ? 'pi pi-pencil icon-popover' : 'pi pi-pencil icon-popover icon-popover-icon'"
