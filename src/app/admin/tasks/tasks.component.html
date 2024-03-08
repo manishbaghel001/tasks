@@ -14,10 +14,10 @@
                         signed in to your account
                     </span>
                 </div>
-                <img *ngIf="photoURL===null || photoURL===''" (click)="file.click()" class="profile-img-popup-icon"
-                    src="../../assets/profile.svg">
-                <img class="profile-img-popup" (click)="file.click()" *ngIf="photoURL!==null && photoURL!==''"
-                    [src]="photoURL" alt="Profile Icon">
+                <img *ngIf="!photoURL || photoURL===null || photoURL===''" (click)="file.click()"
+                    class="profile-img-popup-icon" src="../../assets/profile.svg">
+                <img class="profile-img-popup" (click)="file.click()"
+                    *ngIf="photoURL && photoURL!==null && photoURL!==''" [src]="photoURL" alt="Profile Icon">
                 <input type="file" accept="image/*" #file (change)="onFileSelected($event)" id="fileInput"
                     style="display: none">
 
@@ -61,11 +61,11 @@
                 <div class="overlay-content">
                     <span>{{userCache['email']}}</span>
                     <div class="profile-img-container">
-                        <img *ngIf="photoURL===null || photoURL===''" class="profile-img-popover-icon"
+                        <img *ngIf="!photoURL || photoURL===null || photoURL===''" class="profile-img-popover-icon"
                             src="../../assets/profile.svg">
-                        <img *ngIf="photoURL!==null && photoURL!==''" class="profile-img-popover" [src]="photoURL"
-                            alt="Profile Icon">
-                        <i [ngClass]="photoURL!==null && photoURL!=='' ? 'pi pi-pencil icon-popover' : 'pi pi-pencil icon-popover icon-popover-icon'"
+                        <img *ngIf="photoURL && photoURL!==null && photoURL!==''" class="profile-img-popover"
+                            [src]="photoURL" alt="Profile Icon">
+                        <i [ngClass]="photoURL && photoURL!==null && photoURL!=='' ? 'pi pi-pencil icon-popover' : 'pi pi-pencil icon-popover icon-popover-icon'"
                             data-toggle="modal" (click)="openModal()" data-target="#myModal"></i>
                     </div>
                 </div>
@@ -82,8 +82,9 @@
                 </div>
 
             </p-overlayPanel>
-            <i *ngIf="photoURL===null || photoURL===''" (click)="op2.toggle($event)" class="pi pi-user mr-2"></i>
-            <img *ngIf="photoURL!==null && photoURL!==''" class="profile-img" (click)="op2.toggle($event)"
+            <i *ngIf="!photoURL || photoURL===null || photoURL===''" (click)="op2.toggle($event)"
+                class="pi pi-user mr-2"></i>
+            <img *ngIf="photoURL && photoURL!==null && photoURL!==''" class="profile-img" (click)="op2.toggle($event)"
                 [src]="photoURL" alt="Profile Icon">
 
         </div>
