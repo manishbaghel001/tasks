@@ -143,7 +143,7 @@ svg {
 .yesIHaveAnAccountLogin {
     position: absolute;
     left: 838px;
-    top: 586px;
+    top: 599px;
     width: min-content;
     height: min-content;
     white-space: nowrap;
@@ -210,7 +210,7 @@ svg {
 
     position: absolute;
     left: 760px;
-    top: 532px;
+    top: 534px;
     width: 368px;
     height: 40px;
 
@@ -314,13 +314,13 @@ svg {
 
 .pleaseFillOutFormToRegister {
     color: #1a1a1a;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: bold;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
         'Liberation Sans', sans-serif;
     position: absolute;
-    left: 818px;
-    top: 92px;
+    left: 808px;
+    top: 88px;
     width: min-content;
     height: min-content;
     white-space: nowrap;
