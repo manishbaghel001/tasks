@@ -113,7 +113,7 @@ export class TasksComponent implements OnInit {
       if (this.userCache['uid'] && this.userCache['uid'] != '' && this.userCache['uid'] != null) {
         this.uid = this.userCache['uid'];
         this.getLatestTasks(this.userCache['uid'])
-        if (this.rememberMe != true)
+        if (this.rememberMe == false)
           this.cacheService.removeData('token')
       }
     }

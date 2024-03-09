@@ -124,6 +124,9 @@ export class AuthService {
                 }).then(() => {
                     this.cacheService.setData('token', res.user)
                     this.router.navigate(['/tasks'])
+                    if (this.router.url == '/tasks') {
+                        window.location.reload();
+                    }
                 });
             }
         }, err => {
