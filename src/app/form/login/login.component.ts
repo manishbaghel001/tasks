@@ -8,15 +8,19 @@ import { NgForm } from '@angular/forms';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) { }
   @ViewChild('loginForm') loginForm!: NgForm;
   passwordToggle: boolean = false
+  phoneNumber: any;
+  displayPhoneModal: string = 'none'
 
-  ngOnInit() {
-
+  openModal() {
+    this.displayPhoneModal = 'flex'
   }
-
+  closeModal() {
+    this.displayPhoneModal = 'none'
+  }
   login(item: any) {
     if (!this.loginForm.valid) {
       alert('Please enter your email and password')

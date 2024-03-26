@@ -21,7 +21,7 @@ import { environment } from 'src/environments/environment';
     CommonModule,
     FormsModule,
     CardModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     ButtonModule,
     CheckboxModule,

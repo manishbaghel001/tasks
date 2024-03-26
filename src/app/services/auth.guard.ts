@@ -27,7 +27,7 @@ export class AuthGuard {
     userData(): boolean | any {
         let user = this.cacheService.getData('token')
 
-        if (user && user['emailVerified']) {
+        if (user && (user['emailVerified'] || (user['phoneNumber'] != '' && user['phoneNumber'] != null))) {
             return true;
         } else {
             this.router.navigate(['/login']);

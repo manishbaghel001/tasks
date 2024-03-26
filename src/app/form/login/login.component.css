@@ -82,6 +82,19 @@ svg {
     background-color: #afb3ff00;
 }
 
+.rectangle28 {
+    position: absolute;
+    left: 122px;
+    top: 20px;
+    width: 367px;
+    height: 40px;
+    padding-left: 0.8%;
+    outline: solid 1px #3a3a3a;
+    outline-offset: -1px;
+    border-radius: 5px;
+    background-color: #afb3ff00;
+}
+
 .passwordIcon {
     position: absolute;
     left: 335px;
@@ -149,6 +162,14 @@ svg {
         'Liberation Sans', sans-serif;
     flex-shrink: 1;
     margin-top: 6px;
+}
+
+.blur-background {
+    backdrop-filter: blur(1px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: backdrop-filter 0.5s ease;
 }
 
 .labelWrapper1 {
@@ -227,6 +248,31 @@ svg {
     font-weight: 500;
     font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
         'Liberation Sans', sans-serif;
+}
+
+.phoneIcon {
+    font-size: 1.5rem;
+    margin-top: 6px;
+    margin-left: 5px;
+    color: #0079e2;
+    font-weight: bold;
+}
+
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: var(--bs-modal-color);
+    pointer-events: auto;
+    background-clip: padding-box;
+    outline: 0;
+}
+
+.modal-body {
+    position: relative;
+    flex: 1 1 auto;
+    padding: var(--bs-modal-padding);
 }
 
 .btn:hover {

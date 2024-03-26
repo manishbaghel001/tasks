@@ -20,13 +20,16 @@ import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { PhoneAuthComponent } from './form/phone-auth/phone-auth.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     LoginComponent,
     ForgotpasswordComponent,
-    VerifyemailComponent
+    VerifyemailComponent,
+    PhoneAuthComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     FormsModule,
     BrowserAnimationsModule,
     CardModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     ButtonModule,
     CheckboxModule,

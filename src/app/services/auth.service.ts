@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CacheService } from '../cache/cache.service';
+import firebase from '@firebase/app-compat'
+
 @Injectable({
     providedIn: 'root',
 })
@@ -13,12 +15,55 @@ export class AuthService {
 
     private userSubject = new BehaviorSubject<User | null>(null);
     user = this.userSubject.asObservable();
-    email: any
+    email: any;
 
     constructor(private afAuth: AngularFireAuth, private cacheService: CacheService, private router: Router, private firestore: AngularFirestore) {
         this.afAuth.authState.subscribe(user => {
             this.userSubject.next(user);
         });
+    }
+
+    sendVerificationCode(phoneNumber: string) {
+        const formattedPhoneNumber = phoneNumber;
+        const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+        return this.afAuth.signInWithPhoneNumber(formattedPhoneNumber, appVerifier).then((res) => {
+            return res['verificationId']
+        }, err => {
+            alert(err.message);
+            this.router.navigate(['/login'])
+        })
+    }
+
+    verifyCode(verificationId: string, code: string) {
+        const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, code);
+        return this.afAuth.signInWithCredential(credential).then((res) => {
+            if (res.user['displayName'] != null) {
+                this.cacheService.setData('token', res.user)
+                this.router.navigate(['/tasks'])
+                return res.user
+            }
+            else {
+                return res.user
+            }
+        }, err => {
+            alert(err.message);
+            this.router.navigate(['/login'])
+        });
+    }
+
+    updateInfo(user, userName, fullName) {
+        user?.updateProfile({
+            displayName: userName
+        })
+        user = user['multiFactor']['user'];
+
+        this.storeAdditionalUserData(user?.uid, {
+            fullName: fullName,
+            username: userName
+        })
+        user = { ...user, displayName: userName };
+        this.cacheService.setData('token', user)
+        this.router.navigate(['/tasks'])
     }
 
     getUser(): Observable<any> {
@@ -73,12 +118,6 @@ export class AuthService {
     private storeAdditionalUserData(uid: string | undefined, data: any): void {
         if (uid) {
             this.firestore.collection('users').doc(uid).set(data, { merge: true })
-                .then(() => {
-                    console.log('Additional user data stored successfully');
-                })
-                .catch(error => {
-                    console.error('Error storing additional user data:', error);
-                });
         }
     }
 

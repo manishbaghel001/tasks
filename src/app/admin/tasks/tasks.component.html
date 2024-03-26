@@ -1,5 +1,5 @@
 <div class="modal" [ngStyle]="{'display':display}" id="myModal" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    aria-labelledby="exampleModalLabel" aria-hidden="true" [ngClass]="{'blur-background': display}">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -58,29 +58,33 @@
             <i *ngIf="mode" class="pi pi-moon modeIcon" (click)="darkMode()"></i>
 
             <p-overlayPanel #op2>
-                <div class="overlay-content">
-                    <span>{{userCache['email']}}</span>
-                    <div class="profile-img-container">
-                        <img *ngIf="!photoURL || photoURL===null || photoURL===''" class="profile-img-popover-icon"
-                            src="assets/profile.svg">
-                        <img *ngIf="photoURL && photoURL!==null && photoURL!==''" class="profile-img-popover"
-                            [src]="photoURL" alt="Profile Icon">
-                        <i [ngClass]="photoURL && photoURL!==null && photoURL!=='' ? 'pi pi-pencil icon-popover' : 'pi pi-pencil icon-popover icon-popover-icon'"
-                            data-toggle="modal" (click)="openModal()" data-target="#myModal"></i>
+                <div class="overlayDialog">
+                    <div class="overlay-content">
+                        <span class="emailPhoneLabel" *ngIf="userCache['email']!=null">{{userCache['email']}}</span>
+                        <span class="emailPhoneLabel"
+                            *ngIf="userCache['phoneNumber']!=null">{{userCache['phoneNumber']}}</span>
+                        <div class="profile-img-container">
+                            <img *ngIf="!photoURL || photoURL===null || photoURL===''" class="profile-img-popover-icon"
+                                src="assets/profile.svg">
+                            <img *ngIf="photoURL && photoURL!==null && photoURL!==''" class="profile-img-popover"
+                                [src]="photoURL" alt="Profile Icon">
+                            <i [ngClass]="photoURL && photoURL!==null && photoURL!=='' ? 'pi pi-pencil icon-popover' : 'pi pi-pencil icon-popover icon-popover-icon'"
+                                data-toggle="modal" (click)="openModal()" (click)="op2.toggle($event)"
+                                data-target="#myModal"></i>
+                        </div>
+                    </div>
+                    <div class="displayName mb-3 ml-2">
+                        <span>Hi, {{displayName}}!</span>
+                    </div>
+                    <div class="actions">
+                        <span class="menu-items" (click)="switchAccount()">
+                            <i class="pi pi-user mr-2"></i>
+                            Switch Account</span>
+                        <span class="menu-items" (click)="logout()">
+                            <i class="pi pi-sign-out mr-2"></i>
+                            Sign Out</span>
                     </div>
                 </div>
-                <div class="displayName mb-3 ml-2">
-                    <span>Hi, {{displayName}}!</span>
-                </div>
-                <div class="actions">
-                    <span class="menu-items" (click)="switchAccount()">
-                        <i class="pi pi-user mr-2"></i>
-                        Switch Account</span>
-                    <span class="menu-items" (click)="logout()">
-                        <i class="pi pi-sign-out mr-2"></i>
-                        Sign Out</span>
-                </div>
-
             </p-overlayPanel>
             <i *ngIf="!photoURL || photoURL===null || photoURL===''" (click)="op2.toggle($event)"
                 class="pi pi-user mr-2"></i>
@@ -102,7 +106,7 @@
         </div>
         <div class="add-todo-text">
             <p-overlayPanel #op1>
-                <span class="menu-items" (click)="editBoard()">
+                <span class="menu-items overlayDialog" (click)="editBoard()">
                     <i class="pi pi-pencil"></i>
                     Edit Board</span>
             </p-overlayPanel>
@@ -128,12 +132,14 @@
 
                         <div class="ellipse-card">
                             <p-overlayPanel #op>
-                                <span class="menu-items" (click)="menuItemClicked('delete', task)">
-                                    <i class="pi pi-trash"></i>
-                                    Delete</span>
-                                <span class="menu-items" (click)="menuItemClicked('edit',task)">
-                                    <i class="pi pi-file-edit"></i>
-                                    Edit</span>
+                                <div class="overlayDialog">
+                                    <span class="menu-items mb-2" (click)="menuItemClicked('delete', task)">
+                                        <i class="pi pi-trash"></i>
+                                        Delete</span>
+                                    <span class="menu-items" (click)="menuItemClicked('edit',task)">
+                                        <i class="pi pi-file-edit"></i>
+                                        Edit</span>
+                                </div>
                             </p-overlayPanel>
 
                             <i (click)="op.toggle($event)" class="pi pi-ellipsis-v" style="color: #495057"></i>

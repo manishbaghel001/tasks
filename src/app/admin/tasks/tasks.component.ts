@@ -29,7 +29,6 @@ export class TasksComponent implements OnInit {
   menuOpen: boolean = false;
   errorMsg = "API failing"
   showProfileOptions: boolean = false;
-  email: string;
   password: string;
   userData: any;
   searchValue: string;
@@ -59,11 +58,11 @@ export class TasksComponent implements OnInit {
   mainBoard: string = 'Main Board';
   photoURL: any = '';
   display = 'none';
-  displayName: string = '';
+  displayName: string;
   userCache: any;
 
   openModal() {
-    this.display = 'block'
+    this.display = 'flex'
   }
 
   closePopup() {
@@ -110,6 +109,7 @@ export class TasksComponent implements OnInit {
   ngOnInit() {
     this.userCache = this.cacheService.getData('token');
     if (this.userCache) {
+      this.displayName = this.userCache['displayName'].split(' ')[0];
       if (this.userCache['uid'] && this.userCache['uid'] != '' && this.userCache['uid'] != null) {
         this.uid = this.userCache['uid'];
         this.getLatestTasks(this.userCache['uid'])
@@ -195,6 +195,12 @@ export class TasksComponent implements OnInit {
   }
 
   getLatestTasks(uid) {
+    if (this.userCache) {
+      this.photoURL = this.userCache['photoURL'] ? this.userCache['photoURL'] : '';
+    }
+    else {
+      this.photoURL = ''
+    }
     this.tasksService.getTasks(uid).subscribe((res: any) => {
       if (res.length > 0) {
         if (res[0]['todos']) {
@@ -205,7 +211,6 @@ export class TasksComponent implements OnInit {
           this.completedTodosCountObj = this.completedTodosCount(this.todos);
           this.mode = res[0]['mode'] == 'dark' ? true : false;
           this.mainBoard = res[0]['mainBoard'];
-          this.displayName = this.userCache['displayName'].split(' ')[0]
           this.getImage();
         }
       }

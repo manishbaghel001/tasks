@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
+    "@firebase/app": "^0.9.29",
     "blob": "^0.1.0",
     "bootstrap": "^5.3.2",
     "firebase": "^10.6.0",

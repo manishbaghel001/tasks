@@ -1,7 +1,6 @@
 <div class="rectangle1"></div>
 <div class="pc-login"></div>
 <div class="welcomeBack">Welcome Back!</div>
-
 <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
 
     <label for="exampleInputEmail" class="username">Email:</label>
@@ -42,9 +41,20 @@
         <a (click)="signInWithGithub()">
             <img src="assets/github.svg" alt="" class="icon">
         </a>
+        <i class="pi pi-phone phoneIcon" data-toggle="modal" (click)="openModal()" data-target="#myPhoneModal"></i>
     </div>
 
 </form>
 
 <div class="rectangle5"></div>
 <div class="rectangle6"></div>
+<div class="modal" [ngStyle]="{'display':displayPhoneModal}" id="myPhoneModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" [ngClass]="{'blur-background': displayPhoneModal}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <app-phone-auth (closeModal)="closeModal()"></app-phone-auth>
+            </div>
+        </div>
+    </div>
+</div>

@@ -170,18 +170,13 @@
 }
 
 .profile-img-popover {
-    margin: 10% 0 5% 70%;
-    width: 100px;
-    height: 100px;
-    border-radius: 100px;
+    margin: 5% 0 5% 0%;
+    height: 6rem;
 }
 
 .profile-img-popover-icon {
-    margin: 10% 0 5% 70%;
-    width: 100px;
-    height: 100px;
-    border-radius: 100px;
-    font-size: 5rem;
+    margin: 5% 0 5% 0%;
+    height: 6rem;
 }
 
 .displayName {
@@ -220,22 +215,42 @@
 }
 
 .overlay-content {
-    max-width: 235px;
+    min-width: 220px;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emailPhoneLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .profile-img-container {
     position: relative;
     display: inline-block;
+    align-items: center;
+    justify-content: center;
 }
 
 .profile-img-popover {
     border-radius: 50%;
 }
 
+.blur-background {
+    backdrop-filter: blur(0.5px);
+    transition: filter 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .icon-popover {
     position: absolute;
     bottom: 5px;
-    right: -65px;
+    right: 0px;
     background-color: #495057;
     color: white;
     padding: 5px;
@@ -245,7 +260,7 @@
 
 .icon-popover-icon {
     bottom: 10px;
-    right: -60px;
+    right: 0px;
 }
 
 .icon-popover:hover {
@@ -264,8 +279,6 @@
 }
 
 .modal-content {
-    margin-top: 100px;
-    margin-left: 90px;
     max-width: 380px;
     position: relative;
     display: flex;
@@ -692,19 +705,23 @@
     align-items: center;
     color: #727272;
     font-size: 13px;
-    margin-bottom: 5px;
+}
+
+.overlayDialog {
+    margin: -0.5rem;
+}
+
+.menu-items i {
+    margin-right: 6px;
+    margin-top: 2px;
+    font-size: 12px;
+    color: #727272;
 }
 
 .edit_Task {
     height: 30px;
     width: 220px;
     margin-bottom: 8px;
-}
-
-.menu-items i {
-    margin-right: 3px;
-    font-size: 13px;
-    color: #727272;
 }
 
 .vertical-ellipse-button {
