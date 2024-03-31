@@ -8,11 +8,13 @@ import { interval } from 'rxjs';
   styleUrls: ['./phone-auth.component.css']
 })
 export class PhoneAuthComponent implements OnInit {
-  constructor(private authService: AuthService) { }
-
-  ngOnInit() {
+  constructor(private authService: AuthService) {
+    this.countdownTotalSeconds = 120
   }
 
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+  @ViewChild('phoneNumberRef') phoneNumberRef: ElementRef;
+  @ViewChild('phoneNumberRef1') phoneNumberRef1: ElementRef;
 
   phoneNumber: any;
   fullName: any;
@@ -25,24 +27,29 @@ export class PhoneAuthComponent implements OnInit {
   otpRecaptcha: boolean = false;
   updateInput: boolean = false;
   btnDis: boolean = true;
-
-  @Output() otpEntered = new EventEmitter<string>();
-  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
-
-  @ViewChild('digit1') digit1!: ElementRef<HTMLInputElement>;
-  @ViewChild('digit2') digit2!: ElementRef<HTMLInputElement>;
-  @ViewChild('digit3') digit3!: ElementRef<HTMLInputElement>;
-  @ViewChild('digit4') digit4!: ElementRef<HTMLInputElement>;
-  @ViewChild('digit5') digit5!: ElementRef<HTMLInputElement>;
-  @ViewChild('digit6') digit6!: ElementRef<HTMLInputElement>;
-
   countdownTotalSeconds: number = 120
   countdownDisplay: string;
   showResendBtn: boolean = false;
+  otpEntered: string;
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.phoneNumberRef.nativeElement.focus();
+      // this.phoneNumberRef.nativeElement.select();
+    }, 0);
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.phoneNumberRef.nativeElement.select();
+      // this.phoneNumberRef.nativeElement.focus();
+    }, 0);
+  }
 
   resendBtn() {
     this.countdownTotalSeconds = 120;
     this.showResendBtn = false;
+    this.sendOtp()
   }
 
   startCountdown() {
@@ -58,15 +65,9 @@ export class PhoneAuthComponent implements OnInit {
     });
   }
 
-  onInput(index: number, event: any) {
-    const nextInput = this[`digit${index + 1}`];
-    if (event.target.value.length === 1 && nextInput) {
-      nextInput.nativeElement.focus();
-    }
-
-    const otp = this.getOTPValue();
-    if (otp.length === 6) {
-      this.onOTPEntered(otp);
+  onInput() {
+    if (this.otpEntered.length === 6) {
+      this.onOTPEntered(this.otpEntered);
     }
   }
 
@@ -80,31 +81,28 @@ export class PhoneAuthComponent implements OnInit {
     }
   }
 
-  private getOTPValue(): string {
-    return [
-      this.digit1.nativeElement.value,
-      this.digit2.nativeElement.value,
-      this.digit3.nativeElement.value,
-      this.digit4.nativeElement.value,
-      this.digit5.nativeElement.value,
-      this.digit6.nativeElement.value,
-    ].join('');
-  }
+  onOTPEntered(otpEntered: string) {
 
-  onOTPEntered(otp: string) {
-    this.authService.verifyCode(this.verificationId, otp)
+    this.authService.verifyCode(this.verificationId, otpEntered)
       .then(user => {
         this.user = user
         this.otpRecaptcha = false;
         this.btnDis = true;
         this.otpInput = false;
         this.phoneInputFlg = false;
+        this.otpEntered = ''
         if (!this.user['displayName'] && this.user['displayName'] == null) {
           this.updateInput = true;
         }
       })
       .catch(error => {
-        console.error(error);
+        this.otpRecaptcha = false;
+        this.updateInput = false;
+        this.btnDis = true;
+        this.otpInput = true;
+        this.phoneInputFlg = false;
+        this.startCountdown();
+        this.otpEntered = ''
       });
   }
 
@@ -130,7 +128,11 @@ export class PhoneAuthComponent implements OnInit {
         this.startCountdown();
       })
       .catch(error => {
-        console.error(error);
+        this.otpRecaptcha = false;
+        this.updateInput = false;
+        this.btnDis = false;
+        this.otpInput = false;
+        this.phoneInputFlg = true;
       });
   }
 

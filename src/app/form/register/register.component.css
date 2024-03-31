@@ -115,8 +115,6 @@ svg {
 .userName {
     color: #000;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     position: absolute;
     left: 756px;
     top: 210px;
@@ -129,8 +127,6 @@ svg {
 .fullName {
     color: #000;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     position: absolute;
     left: 756px;
     top: 134px;
@@ -152,31 +148,23 @@ svg {
 
 .labelWrapper {
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     flex-shrink: 1;
 }
 
 .label {
     color: #000;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
 }
 
 .label2 {
     color: #000;
     font-size: 16px;
     font-weight: 500;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
 }
 
 .label3 {
     color: #000;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
 }
 
 .rectangle4 {
@@ -216,8 +204,6 @@ svg {
 
     font-size: 16px;
     font-weight: 500;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
 }
 
 .btn:hover {
@@ -234,8 +220,6 @@ svg {
 .password {
     color: #000;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     position: absolute;
     left: 760px;
     top: 366px;
@@ -248,8 +232,6 @@ svg {
 .email {
     color: #000;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     position: absolute;
     left: 758px;
     top: 290px;
@@ -262,8 +244,6 @@ svg {
 .confirmPassword {
     color: #000;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     position: absolute;
     left: 760px;
     top: 442px;
@@ -316,8 +296,6 @@ svg {
     color: #1a1a1a;
     font-size: 18px;
     font-weight: bold;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     position: absolute;
     left: 808px;
     top: 88px;

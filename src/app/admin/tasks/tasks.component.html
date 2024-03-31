@@ -1,3 +1,7 @@
+<div class="progress-spinner" *ngIf="showLoader">
+    <p-progressSpinner class="p-progress-spinner-circle" ariaLabel="loading" strokeWidth="3"
+        animationDuration="1s"></p-progressSpinner>
+</div>
 <div class="modal" [ngStyle]="{'display':display}" id="myModal" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true" [ngClass]="{'blur-background': display}">
     <div class="modal-dialog" role="document">
@@ -73,14 +77,14 @@
                                 data-target="#myModal"></i>
                         </div>
                     </div>
-                    <div class="displayName mb-3 ml-2">
+                    <div class="displayName">
                         <span>Hi, {{displayName}}!</span>
                     </div>
-                    <div class="actions">
-                        <span class="menu-items" (click)="switchAccount()">
+                    <div class="actions mt-3">
+                        <span class="menu-items" (click)="switchAccount()" (click)="op2.toggle($event)">
                             <i class="pi pi-user mr-2"></i>
                             Switch Account</span>
-                        <span class="menu-items" (click)="logout()">
+                        <span class="menu-items" (click)="logout()" (click)="op2.toggle($event)">
                             <i class="pi pi-sign-out mr-2"></i>
                             Sign Out</span>
                     </div>
@@ -100,13 +104,11 @@
     <div class="add-todo-action">
         <span *ngIf="!editMainBoard && mainBoard!=''"
             [ngClass]="mode ? 'main-board-dark' : 'main-board'">{{mainBoard}}</span>
-        <div *ngIf="editMainBoard">
-            <input type="text" pInputText class="edit_Task" [(ngModel)]="mainBoardName"
-                (keyup.enter)="onEnterMainBoard()">
-        </div>
+        <input #mainBoardRef *ngIf="editMainBoard" type="text" class="edit_board" [(ngModel)]="mainBoardName"
+            (keyup.enter)="onEnterMainBoard()">
         <div class="add-todo-text">
             <p-overlayPanel #op1>
-                <span class="menu-items overlayDialog" (click)="editBoard()">
+                <span class="menu-items overlayDialog" (click)="editBoard()" (click)="op1.toggle($event)">
                     <i class="pi pi-pencil"></i>
                     Edit Board</span>
             </p-overlayPanel>
@@ -125,18 +127,19 @@
                             {{task.name}}
                         </label>
 
-                        <div *ngIf="editTaskLabel===task['id']">
-                            <input type="text" pInputText class="edit_Task" [(ngModel)]="taskLabelName"
-                                (keyup.enter)="onEnterCardLabel(task['id'])">
-                        </div>
+                        <input #inputCardLabelRef *ngIf="editTaskLabel===task['id']" type="text" class="edit_Task"
+                            [(ngModel)]="taskLabelName" (keyup.enter)="onEnterCardLabel(task['id'])">
 
                         <div class="ellipse-card">
                             <p-overlayPanel #op>
                                 <div class="overlayDialog">
-                                    <span class="menu-items mb-2" (click)="menuItemClicked('delete', task)">
+                                    <span class="menu-items mb-2"
+                                        (click)="menuItemClicked('delete', task['id'], task['name'])"
+                                        (click)="op.toggle($event)">
                                         <i class="pi pi-trash"></i>
                                         Delete</span>
-                                    <span class="menu-items" (click)="menuItemClicked('edit',task)">
+                                    <span class="menu-items" (click)="menuItemClicked('edit',task['id'], task['name'])"
+                                        (click)="op.toggle($event)">
                                         <i class="pi pi-file-edit"></i>
                                         Edit</span>
                                 </div>
@@ -149,12 +152,12 @@
                     <div (mouseover)="hoverOnAddTaskMtd(task)" (mouseout)="hoverOnAddTaskMtd1(task)"
                         class="mb-2 add-button" (click)="addTodo(task['id'])">
                         <i [ngClass]="task['sty'] ? 'add-icon-hover':'add-icon'" class="pi pi-plus"></i>
-                        Add Task
+                        Add a task
                     </div>
 
                     <div class="todoIncompleted">
-                        <input *ngIf="isAddTodo===task['id']" type="text" class="add_Todo" [(ngModel)]="addedTodo"
-                            pInputText (keyup.enter)="onEnterTodo(task['id'])">
+                        <input *ngIf="isAddTodo===task['id']" placeholder="Title" type="text" class="add_Todo"
+                            [(ngModel)]="addedTodo" (keyup.enter)="onEnterTodo(task['id'])">
                         <div *ngFor="let todo of todos" class="field-checkbox">
 
                             <div class="checkIncompleted" (mouseover)="checkHover=todo.todoId"
@@ -169,13 +172,15 @@
                     </div>
 
                     <div *ngIf="completedTodosCountObj && !completedTodosCountObj.hasOwnProperty(task['id'])">
-                        <span class="completed-button">Completed</span>
+                        <span class="completed-button completed-button-mt">Completed</span>
                     </div>
                     <div *ngIf="completedTodosCountObj && completedTodosCountObj[task['id']] && completedTodosCountObj[task['id']]!=0"
-                        class="list-container">
-                        <span class="completed-button">Completed({{completedTodosCountObj[task['id']]}})</span>
-                        <button class="toggle-button" type="button" (click)="toggleForCompletedList(task['id'])"
-                            [textContent]="isCompletedListOpen.includes(task['id']) ? 'Λ' : 'V'"></button>
+                        [ngClass]="!isCompletedListOpen.includes(task['id'])?'list-container':'list-container list-container-mb'">
+                        <span class="completed-button">Completed ({{completedTodosCountObj[task['id']]}})</span>
+                        <i *ngIf="isCompletedListOpen.includes(task['id'])" class="pi pi-angle-up completed-button"
+                            (click)="toggleForCompletedList(task['id'])"></i>
+                        <i *ngIf="!isCompletedListOpen.includes(task['id'])" class="pi pi-angle-down completed-button"
+                            (click)="toggleForCompletedList(task['id'])"></i>
                     </div>
 
                     <div class="todoCompleted" *ngIf="isCompletedListOpen.includes(task['id'])">

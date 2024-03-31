@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GoogleAuthProvider, GithubAuthProvider, User } from 'firebase/auth';
 import { Router } from '@angular/router';
@@ -16,6 +16,8 @@ export class AuthService {
     private userSubject = new BehaviorSubject<User | null>(null);
     user = this.userSubject.asObservable();
     email: any;
+    @Output() valueEmitter = new EventEmitter<string>();
+    private inputValueSubject = new BehaviorSubject<boolean>(false);
 
     constructor(private afAuth: AngularFireAuth, private cacheService: CacheService, private router: Router, private firestore: AngularFirestore) {
         this.afAuth.authState.subscribe(user => {
@@ -23,10 +25,20 @@ export class AuthService {
         });
     }
 
+    setLoaderValue(value: boolean) {
+        this.inputValueSubject.next(value);
+    }
+
+    getLoaderValue() {
+        return this.inputValueSubject.asObservable();
+    }
+
     sendVerificationCode(phoneNumber: string) {
+        this.setLoaderValue(true);
         const formattedPhoneNumber = phoneNumber;
         const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
         return this.afAuth.signInWithPhoneNumber(formattedPhoneNumber, appVerifier).then((res) => {
+            this.setLoaderValue(false);
             return res['verificationId']
         }, err => {
             alert(err.message);
@@ -35,14 +47,17 @@ export class AuthService {
     }
 
     verifyCode(verificationId: string, code: string) {
+        this.setLoaderValue(true);
         const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, code);
         return this.afAuth.signInWithCredential(credential).then((res) => {
             if (res.user['displayName'] != null) {
                 this.cacheService.setData('token', res.user)
                 this.router.navigate(['/tasks'])
+                this.setLoaderValue(false);
                 return res.user
             }
             else {
+                this.setLoaderValue(false);
                 return res.user
             }
         }, err => {
@@ -71,20 +86,25 @@ export class AuthService {
     }
 
     setDisplayName(firstName: string, lastName: string) {
+        this.setLoaderValue(true);
         const displayName = `${firstName} ${lastName}`;
         return this.afAuth.currentUser.then((user) => {
+            this.setLoaderValue(false);
             return user?.updateProfile({ displayName });
         });
     }
 
     signIn(email: string, password: string, rememberMe: any) {
+        this.setLoaderValue(true);
         this.afAuth.signInWithEmailAndPassword(email, password).then((res) => {
             if (res.user?.emailVerified) {
+                this.setLoaderValue(false);
                 this.cacheService.setData('token', res.user)
                 this.router.navigate(['/tasks'], { state: { rememberMe: rememberMe } })
             }
             else {
                 if (res.user) {
+                    this.setLoaderValue(false);
                     res.user.sendEmailVerification();
                     this.router.navigate(['/verify-email'])
                 }
@@ -96,6 +116,7 @@ export class AuthService {
     }
 
     register(form: object) {
+        this.setLoaderValue(true);
         this.afAuth.createUserWithEmailAndPassword(form['email'], form['password']).then((res) => {
 
             res.user?.updateProfile({
@@ -107,6 +128,7 @@ export class AuthService {
             });
 
             if (res.user) {
+                this.setLoaderValue(false);
                 res.user.sendEmailVerification();
                 this.router.navigate(['/verify-email'])
             }
@@ -122,7 +144,9 @@ export class AuthService {
     }
 
     signOut() {
+        this.setLoaderValue(true);
         this.afAuth.signOut().then(() => {
+            this.setLoaderValue(false);
             this.cacheService.removeData('token')
             this.router.navigate(['/login'])
         }, err => {
@@ -131,7 +155,9 @@ export class AuthService {
     }
 
     forgotPassword(email: string) {
+        this.setLoaderValue(true);
         this.afAuth.sendPasswordResetEmail(email).then(() => {
+            this.setLoaderValue(false);
             this.email = email;
             this.router.navigate(['/verify-email'])
         }, err => {
@@ -140,9 +166,11 @@ export class AuthService {
     }
 
     deleteCurrentUser() {
+        this.setLoaderValue(true);
         this.afAuth.currentUser.then((user) => {
             if (user) {
                 user.delete();
+                this.setLoaderValue(false);
                 this.cacheService.removeData('token')
                 this.router.navigate(['/login'])
             }
@@ -153,6 +181,7 @@ export class AuthService {
 
     // Sing with google
     singInWithGoogle() {
+        this.setLoaderValue(true);
         return this.afAuth.signInWithPopup(new GoogleAuthProvider()).then((res) => {
             const user = res.user;
             if (user) {
@@ -161,6 +190,7 @@ export class AuthService {
                     displayName: user.displayName,
                     photoURL: user.photoURL,
                 }).then(() => {
+                    this.setLoaderValue(false);
                     this.cacheService.setData('token', res.user)
                     this.router.navigate(['/tasks'])
                     if (this.router.url == '/tasks') {
@@ -176,6 +206,7 @@ export class AuthService {
 
     // Sing with github
     singInWithGithub() {
+        this.setLoaderValue(true);
         return this.afAuth.signInWithPopup(new GithubAuthProvider()).then((res) => {
             const user = res.user;
             if (user) {
@@ -184,6 +215,7 @@ export class AuthService {
                     displayName: user.displayName,
                     photoURL: user.photoURL,
                 }).then(() => {
+                    this.setLoaderValue(false);
                     this.cacheService.setData('token', res.user)
                     this.router.navigate(['/tasks'])
                 });

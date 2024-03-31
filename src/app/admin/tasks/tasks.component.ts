@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { TasksService } from './service/tasks.service';
@@ -22,8 +22,12 @@ export class TasksComponent implements OnInit {
     private cacheService: CacheService,
     private sanitizer: DomSanitizer
   ) {
-    this.rememberMe = history.state?.['rememberMe']
+    this.rememberMe = history.state?.['rememberMe'];
   }
+
+  @ViewChild('inputCardLabelRef') inputCardLabelRef: ElementRef;
+  @ViewChild('mainBoardRef') mainBoardRef: ElementRef;
+
   rememberMe: any;
   forkSub: Subscription;
   menuOpen: boolean = false;
@@ -42,7 +46,7 @@ export class TasksComponent implements OnInit {
   tasksFix: any = []
   addTasksInput: boolean = false
   isMenuOpen: string = '';
-  editTaskLabel: string;
+  editTaskLabel: string = '';
   taskLabelName: string;
   mainBoardName: string;
   tasks: any = [];
@@ -60,6 +64,7 @@ export class TasksComponent implements OnInit {
   display = 'none';
   displayName: string;
   userCache: any;
+  showLoader: boolean = false;
 
   openModal() {
     this.display = 'flex'
@@ -71,6 +76,7 @@ export class TasksComponent implements OnInit {
 
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
+    this.showLoader = true;
     this.tasksService.uploadImage(file, this.uid).subscribe((response) => {
       this.getImage()
     });
@@ -78,6 +84,7 @@ export class TasksComponent implements OnInit {
 
   getImage(): void {
     this.tasksService.getImage(this.uid).subscribe((buffer: ArrayBuffer) => {
+      this.showLoader = false;
       if (buffer.byteLength > 0) {
         const blob = new Blob([buffer], { type: 'image/jpeg' });
         const imageUrl = URL.createObjectURL(blob);
@@ -96,7 +103,9 @@ export class TasksComponent implements OnInit {
 
   removeImage() {
     const file: File = null;
+    this.showLoader = true;
     this.tasksService.uploadImage(file, this.uid).subscribe((response) => {
+      this.showLoader = false;
       if (this.userCache) {
         this.photoURL = this.userCache['photoURL'] ? this.userCache['photoURL'] : '';
       }
@@ -107,6 +116,7 @@ export class TasksComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.showLoader = true
     this.userCache = this.cacheService.getData('token');
     if (this.userCache) {
       this.displayName = this.userCache['displayName'].split(' ')[0];
@@ -133,20 +143,23 @@ export class TasksComponent implements OnInit {
     this.tasks = this.tasksFix.filter(task => filteredIds.includes(task.id));
   }
 
-  ngafterviewinit() {
+  ngAfterViewInit() {
     if (this.forkSub) {
       this.forkSub.unsubscribe;
     }
   }
 
   darkMode() {
+    this.showLoader = true;
     if (!this.mode) {
       this.mode = true;
       this.tasksService.updateMode({ mode: 'dark' }, this.uid).subscribe((res) => {
+        this.showLoader = false;
       })
     } else {
       this.mode = false;
       this.tasksService.updateMode({ mode: 'light' }, this.uid).subscribe((res) => {
+        this.showLoader = false;
       })
     }
   }
@@ -170,10 +183,14 @@ export class TasksComponent implements OnInit {
   // Card
   editBoard() {
     this.editMainBoard = true;
-    this.mainBoardName = this.mainBoard
+    this.mainBoardName = this.mainBoard;
+    setTimeout(() => {
+      this.mainBoardRef.nativeElement.select();
+    }, 0);
   }
 
   onEnterMainBoard() {
+    this.showLoader = true
     this.tasksService.updateMode({ mainBoard: this.mainBoardName }, this.uid).subscribe((res) => {
       this.editMainBoard = false;
       this.getLatestTasks(this.uid);
@@ -230,6 +247,7 @@ export class TasksComponent implements OnInit {
 
   onEnterTask() {
     if (this.addedTask != '') {
+      this.showLoader = true;
       this.tasksModel = new TasksModel()
       this.tasksModel.setModel(undefined, this.addedTask)
       this.tasksService.createTasks(this.tasksModel, this.uid).subscribe((res) => {
@@ -244,6 +262,7 @@ export class TasksComponent implements OnInit {
 
   onEnterCardLabel(taskId: string) {
     if (this.editTaskLabel != '') {
+      this.showLoader = true;
       this.tasksModel = new TasksModel();
       this.tasksModel.setModel(taskId, this.taskLabelName);
       this.tasksService.patchTasks(this.uid, this.tasksModel).subscribe((res) => {
@@ -262,19 +281,22 @@ export class TasksComponent implements OnInit {
       this.isMenuOpen = taskId
   }
 
-  menuItemClicked(item: string, task: any) {
+  menuItemClicked(item: string, taskId: any, taskName: any) {
     if (item == 'delete') {
+      this.showLoader = true;
       this.tasksModel = new TasksModel();
-      this.tasksModel.setModel(task['id'], task['name'], true)
+      this.tasksModel.setModel(taskId, taskName, true)
       this.tasksService.patchTasks(this.uid, this.tasksModel).subscribe((res) => {
         this.isMenuOpen = "";
         this.getLatestTasks(this.uid);
       })
     } else if (item == 'edit') {
-      this.editTaskLabel = task['id'];
-      let searcedTasks = this.tasks.find((task) => task['id'] === task['id'])
-      this.taskLabelName = searcedTasks['name'];
+      this.editTaskLabel = taskId;
+      this.taskLabelName = taskName;
       this.isMenuOpen = "";
+      setTimeout(() => {
+        this.inputCardLabelRef.nativeElement.select();
+      }, 0);
     }
   }
 
@@ -290,6 +312,7 @@ export class TasksComponent implements OnInit {
 
   onEnterTodo(todoId: string) {
     if (this.addedTodo != '') {
+      this.showLoader = true;
       this.todosModel = new TodosModel()
       this.todosModel.setModel(todoId, this.addedTodo)
       this.tasksService.createTodo(this.uid, this.todosModel).subscribe((res) => {
@@ -303,6 +326,7 @@ export class TasksComponent implements OnInit {
 
   //Todo checkbox
   onCheckboxClick(todo: any) {
+    this.showLoader = true;
     this.todosModel = new TodosModel()
     this.todosModel.setModel(todo['id'], todo['name'], true, todo['deleted'], todo['todoId'])
     this.tasksService.patchTodo(this.uid, this.todosModel).subscribe((res) => {
@@ -312,6 +336,7 @@ export class TasksComponent implements OnInit {
 
   //Completed Tasks
   deleteCompleteList(todo: string) {
+    this.showLoader = true;
     this.todosModel = new TodosModel()
     this.todosModel.setModel(todo['id'], todo['name'], todo['completed'], true, todo['todoId'])
     this.tasksService.patchTodo(this.uid, this.todosModel).subscribe((res) => {

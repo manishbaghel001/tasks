@@ -39,8 +39,6 @@
     margin-bottom: 2%;
     color: gray;
     font-size: 14px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
 }
 
 .title2 {
@@ -49,8 +47,6 @@
     font-weight: 500;
     margin-top: 2%;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     transition: color 0.3s ease;
 }
 

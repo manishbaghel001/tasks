@@ -12,7 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { environment } from 'src/environments/environment';
-
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @NgModule({
   declarations: [
     TasksComponent
@@ -28,7 +28,8 @@ import { environment } from 'src/environments/environment';
     MenubarModule,
     InputTextModule,
     OverlayPanelModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    ProgressSpinnerModule
   ]
 })
 export class AdminModule { }

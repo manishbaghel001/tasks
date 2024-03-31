@@ -21,7 +21,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { PhoneAuthComponent } from './form/phone-auth/phone-auth.component';
-
+import { InputOtpModule } from 'primeng/inputotp';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,9 @@ import { PhoneAuthComponent } from './form/phone-auth/phone-auth.component';
     CheckboxModule,
     MenubarModule,
     InputTextModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    InputOtpModule,
+    ProgressSpinnerModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

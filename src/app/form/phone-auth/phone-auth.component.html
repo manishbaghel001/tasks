@@ -8,18 +8,13 @@
     <span *ngIf="otpInput" class="title1"> for verification.</span>
 
     <div *ngIf="otpInput" class="otp-input">
-        <input type="text" maxlength="1" (input)="onInput(1, $event)" #digit1>
-        <input type="text" maxlength="1" (input)="onInput(2, $event)" #digit2>
-        <input type="text" maxlength="1" (input)="onInput(3, $event)" #digit3>
-        <input type="text" maxlength="1" (input)="onInput(4, $event)" #digit4>
-        <input type="text" maxlength="1" (input)="onInput(5, $event)" #digit5>
-        <input type="text" maxlength="1" (input)="onInput(6, $event)" #digit6>
+        <p-inputOtp [(ngModel)]="otpEntered" [length]="6" [integerOnly]="true" (input)="onInput()"></p-inputOtp>
     </div>
     <span *ngIf="otpInput" class="title1">Didn’t receive any code? </span>
     <span *ngIf="otpInput && !showResendBtn">{{ countdownDisplay }}</span>
-    <span *ngIf="otpInput && showResendBtn" (click)="resendBtn()" class="title2">Resend Again</span>
+    <button *ngIf="otpInput && showResendBtn" (click)="resendBtn()" class="resendBtn">Resend Again</button>
     <input *ngIf="phoneInputFlg" type="text" class="phoneCode" [(ngModel)]="phoneCode">
-    <input *ngIf="phoneInputFlg" type="text" class="phoneInput" placeholder="Phone Number"
+    <input *ngIf="phoneInputFlg" #phoneNumberRef type="text" class="phoneInput" placeholder="Phone Number"
         (input)="onInputPhone($event)" [(ngModel)]="phoneNumber">
 
     <span *ngIf="updateInput" class="title1"> First time user? Please update info! </span>

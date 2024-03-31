@@ -121,8 +121,6 @@ svg {
 .username {
     color: #000;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     position: absolute;
     left: 122px;
     top: 220px;
@@ -158,8 +156,6 @@ svg {
 
 .labelWrapper {
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     flex-shrink: 1;
     margin-top: 6px;
 }
@@ -174,8 +170,6 @@ svg {
 
 .labelWrapper1 {
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -185,16 +179,12 @@ svg {
 .label {
     color: #000;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
 }
 
 .label2 {
     color: #000;
     font-size: 16px;
     font-weight: 500;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
 }
 
 .forgotPassword {
@@ -202,16 +192,12 @@ svg {
     font-size: 16px;
     font-weight: 500;
     margin-left: 30%;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
 }
 
 .welcomeBack {
     color: #1a1a1a;
     font-size: 20px;
     font-weight: bold;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     position: absolute;
     left: 240px;
     top: 165px;
@@ -246,8 +232,6 @@ svg {
 
     font-size: 16px;
     font-weight: 500;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
 }
 
 .phoneIcon {
@@ -299,8 +283,6 @@ svg {
     color: #fff;
     font-size: 16px;
     font-weight: 500;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     position: absolute;
     left: 285px;
     top: 427px;
@@ -313,8 +295,6 @@ svg {
 .password {
     color: #000;
     font-size: 16px;
-    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
-        'Liberation Sans', sans-serif;
     position: absolute;
     left: 124px;
     top: 296px;
