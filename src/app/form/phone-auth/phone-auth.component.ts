@@ -10,6 +10,7 @@ import { interval } from 'rxjs';
 export class PhoneAuthComponent implements OnInit {
   constructor(private authService: AuthService) {
     this.countdownTotalSeconds = 120
+    // this.phoneNumberRef.nativeElement.focus();
   }
 
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
@@ -73,7 +74,6 @@ export class PhoneAuthComponent implements OnInit {
 
   onInputPhone(event: any) {
     if (event.target.value.length === 10 && this.phoneCode != '') {
-      this.otpRecaptcha = true;
       this.btnDis = false
     }
     else {
@@ -82,7 +82,6 @@ export class PhoneAuthComponent implements OnInit {
   }
 
   onOTPEntered(otpEntered: string) {
-
     this.authService.verifyCode(this.verificationId, otpEntered)
       .then(user => {
         this.user = user
@@ -117,6 +116,7 @@ export class PhoneAuthComponent implements OnInit {
 
   sendOtp() {
     let phoneNo = this.phoneCode + this.phoneNumber;
+    this.otpRecaptcha = true
     this.authService.sendVerificationCode(phoneNo)
       .then(verificationId => {
         this.otpRecaptcha = false;

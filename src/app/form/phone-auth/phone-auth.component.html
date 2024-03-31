@@ -12,7 +12,7 @@
     </div>
     <span *ngIf="otpInput" class="title1">Didn’t receive any code? </span>
     <span *ngIf="otpInput && !showResendBtn">{{ countdownDisplay }}</span>
-    <button *ngIf="otpInput && showResendBtn" (click)="resendBtn()" class="resendBtn">Resend Again</button>
+    <a href="" *ngIf="otpInput && showResendBtn" (click)="resendBtn()" class="title2">Resend Again</a>
     <input *ngIf="phoneInputFlg" type="text" class="phoneCode" [(ngModel)]="phoneCode">
     <input *ngIf="phoneInputFlg" #phoneNumberRef type="text" class="phoneInput" placeholder="Phone Number"
         (input)="onInputPhone($event)" [(ngModel)]="phoneNumber">

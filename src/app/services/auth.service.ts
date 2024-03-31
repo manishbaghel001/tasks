@@ -42,6 +42,7 @@ export class AuthService {
             return res['verificationId']
         }, err => {
             alert(err.message);
+            this.setLoaderValue(false);
             this.router.navigate(['/login'])
         })
     }
@@ -62,6 +63,7 @@ export class AuthService {
             }
         }, err => {
             alert(err.message);
+            this.setLoaderValue(false);
             this.router.navigate(['/login'])
         });
     }
@@ -111,6 +113,7 @@ export class AuthService {
             }
         }, err => {
             alert(err.message);
+            this.setLoaderValue(false);
             this.router.navigate(['/login'])
         });
     }
@@ -133,6 +136,7 @@ export class AuthService {
                 this.router.navigate(['/verify-email'])
             }
         }, err => {
+            this.setLoaderValue(false);
             alert(err.message);
         });
     }
@@ -150,6 +154,7 @@ export class AuthService {
             this.cacheService.removeData('token')
             this.router.navigate(['/login'])
         }, err => {
+            this.setLoaderValue(false);
             alert(err.message);
         });
     }
@@ -161,6 +166,7 @@ export class AuthService {
             this.email = email;
             this.router.navigate(['/verify-email'])
         }, err => {
+            this.setLoaderValue(false);
             alert(err.message);
         });
     }
@@ -175,6 +181,7 @@ export class AuthService {
                 this.router.navigate(['/login'])
             }
         }, err => {
+            this.setLoaderValue(false);
             alert(err.message);
         });
     }
@@ -200,6 +207,7 @@ export class AuthService {
             }
         }, err => {
             alert(err.message);
+            this.setLoaderValue(false);
             this.router.navigate(['/login'])
         })
     }
@@ -222,6 +230,7 @@ export class AuthService {
             }
         }, err => {
             alert(err.message);
+            this.setLoaderValue(false);
             this.router.navigate(['/login'])
         })
     }
