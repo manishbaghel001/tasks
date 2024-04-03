@@ -1,11 +1,11 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GoogleAuthProvider, GithubAuthProvider, User } from 'firebase/auth';
-import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CacheService } from '../cache/cache.service';
 import firebase from '@firebase/app-compat'
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root',
@@ -33,11 +33,9 @@ export class AuthService {
         return this.inputValueSubject.asObservable();
     }
 
-    sendVerificationCode(phoneNumber: string) {
+    sendVerificationCode(phoneNumber: string, appVerifier) {
         this.setLoaderValue(true);
-        const formattedPhoneNumber = phoneNumber;
-        const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
-        return this.afAuth.signInWithPhoneNumber(formattedPhoneNumber, appVerifier).then((res) => {
+        return this.afAuth.signInWithPhoneNumber(phoneNumber, appVerifier).then((res) => {
             this.setLoaderValue(false);
             return res['verificationId']
         }, err => {

@@ -14,6 +14,7 @@ export class LoginComponent {
   passwordToggle: boolean = false
   phoneNumber: any;
   displayPhoneModal: string = 'none'
+  rememberMe: string[] = [];
 
   openModal() {
     this.displayPhoneModal = 'flex'
@@ -26,7 +27,8 @@ export class LoginComponent {
       alert('Please enter your email and password')
     }
     else {
-      this.authService.signIn(item['email'], item['password'], item['rememberMe']);
+      let check = this.rememberMe.length != 0 ? this.rememberMe[0] : false
+      this.authService.signIn(item['email'], item['password'], check);
     }
   }
 

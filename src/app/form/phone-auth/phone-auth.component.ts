@@ -1,17 +1,15 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { interval } from 'rxjs';
+import firebase from '@firebase/app-compat'
 
 @Component({
   selector: 'app-phone-auth',
   templateUrl: './phone-auth.component.html',
   styleUrls: ['./phone-auth.component.css']
 })
-export class PhoneAuthComponent implements OnInit {
-  constructor(private authService: AuthService) {
-    this.countdownTotalSeconds = 120
-    // this.phoneNumberRef.nativeElement.focus();
-  }
+export class PhoneAuthComponent implements AfterViewInit {
+  constructor(private authService: AuthService) { }
 
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('phoneNumberRef') phoneNumberRef: ElementRef;
@@ -34,22 +32,15 @@ export class PhoneAuthComponent implements OnInit {
   otpEntered: string;
 
   ngOnInit() {
-    setTimeout(() => {
-      this.phoneNumberRef.nativeElement.focus();
-      // this.phoneNumberRef.nativeElement.select();
-    }, 0);
+    this.countdownTotalSeconds = 120
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.phoneNumberRef.nativeElement.select();
-      // this.phoneNumberRef.nativeElement.focus();
-    }, 0);
   }
 
   resendBtn() {
     this.countdownTotalSeconds = 120;
-    this.showResendBtn = false;
+    this.otpRecaptcha = true
     this.sendOtp()
   }
 
@@ -75,6 +66,7 @@ export class PhoneAuthComponent implements OnInit {
   onInputPhone(event: any) {
     if (event.target.value.length === 10 && this.phoneCode != '') {
       this.btnDis = false
+      this.otpRecaptcha = true
     }
     else {
       this.btnDis = true
@@ -100,7 +92,6 @@ export class PhoneAuthComponent implements OnInit {
         this.btnDis = true;
         this.otpInput = true;
         this.phoneInputFlg = false;
-        this.startCountdown();
         this.otpEntered = ''
       });
   }
@@ -116,8 +107,8 @@ export class PhoneAuthComponent implements OnInit {
 
   sendOtp() {
     let phoneNo = this.phoneCode + this.phoneNumber;
-    this.otpRecaptcha = true
-    this.authService.sendVerificationCode(phoneNo)
+    const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
+    this.authService.sendVerificationCode(phoneNo, appVerifier)
       .then(verificationId => {
         this.otpRecaptcha = false;
         this.updateInput = false;

@@ -144,6 +144,34 @@ svg {
     margin-left: 6%;
 }
 
+:host ::ng-deep .p-checkbox .p-checkbox-box {
+    border: 1.5px solid #3a3a3a;
+    background: #ebefff;
+    width: 15px;
+    height: 15px;
+    color: #4b5563;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+:host ::ng-deep .p-checkbox-box.p-highlight {
+    width: 15px;
+    height: 15px;
+    padding: 1%;
+    border-color: #3B82F6;
+    background: #3B82F6;
+}
+
+:host ::ng-deep .p-checkbox-label {
+    margin-left: 0;
+    margin-bottom: .4rem;
+}
+
+:host ::ng-deep .p-checkbox .p-checkbox-box .p-icon {
+    width: 10px;
+    height: 10px;
+}
+
 .dontHaveAndAccountRegister {
     position: absolute;
     left: 188px;
