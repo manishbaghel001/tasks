@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { interval } from 'rxjs';
 import firebase from '@firebase/app-compat'
@@ -8,12 +8,13 @@ import firebase from '@firebase/app-compat'
   templateUrl: './phone-auth.component.html',
   styleUrls: ['./phone-auth.component.css']
 })
-export class PhoneAuthComponent implements AfterViewInit {
-  constructor(private authService: AuthService) { }
+export class PhoneAuthComponent implements OnInit {
+  constructor(private authService: AuthService) {
+  }
 
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('phoneNumberRef') phoneNumberRef: ElementRef;
-  @ViewChild('phoneNumberRef1') phoneNumberRef1: ElementRef;
+  @ViewChild('phoneCodeRef') phoneCodeRef: ElementRef;
 
   phoneNumber: any;
   fullName: any;
@@ -32,7 +33,11 @@ export class PhoneAuthComponent implements AfterViewInit {
   otpEntered: string;
 
   ngOnInit() {
-    this.countdownTotalSeconds = 120
+    // this.countdownTotalSeconds = 120;
+    // this.phoneInputFlg = true;
+    // setTimeout(() => {
+    //   this.phoneCodeRef.nativeElement.focus();
+    // }, 0);
   }
 
   ngAfterViewInit() {
@@ -110,6 +115,7 @@ export class PhoneAuthComponent implements AfterViewInit {
     const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' });
     this.authService.sendVerificationCode(phoneNo, appVerifier)
       .then(verificationId => {
+        this.countdownTotalSeconds = 120;
         this.otpRecaptcha = false;
         this.updateInput = false;
         this.btnDis = true;
@@ -117,6 +123,9 @@ export class PhoneAuthComponent implements AfterViewInit {
         this.phoneInputFlg = false;
         this.verificationId = verificationId;
         this.startCountdown();
+        // setTimeout(() => {
+        //   this.phoneCodeRef.nativeElement.focus();
+        // }, 0);
       })
       .catch(error => {
         this.otpRecaptcha = false;

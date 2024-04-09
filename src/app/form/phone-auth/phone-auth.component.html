@@ -8,15 +8,15 @@
     <span *ngIf="otpInput" class="title1"> for verification.</span>
 
     <div *ngIf="otpInput" class="otp-input">
-        <p-inputOtp #phoneNumberRef autofocus [(ngModel)]="otpEntered" [length]="6" [integerOnly]="true"
+        <p-inputOtp #phoneCodeRef autofocus [(ngModel)]="otpEntered" [length]="6" [integerOnly]="true"
             (input)="onInput()"></p-inputOtp>
     </div>
     <span *ngIf="otpInput" class="title1">Didn’t receive any code? </span>
     <span *ngIf="otpInput && !showResendBtn">{{ countdownDisplay }}</span>
     <a href="" *ngIf="otpInput && showResendBtn" (click)="resendBtn()" class="title2">Resend Again</a>
     <input *ngIf="phoneInputFlg" type="text" class="phoneCode" [(ngModel)]="phoneCode">
-    <input *ngIf="phoneInputFlg" autofocus type="text" class="phoneInput" placeholder="Phone Number"
-        (input)="onInputPhone($event)" [(ngModel)]="phoneNumber">
+    <input #phoneNumberRef *ngIf="phoneInputFlg" type="text" maxlength="10" class="phoneInput"
+        placeholder="Phone Number" (input)="onInputPhone($event)" [(ngModel)]="phoneNumber">
 
     <span *ngIf="updateInput" class="title1"> First time user? Please update info! </span>
 

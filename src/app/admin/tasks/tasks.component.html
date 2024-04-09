@@ -5,7 +5,7 @@
 <div class="modal" [ngStyle]="{'display':display}" id="myModal" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true" [ngClass]="{'blur-background': display}">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div [ngClass]="mode ? 'modal-content modal-content-dark':'modal-content modal-content-light'">
             <div class="modal-body">
                 <div class="popUpHeader">
                     <div></div>
@@ -43,7 +43,7 @@
 </div>
 
 <div *ngIf="userCache" [ngClass]="mode ? 'main-header-dark' : 'main-header'">
-    <div [ngClass]="mode ? 'header-dark': 'header'">
+    <div [ngClass]="mode ? 'header header-dark': 'header header-light'">
         <div>
             <i class="pi pi-th-large"></i>
             <span class="ml-2 tasksBoard">TasksBoard</span>
@@ -52,8 +52,8 @@
         <div>
             <span class="p-input-icon-left searchIconBox">
                 <i class="pi pi-search searchIcon"></i>
-                <input class="search" type="text" pInputText placeholder="Search" [(ngModel)]="searchValue"
-                    (input)="onEnterSearch()" />
+                <input [ngClass]="mode ? 'search search-dark': 'search search-light'" type="text" pInputText
+                    placeholder="Search" [(ngModel)]="searchValue" (input)="onEnterSearch()" />
             </span>
         </div>
 
@@ -61,7 +61,8 @@
             <i *ngIf="!mode" class="pi pi-sun modeIcon" (click)="darkMode()"></i>
             <i *ngIf="mode" class="pi pi-moon modeIcon" (click)="darkMode()"></i>
 
-            <p-overlayPanel #op2>
+            <p-overlayPanel
+                [style]="{'background-color': mode ? 'rgb(24, 26, 27)': '', 'color': mode ? '#a6a6a6':'#727272'}" #op2>
                 <div class="overlayDialog">
                     <div class="overlay-content">
                         <span class="emailPhoneLabel" *ngIf="userCache['email']!=null">{{userCache['email']}}</span>
@@ -104,10 +105,12 @@
     <div class="add-todo-action">
         <span *ngIf="!editMainBoard && mainBoard!=''"
             [ngClass]="mode ? 'main-board-dark' : 'main-board'">{{mainBoard}}</span>
-        <input #mainBoardRef *ngIf="editMainBoard" type="text" class="edit_board" [(ngModel)]="mainBoardName"
+        <input #mainBoardRef *ngIf="editMainBoard" type="text"
+            [ngClass]="mode ? 'edit_board edit_board-dark':'edit_board edit_board-light'" [(ngModel)]="mainBoardName"
             (keyup.enter)="onEnterMainBoard()">
         <div class="add-todo-text">
-            <p-overlayPanel #op1>
+            <p-overlayPanel
+                [style]="{'background-color': mode ? 'rgb(24, 26, 27)': '', 'color': mode ? '#a6a6a6':'#727272'}" #op1>
                 <span class="menu-items overlayDialog" (click)="editBoard()" (click)="op1.toggle($event)">
                     <i class="pi pi-pencil"></i>
                     Edit Board</span>
@@ -120,10 +123,10 @@
         <div *ngFor="let task of tasks" class="first">
             <div *ngIf="!task['deleted']">
 
-                <div class="card">
+                <div [ngClass]="mode ? 'card card-dark': 'card card-light'">
 
                     <div class="ellipse">
-                        <label class="taskLabel" *ngIf="editTaskLabel!=task['id']">
+                        <label [ngClass]="mode ? 'taskLabel-dark' : 'taskLabel'" *ngIf="editTaskLabel!=task['id']">
                             {{task.name}}
                         </label>
 
@@ -131,7 +134,9 @@
                             [(ngModel)]="taskLabelName" (keyup.enter)="onEnterCardLabel(task['id'])">
 
                         <div class="ellipse-card">
-                            <p-overlayPanel #op>
+                            <p-overlayPanel
+                                [style]="{'background-color': mode ? 'rgb(24, 26, 27)': '', 'color': mode ? '#a6a6a6':'#727272'}"
+                                #op>
                                 <div class="overlayDialog">
                                     <span class="menu-items mb-2"
                                         (click)="menuItemClicked('delete', task['id'], task['name'])"
@@ -145,7 +150,8 @@
                                 </div>
                             </p-overlayPanel>
 
-                            <i (click)="op.toggle($event)" class="pi pi-ellipsis-v" style="color: #495057"></i>
+                            <i (click)="op.toggle($event)" class="pi pi-ellipsis-v"
+                                [ngClass]="mode ? 'ellipse-dark':'ellipse'"></i>
                         </div>
                     </div>
 
@@ -156,14 +162,16 @@
                     </div>
 
                     <div class="todoIncompleted">
-                        <input *ngIf="isAddTodo===task['id']" placeholder="Title" type="text" class="add_Todo"
+                        <input *ngIf="isAddTodo===task['id']" placeholder="Title" type="text"
+                            [ngClass]="mode ? 'add_Todo add_Todo-dark' : 'add_Todo add_Todo-light'"
                             [(ngModel)]="addedTodo" (keyup.enter)="onEnterTodo(task['id'])">
                         <div *ngFor="let todo of todos" class="field-checkbox">
 
-                            <div class="checkIncompleted" (mouseover)="checkHover=todo.todoId"
-                                (mouseout)="checkHover=false"
+                            <div [ngClass]="mode ? 'checkIncompleted checkIncompleted-dark':'checkIncompleted checkIncompleted-light'"
+                                (mouseover)="checkHover=todo.todoId" (mouseout)="checkHover=false"
                                 *ngIf="!todo['deleted'] && !todo['completed'] && todo['id']===task['id']">
                                 <i [ngClass]="checkHover == todo.todoId ? 'pi pi-check checkHoverIcon': 'pi pi-circle checkboxHoverIcon'"
+                                    [ngClass]="mode ? 'pi pi-circle checkboxHoverIcon-dark' :  'pi pi-circle checkboxHoverIcon-light'"
                                     (click)="onCheckboxClick(todo)"></i>
                                 <label [for]="todo.key" class="ml-2 mb-0">{{ todo.name }}</label>
                             </div>
@@ -172,11 +180,14 @@
                     </div>
 
                     <div *ngIf="completedTodosCountObj && !completedTodosCountObj.hasOwnProperty(task['id'])">
-                        <span class="completed-button completed-button-mt">Completed</span>
+                        <span
+                            [ngClass]="mode ? 'completed-button-dark completed-button completed-button-mt': 'completed-button-light completed-button completed-button-mt'">Completed</span>
                     </div>
                     <div *ngIf="completedTodosCountObj && completedTodosCountObj[task['id']] && completedTodosCountObj[task['id']]!=0"
                         [ngClass]="!isCompletedListOpen.includes(task['id'])?'list-container':'list-container list-container-mb'">
-                        <span class="completed-button">Completed ({{completedTodosCountObj[task['id']]}})</span>
+                        <span
+                            [ngClass]="mode ? 'completed-button completed-button-dark': 'completed-button completed-button-light'">Completed
+                            ({{completedTodosCountObj[task['id']]}})</span>
                         <i *ngIf="isCompletedListOpen.includes(task['id'])" class="pi pi-angle-up completed-button"
                             (click)="toggleForCompletedList(task['id'])"></i>
                         <i *ngIf="!isCompletedListOpen.includes(task['id'])" class="pi pi-angle-down completed-button"
@@ -188,7 +199,7 @@
 
                             <div class="check" (mouseover)="checkedHover=todo.todoId" (mouseout)="checkedHover=false"
                                 *ngIf="!todo['deleted'] && todo['completed'] && todo['id']===task['id']">
-                                <div class="check-icon">
+                                <div [ngClass]="mode ? 'check-icon check-icon-dark':'check-icon check-icon-light'">
                                     <i class="pi pi-check checkedCompleted"></i>
                                     <label class="ml-2 mb-0">{{ todo.name }}</label>
                                 </div>
@@ -205,15 +216,16 @@
 
         </div>
 
-        <div [ngClass]="mode ? 'add-new-todo-card-dark': 'add-new-todo-card'">
+        <div
+            [ngClass]="mode ? 'add-new-todo-card add-new-todo-card-dark': ' add-new-todo-card add-new-todo-card-light'">
             <p (click)="addTasksIcon()" *ngIf="!addTasksInput" class="list-label"><i class="pi pi-plus"
-                    style="font-size: 0.6rem; color: rgb(115, 121, 125);"></i>
+                    style="font-size: 0.6rem; color: #727272;"></i>
                 Add new list</p>
             <div *ngIf="addTasksInput" class="custom-input-container">
                 <span class="p-input-icon-right">
                     <i class="pi pi-plus plusIcon" (click)="plusIconBtn()"></i>
-                    <input type="text" class="add_Task" pInputText placeholder="New Task" [(ngModel)]="addedTask"
-                        (keyup.enter)="onEnterTask()">
+                    <input type="text" [ngClass]="mode ? 'add_Task add_Task-dark': 'add_Task'" pInputText
+                        placeholder="New Task" [(ngModel)]="addedTask" (keyup.enter)="onEnterTask()">
                 </span>
             </div>
         </div>

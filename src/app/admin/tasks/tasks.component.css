@@ -1,8 +1,5 @@
 .header {
     padding: 0.5rem;
-    background: #fff;
-    color: #495057;
-    border: 1px solid #dee2e6;
     border-radius: 0 0 8px 8px;
     height: 45px;
     display: flex;
@@ -10,16 +7,16 @@
     justify-content: space-between;
 }
 
+.header-light {
+    background: #fff;
+    color: #495057;
+    border: 1px solid #dee2e6;
+}
+
 .header-dark {
-    padding: 0.5rem;
-    background: #6c6c6c;
-    color: #fff;
-    border: 1px solid #2e2e2e;
-    border-radius: 0 0 8px 8px;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    background-color: rgb(24, 26, 27);
+    color: rgb(181, 175, 166);
+    border: solid 1px rgb(48, 52, 54);
 }
 
 .tasksBoard {
@@ -52,10 +49,17 @@
     width: 450px;
     height: 35px;
     background-color: #dee2e6;
-    background: rgb(241, 243, 244);
     border: 1px solid transparent;
     border-radius: 8px;
     max-width: -webkit-fill-available;
+}
+
+.search-dark {
+    background: #1f2223;
+}
+
+.search-light {
+    background: rgb(241, 243, 244);
 }
 
 @media (max-width: 430px) {
@@ -184,7 +188,6 @@
 .displayName {
     font-size: 1rem;
     display: flex;
-    color: #727272;
     align-items: center;
     justify-content: center;
 }
@@ -205,13 +208,13 @@
 }
 
 .changeBtn {
-    border: solid 1px #242424;
+    border: solid 1px #727272;
     border-radius: 8px;
     padding: 3% 13% 3% 12%;
 }
 
 .removeBtn {
-    border: solid 1px #242424;
+    border: solid 1px #727272;
     border-radius: 8px;
     padding: 3% 13% 3% 12%;
 }
@@ -269,7 +272,7 @@
     background-color: gray;
 }
 
-:host ::ng-deep .p-overlaypanel-content .p-component {
+:host ::ng-deep .p-overlaypanel .p-component {
     z-index: 1002;
     transform-origin: center top;
     top: 37.5px;
@@ -286,13 +289,21 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    color: var(--bs-modal-color);
     pointer-events: auto;
-    background-color: var(--bs-modal-bg);
     background-clip: padding-box;
     border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
     border-radius: var(--bs-modal-border-radius);
     outline: 0;
+}
+
+.modal-content-dark {
+    background-color: rgb(24, 26, 27);
+    color: #a6a6a6;
+}
+
+.modal-content-light {
+    background-color: var(--bs-modal-bg);
+    color: #727272;
 }
 
 .btnPopup {
@@ -363,11 +374,11 @@
 }
 
 .ellipse {
-    color: #495057
+    color: #727272;
 }
 
 .ellipse-dark {
-    color: #fff
+    color: #a6a6a6;
 }
 
 .card {
@@ -383,13 +394,22 @@
     width: 270px;
     max-width: 800px;
     max-height: calc(100vh - 114px);
-    background: rgb(255, 255, 255);
-    box-shadow: rgba(169, 174, 183, 0.5) 0px 1px 2px 0px;
     border-radius: 8px;
     margin: 10px;
     overflow: auto;
-    border: solid 1px #fff;
     cursor: default !important;
+}
+
+.card-dark {
+    background: rgb(24 26 27);
+    border: solid 1px rgb(48, 52, 54);
+    box-shadow: rgba(69, 74, 77, 0.5) 0px 1px 2px;
+}
+
+.card-light {
+    background: rgb(255, 255, 255);
+    border: solid 1px #fff;
+    box-shadow: rgba(169, 174, 183, 0.5) 0px 1px 2px 0px;
 }
 
 .add-new-todo-card {
@@ -413,23 +433,11 @@
 }
 
 .add-new-todo-card-dark {
-    border-radius: 8px;
-    margin: 10px;
-    display: flex;
-    flex-shrink: 0;
-    -webkit-box-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    justify-content: center;
-    min-height: 52px;
-    height: 45px;
-    width: 270px;
-    cursor: pointer;
-    font-size: 15px;
-    line-height: 15px;
-    background: #fff;
-    color: rgb(115, 121, 125);
-    backdrop-filter: blur(5px);
+    background: rgba(24, 29, 32, 1);
+}
+
+.add-new-todo-card-light {
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .list-label {
@@ -439,7 +447,7 @@
 }
 
 .main-header-dark {
-    background-color: #242424;
+    background-color: #182024;
 }
 
 .main-header {
@@ -452,7 +460,7 @@
 }
 
 .main-card-dark {
-    background-color: #242424;
+    background-color: #182024;
     height: calc(100vh - 45px);
 }
 
@@ -482,6 +490,14 @@
     margin-top: 5px;
 }
 
+.completed-button-light {
+    color: #727272;
+}
+
+.completed-button-dark {
+    color: #a6a6a6;
+}
+
 .list-container {
     display: flex;
     list-style: none;
@@ -503,9 +519,14 @@
     color: rgb(66, 133, 244);
 }
 
-.checkboxHoverIcon {
+.checkboxHoverIcon-dark {
     font-size: 13px;
-    color: #727272;
+    color: rgb(232 230 227);
+}
+
+.checkboxHoverIcon-light {
+    font-size: 13px;
+    color: #313131;
 }
 
 .check {
@@ -515,6 +536,14 @@
     justify-content: space-between;
     padding: 6px 3px;
     transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.check-icon-dark {
+    color: rgb(232 230 227);
+}
+
+.check-icon-light {
+    color: #313131;
 }
 
 .checkedCompleted {
@@ -543,6 +572,14 @@
     align-items: center;
     padding: 5px 0;
     transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.checkIncompleted-dark {
+    color: rgb(232 230 227);
+}
+
+.checkIncompleted-light {
+    color: #313131;
 }
 
 .checkIncompleted:hover {
@@ -596,6 +633,12 @@
     font-size: 14px;
 }
 
+.add_Task-dark {
+    background: rgb(24 26 27);
+    border: solid 1px rgb(48, 52, 54);
+    box-shadow: rgba(69, 74, 77, 0.5) 0px 1px 2px;
+}
+
 .add_Todo {
     padding: 0 3%;
     border-radius: 5px;
@@ -607,6 +650,15 @@
     font-size: 14px;
 }
 
+.add_Todo-dark {
+    background-color: rgb(59, 59, 59, 1);
+    outline-color: initial;
+}
+
+.add_Todo-light {
+    outline-color: initial;
+}
+
 .main-board {
     font-size: 18px;
     color: #727272
@@ -614,7 +666,7 @@
 
 .main-board-dark {
     font-size: 18px;
-    color: #fff
+    color: rgb(181, 175, 166);
 }
 
 .todoCompleted {
@@ -631,7 +683,7 @@
 }
 
 .add-button {
-    color: grey;
+    color: #727272;
 }
 
 .add-icon {
@@ -697,14 +749,14 @@
     margin-bottom: 10px;
 }
 
-.check label,
-.checkIncompleted label {
-    color: #000
-}
-
 .taskLabel {
     font-size: 16px;
     color: #727272;
+}
+
+.taskLabel-dark {
+    font-size: 16px;
+    color: #a6a6a6;
 }
 
 .p-card-content {
@@ -718,7 +770,6 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    color: #727272;
     font-size: 14px;
 }
 
@@ -730,7 +781,6 @@
     margin-right: 6px;
     margin-top: 2px;
     font-size: 12px;
-    color: #727272;
 }
 
 .progress-spinner {
@@ -775,6 +825,13 @@
     outline: none;
     padding: 0;
     width: 100%;
+}
+
+.edit_board-dark {
+    background-color: #182024;
+}
+
+.edit_board-light {
     background-color: rgb(246, 248, 249);
 }
 
@@ -831,7 +888,6 @@
 }
 
 .popup-header-span {
-    color: rgb(95, 99, 104);
     font-size: 22px;
     font-weight: normal;
     line-height: 22px;
@@ -845,7 +901,6 @@
     font-size: .875rem;
     letter-spacing: .0142857143em;
     font-weight: 400;
-    color: rgb(95, 99, 104);
 }
 
 .popup-prof-pic {
@@ -853,7 +908,6 @@
     font-size: 1.125rem;
     letter-spacing: 0;
     font-weight: 400;
-    color: rgb(95, 99, 104);
     margin: 0 var(--view-h-padding) 10px;
     padding: 4% 0 2% 0;
 }
