@@ -48,11 +48,11 @@ export class LoginComponent {
   }
 
   signInWithGoogle() {
-    this.authService.singInWithGoogle()
+    this.authService.signInWithGoogle()
   }
 
   signInWithGithub() {
-    this.authService.singInWithGithub()
+    this.authService.signInWithGithub()
   }
 
 }

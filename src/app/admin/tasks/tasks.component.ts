@@ -60,7 +60,7 @@ export class TasksComponent implements OnInit {
   hoverOnAddTask: boolean = false;
   editMainBoard: boolean = false;
   mainBoard: string = 'Main Board';
-  photoURL: any = '';
+  photoURL: any;
   display = 'none';
   displayName: string;
   userCache: any;
@@ -169,7 +169,7 @@ export class TasksComponent implements OnInit {
   }
 
   switchAccount() {
-    this.authService.singInWithGoogle()
+    this.authService.signInWithGoogle()
   }
 
   // deleteAccount() {
@@ -230,6 +230,9 @@ export class TasksComponent implements OnInit {
           this.mainBoard = res[0]['mainBoard'];
           this.getImage();
         }
+      }
+      else {
+        this.showLoader = false
       }
     })
   }

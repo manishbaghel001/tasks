@@ -185,33 +185,37 @@ export class AuthService {
     }
 
     // Sing with google
-    singInWithGoogle() {
+    signInWithGoogle() {
         this.setLoaderValue(true);
-        return this.afAuth.signInWithPopup(new GoogleAuthProvider()).then((res) => {
-            const user = res.user;
-            if (user) {
-                const [firstName, lastName] = user.displayName?.split(' ') || ['', ''];
-                user.updateProfile({
-                    displayName: user.displayName,
-                    photoURL: user.photoURL,
-                }).then(() => {
-                    this.setLoaderValue(false);
-                    this.cacheService.setData('token', res.user)
-                    this.router.navigate(['/tasks'])
-                    if (this.router.url == '/tasks') {
-                        window.location.reload();
-                    }
-                });
-            }
-        }, err => {
-            alert(err.message);
-            this.setLoaderValue(false);
-            this.router.navigate(['/login'])
-        })
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+
+        this.afAuth.signInWithPopup(provider)
+            .then((res) => {
+                const user = res.user;
+                if (user) {
+                    const [firstName, lastName] = user.displayName?.split(' ') || ['', ''];
+                    user.updateProfile({
+                        displayName: user.displayName,
+                        photoURL: user.photoURL,
+                    }).then(() => {
+                        this.setLoaderValue(false);
+                        this.cacheService.setData('token', res.user)
+                        this.router.navigate(['/tasks'])
+                        if (this.router.url == '/tasks') {
+                            window.location.reload();
+                        }
+                    });
+                }
+            }, err => {
+                alert(err.message);
+                this.setLoaderValue(false);
+                this.router.navigate(['/login'])
+            })
     }
 
     // Sing with github
-    singInWithGithub() {
+    signInWithGithub() {
         this.setLoaderValue(true);
         return this.afAuth.signInWithPopup(new GithubAuthProvider()).then((res) => {
             const user = res.user;
