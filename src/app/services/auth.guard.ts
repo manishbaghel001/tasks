@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-    Router,
+    Router
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CacheService } from '../cache/cache.service';
@@ -11,7 +11,6 @@ import { CacheService } from '../cache/cache.service';
 export class AuthGuard {
 
     constructor(private cacheService: CacheService, private router: Router) { }
-
 
     canActivate(): Observable<boolean> | Promise<boolean> | boolean {
         if (this.userData()) {

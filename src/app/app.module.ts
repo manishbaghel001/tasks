@@ -23,6 +23,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { PhoneAuthComponent } from './form/phone-auth/phone-auth.component';
 import { InputOtpModule } from 'primeng/inputotp';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { CommonModule } from '@angular/common';
+import { TasksComponent } from './tasks/tasks.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +32,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     LoginComponent,
     ForgotpasswordComponent,
     VerifyemailComponent,
-    PhoneAuthComponent
+    PhoneAuthComponent,
+    TasksComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputTextModule,
     OverlayPanelModule,
     InputOtpModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    CommonModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }

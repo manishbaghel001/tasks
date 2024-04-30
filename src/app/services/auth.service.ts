@@ -1,11 +1,13 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GoogleAuthProvider, GithubAuthProvider, User } from 'firebase/auth';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, from, of, switchMap } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CacheService } from '../cache/cache.service';
-import firebase from '@firebase/app-compat'
+// import firebase from '@firebase/app-compat'
+import firebase from 'firebase/compat/app'
 import { Router } from '@angular/router';
+import { AuthGuard } from './auth.guard';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +29,14 @@ export class AuthService {
 
     setLoaderValue(value: boolean) {
         this.inputValueSubject.next(value);
+    }
+
+    isUserLoggedIn(): boolean {
+        return !!this.user; // Return true if user is not null or undefined
+    }
+
+    getUser(): Observable<any> {
+        return this.user;
     }
 
     getLoaderValue() {
@@ -79,10 +89,6 @@ export class AuthService {
         user = { ...user, displayName: userName };
         this.cacheService.setData('token', user)
         this.router.navigate(['/tasks'])
-    }
-
-    getUser(): Observable<any> {
-        return this.user;
     }
 
     setDisplayName(firstName: string, lastName: string) {
@@ -184,29 +190,33 @@ export class AuthService {
         });
     }
 
-    // Sing with google
+    // getUserdata() {
+    //   const user = res.user;
+    // if(user) {
+    //     const [firstName, lastName] = user.displayName?.split(' ') || ['', ''];
+    //     user.updateProfile({
+    //         displayName: user.displayName,
+    //         photoURL: user.photoURL,
+    //     }).then(() => {
+    //         this.setLoaderValue(false);
+    //         this.cacheService.setData('token', res.user)
+    //         this.router.navigate(['/tasks'])
+    //         if (this.router.url == '/tasks') {
+    //             window.location.reload();
+    //         }
+    //     });
+    // }
+    // }
+
+    // Sign with google
     signInWithGoogle() {
         this.setLoaderValue(true);
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account' });
 
-        this.afAuth.signInWithPopup(provider)
-            .then((res) => {
-                const user = res.user;
-                if (user) {
-                    const [firstName, lastName] = user.displayName?.split(' ') || ['', ''];
-                    user.updateProfile({
-                        displayName: user.displayName,
-                        photoURL: user.photoURL,
-                    }).then(() => {
-                        this.setLoaderValue(false);
-                        this.cacheService.setData('token', res.user)
-                        this.router.navigate(['/tasks'])
-                        if (this.router.url == '/tasks') {
-                            window.location.reload();
-                        }
-                    });
-                }
+        this.afAuth.signInWithRedirect(provider)
+            .then(() => {
+
             }, err => {
                 alert(err.message);
                 this.setLoaderValue(false);
@@ -214,16 +224,14 @@ export class AuthService {
             })
     }
 
-    // Sing with github
+    // Sign with github
     signInWithGithub() {
         this.setLoaderValue(true);
         return this.afAuth.signInWithPopup(new GithubAuthProvider()).then((res) => {
             const user = res.user;
             if (user) {
-                const [firstName, lastName] = user.displayName?.split(' ') || ['', ''];
                 user.updateProfile({
                     displayName: user.displayName,
-                    photoURL: user.photoURL,
                 }).then(() => {
                     this.setLoaderValue(false);
                     this.cacheService.setData('token', res.user)
