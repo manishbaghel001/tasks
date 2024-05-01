@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { TasksService } from './service/tasks.service';
@@ -7,6 +7,7 @@ import { TasksModel } from './models/tasks';
 import { cloneDeep } from 'lodash';
 import { CacheService } from 'src/app/cache/cache.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tasks',
@@ -20,7 +21,8 @@ export class TasksComponent implements OnInit {
     private tasksService: TasksService,
     private authService: AuthService,
     private cacheService: CacheService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   ) {
     this.rememberMe = history.state?.['rememberMe'];
   }
@@ -115,18 +117,27 @@ export class TasksComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.showLoader = true
-    this.userCache = this.cacheService.getData('token');
-    if (this.userCache) {
-      this.displayName = this.userCache['displayName'].split(' ')[0];
-      if (this.userCache['uid'] && this.userCache['uid'] != '' && this.userCache['uid'] != null) {
-        this.uid = this.userCache['uid'];
-        this.getLatestTasks(this.userCache['uid'])
-        if (this.rememberMe == false)
-          this.cacheService.removeData('token')
+    await this.authService.getUserdata().then((user) => {
+      this.userCache = user
+      if (this.userCache && this.userCache != null) {
+        this.cacheService.setData('token', this.userCache);
+        this.displayName = this.userCache['displayName'].split(' ')[0];
+        if (this.userCache['uid'] && this.userCache['uid'] != '' && this.userCache['uid'] != null) {
+          this.uid = this.userCache['uid'];
+          this.getLatestTasks(this.userCache['uid'])
+          let rememberMe = this.cacheService.getData('rememberMe')
+          if (this.rememberMe == false || (rememberMe != null && rememberMe == false)) {
+            this.cacheService.removeData('token')
+            this.cacheService.removeData('rememberMe')
+          }
+        }
       }
-    }
+      else {
+        this.router.navigate(['/login'])
+      }
+    })
   }
 
   hoverOnAddTaskMtd(task) {

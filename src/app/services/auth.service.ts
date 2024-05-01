@@ -1,13 +1,11 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { GoogleAuthProvider, GithubAuthProvider, User } from 'firebase/auth';
-import { BehaviorSubject, Observable, catchError, from, of, switchMap } from 'rxjs';
+import { GithubAuthProvider, User } from 'firebase/auth';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { CacheService } from '../cache/cache.service';
-// import firebase from '@firebase/app-compat'
 import firebase from 'firebase/compat/app'
 import { Router } from '@angular/router';
-import { AuthGuard } from './auth.guard';
 
 @Injectable({
     providedIn: 'root',
@@ -20,7 +18,6 @@ export class AuthService {
     email: any;
     @Output() valueEmitter = new EventEmitter<string>();
     private inputValueSubject = new BehaviorSubject<boolean>(false);
-
     constructor(private afAuth: AngularFireAuth, private cacheService: CacheService, private router: Router, private firestore: AngularFirestore) {
         this.afAuth.authState.subscribe(user => {
             this.userSubject.next(user);
@@ -156,6 +153,7 @@ export class AuthService {
         this.afAuth.signOut().then(() => {
             this.setLoaderValue(false);
             this.cacheService.removeData('token')
+            this.cacheService.removeData('rememberMe')
             this.router.navigate(['/login'])
         }, err => {
             this.setLoaderValue(false);
@@ -190,23 +188,27 @@ export class AuthService {
         });
     }
 
-    // getUserdata() {
-    //   const user = res.user;
-    // if(user) {
-    //     const [firstName, lastName] = user.displayName?.split(' ') || ['', ''];
-    //     user.updateProfile({
-    //         displayName: user.displayName,
-    //         photoURL: user.photoURL,
-    //     }).then(() => {
-    //         this.setLoaderValue(false);
-    //         this.cacheService.setData('token', res.user)
-    //         this.router.navigate(['/tasks'])
-    //         if (this.router.url == '/tasks') {
-    //             window.location.reload();
-    //         }
-    //     });
-    // }
-    // }
+    getUserdata(): Promise<any> {
+        this.setLoaderValue(true);
+        return new Promise<any>((resolve, reject) => {
+            this.afAuth.authState.subscribe(user => {
+                if (user) {
+                    user.updateProfile({
+                        displayName: user.displayName,
+                    }).then(() => {
+                        this.setLoaderValue(false);
+                        resolve(user);
+                    }).catch(error => {
+                        reject(error);
+                    });
+                } else {
+                    this.setLoaderValue(false);
+                    this.router.navigate(['/login']);
+                    resolve(null);
+                }
+            });
+        });
+    }
 
     // Sign with google
     signInWithGoogle() {
