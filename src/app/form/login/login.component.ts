@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { CacheService } from 'src/app/cache/cache.service';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,10 +9,12 @@ import { CacheService } from 'src/app/cache/cache.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authService: AuthService, private cacheService: CacheService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router) {
+    this.rememberMeLogin = history.state?.['rememberMe'];
   }
 
   rememberMe: string[] = [];
+  rememberMeLogin: any;
   @ViewChild('loginForm') loginForm!: NgForm;
   passwordToggle: boolean = false
   phoneNumber: any;
@@ -22,14 +22,15 @@ export class LoginComponent implements OnInit {
 
   async ngOnInit() {
     await this.authService.getUserdata().then((user) => {
-      let remember = this.cacheService.getData('rememberMe');
-      if (user) {
-        this.cacheService.setData('token', user)
-        this.router.navigate(['/tasks']);
+      if (this.rememberMeLogin != 'false') {
+        if (user && (user['emailVerified'] || (user['phoneNumber'] != '' && user['phoneNumber'] != null))) {
+          this.router.navigate(['/tasks']);
+        }
+        else {
+          this.router.navigate(['/login']);
+        }
       }
-      else if (remember != null && remember == false) {
-        this.cacheService.removeData('rememberMe');
-        this.cacheService.removeData('token');
+      else {
         this.router.navigate(['/login']);
       }
     })
@@ -46,14 +47,9 @@ export class LoginComponent implements OnInit {
       alert('Please enter your email and password')
     }
     else {
-      let check = this.rememberMe.length != 0 ? this.rememberMe[0] : false;
-      this.cacheService.setData('rememberMe', this.rememberMe.length != 0 ? this.rememberMe[0] : false)
+      let check = this.rememberMe.length != 0 ? this.rememberMe[0].toString() : "false";
       this.authService.signIn(item['email'], item['password'], check);
     }
-  }
-
-  rememberMeBtn(remember) {
-    this.cacheService.setData('rememberMe', remember[0] ? remember[0] : false)
   }
 
   forgotPass() {

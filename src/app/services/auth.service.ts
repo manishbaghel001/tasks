@@ -3,7 +3,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GithubAuthProvider, User } from 'firebase/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { CacheService } from '../cache/cache.service';
 import firebase from 'firebase/compat/app'
 import { Router } from '@angular/router';
 
@@ -18,7 +17,7 @@ export class AuthService {
     email: any;
     @Output() valueEmitter = new EventEmitter<string>();
     private inputValueSubject = new BehaviorSubject<boolean>(false);
-    constructor(private afAuth: AngularFireAuth, private cacheService: CacheService, private router: Router, private firestore: AngularFirestore) {
+    constructor(private afAuth: AngularFireAuth, private router: Router, private firestore: AngularFirestore) {
         this.afAuth.authState.subscribe(user => {
             this.userSubject.next(user);
         });
@@ -57,7 +56,6 @@ export class AuthService {
         const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, code);
         return this.afAuth.signInWithCredential(credential).then((res) => {
             if (res.user['displayName'] != null) {
-                this.cacheService.setData('token', res.user)
                 this.router.navigate(['/tasks'])
                 this.setLoaderValue(false);
                 return res.user
@@ -84,7 +82,6 @@ export class AuthService {
             username: userName
         })
         user = { ...user, displayName: userName };
-        this.cacheService.setData('token', user)
         this.router.navigate(['/tasks'])
     }
 
@@ -102,7 +99,6 @@ export class AuthService {
         this.afAuth.signInWithEmailAndPassword(email, password).then((res) => {
             if (res.user?.emailVerified) {
                 this.setLoaderValue(false);
-                this.cacheService.setData('token', res.user)
                 this.router.navigate(['/tasks'], { state: { rememberMe: rememberMe } })
             }
             else {
@@ -142,18 +138,20 @@ export class AuthService {
         });
     }
 
-    private storeAdditionalUserData(uid: string | undefined, data: any): void {
+    storeAdditionalUserData(uid: string | undefined, data: any): void {
         if (uid) {
             this.firestore.collection('users').doc(uid).set(data, { merge: true })
         }
+    }
+
+    getAdditionalUserData(uid: string): any {
+        return this.firestore.collection('users').doc(uid).valueChanges()
     }
 
     signOut() {
         this.setLoaderValue(true);
         this.afAuth.signOut().then(() => {
             this.setLoaderValue(false);
-            this.cacheService.removeData('token')
-            this.cacheService.removeData('rememberMe')
             this.router.navigate(['/login'])
         }, err => {
             this.setLoaderValue(false);
@@ -179,7 +177,6 @@ export class AuthService {
             if (user) {
                 user.delete();
                 this.setLoaderValue(false);
-                this.cacheService.removeData('token')
                 this.router.navigate(['/login'])
             }
         }, err => {
@@ -188,7 +185,7 @@ export class AuthService {
         });
     }
 
-    getUserdata(): Promise<any> {
+    async getUserdata(): Promise<any> {
         this.setLoaderValue(true);
         return new Promise<any>((resolve, reject) => {
             this.afAuth.authState.subscribe(user => {
@@ -236,7 +233,6 @@ export class AuthService {
                     displayName: user.displayName,
                 }).then(() => {
                     this.setLoaderValue(false);
-                    this.cacheService.setData('token', res.user)
                     this.router.navigate(['/tasks'])
                 });
             }
